@@ -1,0 +1,78 @@
+---
+import WhatsAppCTA from './WhatsAppCTA.astro';
+import { siteConfig } from '../lib/config';
+---
+
+<section id="hero" aria-labelledby="hero-title" class="hero section relative overflow-hidden">
+  <!-- Decorative blurred circles -->
+  <div class="hero-circle hero-circle--1" aria-hidden="true"></div>
+  <div class="hero-circle hero-circle--2" aria-hidden="true"></div>
+
+  <div class="container relative z-10 flex flex-col items-center text-center">
+    <span class="inline-block bg-[var(--color-sage)] text-white rounded-full px-4 py-1.5 text-xs uppercase tracking-[0.12em] font-bold mb-6">
+      Inicia {siteConfig.fechaInicioCohorte.replace(' de 2026', '')} &bull; Solo {siteConfig.cuposDisponibles} lugares
+    </span>
+
+    <h1 id="hero-title" class="hero-title font-[var(--font-display)] font-bold leading-[1.15] mb-6">
+      No es una dieta.<br />
+      Es la decisión de<br />
+      <em class="italic text-[var(--color-sage-dark)]">dejar de abandonarte.</em>
+    </h1>
+
+    <p class="text-lg md:text-xl text-[var(--color-gray)] max-w-[620px] mb-8 leading-relaxed" style="text-wrap: balance;">
+      4 semanas para transformar tu relación con la comida, tu cuerpo y tus emociones. En grupo, con acompañamiento real de Ana. Sin contar calorías. Sin culpa.
+    </p>
+
+    <WhatsAppCTA text="Quiero mi lugar" utm="hero" />
+
+    <small class="flex items-center gap-2 justify-center mt-4 text-sm text-[var(--color-gray)]">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      Respuesta inmediata por WhatsApp
+    </small>
+  </div>
+</section>
+
+<style>
+  .hero {
+    background: linear-gradient(180deg, var(--color-sage-wash) 0%, var(--color-cream) 50%, var(--color-warm-pale) 100%);
+    padding: var(--space-16) 0 var(--space-12);
+    min-height: auto;
+  }
+
+  @media (min-width: 768px) {
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: var(--space-16) 0;
+    }
+  }
+
+  .hero-title {
+    font-size: clamp(2rem, 1.2rem + 3.5vw, 3.25rem);
+    color: var(--color-dark);
+  }
+
+  .hero-circle {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    pointer-events: none;
+  }
+
+  .hero-circle--1 {
+    width: 300px;
+    height: 300px;
+    background: rgba(123, 143, 107, 0.15);
+    top: 10%;
+    left: -5%;
+  }
+
+  .hero-circle--2 {
+    width: 250px;
+    height: 250px;
+    background: rgba(212, 165, 116, 0.15);
+    bottom: 10%;
+    right: -5%;
+  }
+</style>

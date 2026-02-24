@@ -1,0 +1,85 @@
+---
+import SectionLabel from './SectionLabel.astro';
+import { testimonialsData } from '../lib/config';
+---
+
+<section id="testimonios" aria-labelledby="testimonios-title" class="section">
+  <div class="container animate-on-scroll">
+    <div class="text-center mb-10">
+      <SectionLabel text="LO QUE DICEN ELLAS" />
+      <h2 id="testimonios-title" class="font-[var(--font-display)] font-bold text-[var(--text-3xl)] md:text-[var(--text-4xl)] text-[var(--color-dark)]">
+        Historias reales de mujeres reales
+      </h2>
+    </div>
+
+    <div class="testimonials-grid" role="list">
+      {testimonialsData.map((testimonial) => (
+        <blockquote class="testimonial-card" role="listitem">
+          <div class="text-[var(--color-warm)] text-lg tracking-[2px] mb-3" aria-label="5 estrellas">
+            ★★★★★
+          </div>
+          <p class="text-base text-[var(--color-dark)] leading-relaxed mb-6 relative z-10">
+            "{testimonial.text}"
+          </p>
+          <footer class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-sm" style="background: linear-gradient(135deg, var(--color-sage), var(--color-warm));">
+              {testimonial.initials}
+            </div>
+            <cite class="not-italic font-medium text-sm text-[var(--color-gray)]">
+              {testimonial.name}, {testimonial.age} años, {testimonial.location}
+            </cite>
+          </footer>
+        </blockquote>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .testimonials-grid {
+    display: flex;
+    gap: var(--space-6);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: var(--space-2);
+  }
+
+  @media (min-width: 768px) {
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      overflow-x: visible;
+      scroll-snap-type: none;
+    }
+  }
+
+  .testimonial-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    min-width: 280px;
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 768px) {
+    .testimonial-card {
+      min-width: auto;
+    }
+  }
+
+  .testimonial-card::before {
+    content: '\201C';
+    font-family: var(--font-display);
+    font-size: 64px;
+    color: var(--color-sage-wash);
+    position: absolute;
+    top: var(--space-4);
+    left: var(--space-4);
+    line-height: 1;
+    z-index: 0;
+  }
+</style>

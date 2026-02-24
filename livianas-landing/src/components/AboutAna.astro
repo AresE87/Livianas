@@ -1,0 +1,65 @@
+---
+import SectionLabel from './SectionLabel.astro';
+
+const tags = ['Coaching Emocional', 'Nutrición Consciente', 'Enfoque Antiinflamatorio', 'Grupos Reducidos'];
+---
+
+<section id="sobre-ana" aria-labelledby="ana-title" class="section">
+  <div class="container animate-on-scroll">
+    <div class="about-grid">
+      <div class="about-image">
+        <!-- Placeholder until Ana provides photo -->
+        <div class="w-full aspect-[4/5] rounded-[var(--radius-xl)] overflow-hidden about-photo-placeholder">
+          <div class="w-full h-full flex flex-col items-center justify-center text-[var(--color-sage-dark)] gap-3 p-6">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="opacity-40"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span class="text-sm opacity-50">Foto de Ana</span>
+          </div>
+        </div>
+      </div>
+      <div class="about-content">
+        <SectionLabel text="QUIEN TE GUÍA" />
+        <h2 id="ana-title" class="font-[var(--font-display)] font-bold text-[var(--text-3xl)] md:text-[var(--text-4xl)] text-[var(--color-dark)] mb-4">
+          Hola, soy Ana
+        </h2>
+        <p class="text-base text-[var(--color-gray)] leading-relaxed mb-4">
+          Creadora del Método Livianas. Acompaño a mujeres a transformar su relación con la comida, su cuerpo y sus emociones. No a través de dietas, sino a través de la consciencia.
+        </p>
+        <p class="text-base text-[var(--color-gray)] leading-relaxed mb-4">
+          Después de años trabajando con mujeres, descubrí que <strong class="text-[var(--color-dark)]">el cambio real empieza cuando dejás de pelear con vos misma</strong>. No creo en la fuerza de voluntad. Creo en entenderte, acompañarte y darte herramientas que de verdad funcionen.
+        </p>
+        <p class="text-base text-[var(--color-sage-dark)] font-medium leading-relaxed mb-6 italic">
+          "Mi misión es que ninguna mujer vuelva a sentirse sola en este proceso."
+        </p>
+        <div class="flex flex-wrap gap-2">
+          {tags.map((tag) => (
+            <span class="inline-flex bg-[var(--color-sage-wash)] text-[var(--color-sage-dark)] px-3 py-1 rounded-full text-sm font-medium">
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  @media (min-width: 768px) {
+    .about-grid {
+      display: grid;
+      grid-template-columns: 2fr 3fr;
+      gap: var(--space-12);
+      align-items: center;
+    }
+  }
+
+  .about-photo-placeholder {
+    background: linear-gradient(135deg, var(--color-sage-wash), var(--color-warm-pale));
+    border: 2px dashed rgba(123, 143, 107, 0.3);
+  }
+</style>

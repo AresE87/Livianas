@@ -1,0 +1,86 @@
+---
+import SectionLabel from './SectionLabel.astro';
+import { faqData } from '../lib/config';
+---
+
+<section id="faq" aria-labelledby="faq-title" class="section">
+  <div class="container container--narrow animate-on-scroll">
+    <div class="text-center mb-10">
+      <SectionLabel text="PREGUNTAS FRECUENTES" />
+      <h2 id="faq-title" class="font-[var(--font-display)] font-bold text-[var(--text-3xl)] md:text-[var(--text-4xl)] text-[var(--color-dark)]">
+        ¿Tenés dudas? Es normal
+      </h2>
+    </div>
+
+    <div class="faq-list">
+      {faqData.map((item) => (
+        <details class="faq-item">
+          <summary class="faq-summary">
+            <span class="font-medium text-base text-[var(--color-dark)]">{item.question}</span>
+            <span class="faq-icon text-xl text-[var(--color-sage)]" aria-hidden="true">+</span>
+          </summary>
+          <div class="faq-answer">
+            <p class="text-base text-[var(--color-gray)] leading-relaxed py-2 pb-4">
+              {item.answer}
+            </p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-4) 0;
+    cursor: pointer;
+    border-bottom: 1px solid #E5E5E5;
+    list-style: none;
+  }
+
+  .faq-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-icon {
+    transition: transform var(--transition-fast);
+    flex-shrink: 0;
+    margin-left: var(--space-4);
+  }
+
+  details[open] .faq-icon {
+    transform: rotate(45deg);
+  }
+
+  .faq-answer {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--transition-slow);
+  }
+
+  details[open] .faq-answer {
+    grid-template-rows: 1fr;
+  }
+
+  .faq-answer > p {
+    overflow: hidden;
+  }
+</style>
+
+<script>
+  // Close other FAQ items when one is opened
+  document.querySelectorAll('.faq-item').forEach((item) => {
+    item.addEventListener('toggle', () => {
+      if ((item as HTMLDetailsElement).open) {
+        document.querySelectorAll('.faq-item').forEach((other) => {
+          if (other !== item && (other as HTMLDetailsElement).open) {
+            (other as HTMLDetailsElement).open = false;
+          }
+        });
+      }
+    });
+  });
+</script>

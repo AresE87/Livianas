@@ -1,0 +1,109 @@
+---
+import SectionLabel from './SectionLabel.astro';
+import { transformationData } from '../lib/config';
+---
+
+<section id="transformacion" aria-labelledby="transformacion-title" class="section">
+  <div class="container container--narrow animate-on-scroll">
+    <div class="text-center mb-10">
+      <SectionLabel text="LA TRANSFORMACIÓN" />
+      <h2 id="transformacion-title" class="font-[var(--font-display)] font-bold text-[var(--text-3xl)] md:text-[var(--text-4xl)] text-[var(--color-dark)]">
+        En 30 días, vas a pasar de acá...
+      </h2>
+    </div>
+
+    <div class="space-y-5">
+      {transformationData.map((pair) => (
+        <div class="transform-row">
+          <div class="transform-from" aria-label="Antes">
+            <span class="transform-label" aria-hidden="true">Antes</span>
+            <s>{pair.from}</s>
+          </div>
+          <div class="transform-arrow" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </div>
+          <div class="transform-to" aria-label="Después">
+            <span class="transform-label transform-label--after" aria-hidden="true">Después</span>
+            <strong>{pair.to}</strong>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .transform-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  @media (min-width: 768px) {
+    .transform-row {
+      flex-direction: row;
+      gap: var(--space-4);
+    }
+  }
+
+  .transform-from,
+  .transform-to {
+    position: relative;
+    padding: var(--space-4) var(--space-6);
+    border-radius: var(--radius-md);
+    flex: 1;
+    text-align: center;
+    width: 100%;
+  }
+
+  .transform-from {
+    background: var(--color-rose-pale);
+    color: var(--color-gray);
+    border: 1px solid rgba(193, 123, 123, 0.2);
+  }
+
+  .transform-to {
+    background: var(--color-sage-wash);
+    color: var(--color-dark);
+    border: 1px solid rgba(123, 143, 107, 0.2);
+  }
+
+  .transform-label {
+    position: absolute;
+    top: -8px;
+    left: var(--space-4);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    background: var(--color-rose);
+    color: white;
+    padding: 1px 8px;
+    border-radius: var(--radius-full);
+  }
+
+  .transform-label--after {
+    background: var(--color-sage);
+  }
+
+  .transform-arrow {
+    color: var(--color-warm);
+    transform: rotate(90deg);
+    flex-shrink: 0;
+    padding: var(--space-1);
+  }
+
+  @media (min-width: 768px) {
+    .transform-arrow {
+      transform: rotate(0deg);
+    }
+    .transform-from,
+    .transform-to {
+      width: auto;
+    }
+  }
+</style>

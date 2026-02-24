@@ -1,0 +1,48 @@
+---
+import SectionLabel from './SectionLabel.astro';
+import { painPointsData } from '../lib/config';
+---
+
+<section id="problema" aria-labelledby="problema-title" class="section" style="background: #FAFAF7;">
+  <div class="container animate-on-scroll">
+    <div class="text-center mb-10">
+      <SectionLabel text="¿TE SUENA FAMILIAR?" />
+      <h2 id="problema-title" class="font-[var(--font-display)] font-bold text-[var(--text-3xl)] md:text-[var(--text-4xl)] text-[var(--color-dark)]">
+        Quizás estás viviendo esto...
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" role="list">
+      {painPointsData.map((item) => (
+        <article class="pain-card" role="listitem">
+          <div class="w-12 h-12 bg-[var(--color-warm-pale)] rounded-[var(--radius-sm)] flex items-center justify-center text-2xl mb-4" aria-hidden="true">
+            {item.emoji}
+          </div>
+          <h3 class="font-bold text-lg text-[var(--color-dark)] mb-2">
+            {item.title}
+          </h3>
+          <p class="text-base text-[var(--color-gray)] leading-relaxed">
+            {item.description}
+          </p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .pain-card {
+    background: white;
+    border: 1px solid var(--color-rose-pale);
+    border-radius: var(--radius-md);
+    padding: var(--space-6);
+    transition: transform var(--transition-base), box-shadow var(--transition-base), border-top var(--transition-base);
+  }
+
+  .pain-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+    border-top: 3px solid;
+    border-image: linear-gradient(to right, var(--color-rose), var(--color-warm)) 1;
+  }
+</style>

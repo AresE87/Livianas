@@ -1,0 +1,102 @@
+---
+import SectionLabel from './SectionLabel.astro';
+import WhatsAppCTA from './WhatsAppCTA.astro';
+import { siteConfig, pricingFeatures } from '../lib/config';
+---
+
+<section id="precio" aria-labelledby="precio-title" class="section pricing-section">
+  <div class="container text-center">
+    <SectionLabel text="TU INVERSIÓN" />
+
+    <h2 id="precio-title" class="font-[var(--font-display)] font-bold text-[var(--text-3xl)] md:text-[var(--text-4xl)] text-[var(--color-dark)] mb-3">
+      30 días de transformación real
+    </h2>
+
+    <p class="text-lg text-[var(--color-gray)] mb-10 max-w-[600px] mx-auto" style="text-wrap: balance;">
+      No es un gasto. Es la decisión de invertir en la mujer que querés ser.
+    </p>
+
+    <div class="pricing-card">
+      <!-- Top gradient bar -->
+      <div class="h-1.5 w-full" style="background: linear-gradient(90deg, var(--color-sage), var(--color-warm));"></div>
+
+      <div class="p-6 md:p-8">
+        <span class="inline-block bg-[var(--color-warm)] text-white px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-[0.1em] mb-5">
+          Precio de lanzamiento — hasta el {siteConfig.fechaCierre}
+        </span>
+
+        <h3 class="font-bold text-xl text-[var(--color-dark)] mb-1">
+          LIVIANAS — Experiencia 30 Días
+        </h3>
+
+        <p class="text-[var(--color-gray)] text-base mb-6">
+          Programa completo con acompañamiento premium
+        </p>
+
+        <div class="mb-2">
+          <div class="mb-1">
+            <span class="text-base text-[var(--color-gray)] line-through">USD {siteConfig.precioRegularUSD}</span>
+          </div>
+          <span class="text-lg text-[var(--color-sage)]">USD</span>
+          <span class="font-[var(--font-display)] font-bold text-[var(--text-5xl)] text-[var(--color-dark)]">
+            {siteConfig.precioUSD}
+          </span>
+        </div>
+
+        <p class="text-sm text-[var(--color-gray)] mb-6">
+          Pago único &bull; Acceso completo a las 4 semanas &bull; Material de por vida
+        </p>
+
+        <ul class="text-left space-y-3 mb-8">
+          {pricingFeatures.map((feature) => (
+            <li class="flex items-start gap-3 text-[var(--color-dark)]">
+              <span class="flex-shrink-0 w-6 h-6 bg-[var(--color-sage)] rounded-[var(--radius-sm)] flex items-center justify-center mt-0.5">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </span>
+              <span class="text-base">{feature}</span>
+            </li>
+          ))}
+        </ul>
+
+        <WhatsAppCTA text="Asegurar mi lugar ahora" utm="pricing" variant="full" />
+
+        <!-- Trust signals -->
+        <div class="mt-6 pt-5 border-t border-[var(--color-sage-wash)]">
+          <div class="flex flex-wrap items-center justify-center gap-4 text-sm text-[var(--color-gray)]">
+            <span class="flex items-center gap-1.5">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              Pago seguro
+            </span>
+            <span class="flex items-center gap-1.5">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              MercadoPago &bull; dLocal Go &bull; PayPal
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Price breakdown -->
+    <p class="mt-6 text-sm text-[var(--color-gray)] max-w-[400px] mx-auto" style="text-wrap: balance;">
+      Son solo USD {Math.round(siteConfig.precioUSD / 4)} por semana de coaching grupal, acompañamiento diario, plan de alimentación y material de por vida.
+    </p>
+  </div>
+</section>
+
+<style>
+  .pricing-section {
+    background: linear-gradient(180deg, var(--color-sage-wash), var(--color-cream), var(--color-warm-pale));
+  }
+
+  .pricing-card {
+    max-width: 520px;
+    margin: 0 auto;
+    border: 2px solid var(--color-sage);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+    background: white;
+  }
+</style>

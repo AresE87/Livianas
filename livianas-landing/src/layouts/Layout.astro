@@ -1,0 +1,218 @@
+---
+import '../styles/global.css';
+import { siteConfig, faqData } from '../lib/config';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'LIVIANAS — Experiencia 30 Días | Transformación Grupal para Mujeres',
+  description = 'Programa grupal de 4 semanas para mujeres. Alimentación antiinflamatoria, coaching emocional y acompañamiento diario. Grupos reducidos de 8. Sin dietas. Con resultados.',
+} = Astro.props;
+
+const canonicalUrl = new URL(Astro.url.pathname, siteConfig.siteUrl).href;
+const ogImage = `${siteConfig.siteUrl}/images/og-image.jpg`;
+
+// Build FAQ schema from data
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqData.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'LIVIANAS - Método Livianas',
+  url: siteConfig.siteUrl,
+  description: 'Transformación grupal consciente para mujeres',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Montevideo',
+    addressCountry: 'UY',
+  },
+};
+
+const productSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: 'LIVIANAS — Experiencia 30 Días',
+  description: description,
+  brand: {
+    '@type': 'Brand',
+    name: 'LIVIANAS',
+  },
+  offers: {
+    '@type': 'Offer',
+    price: String(siteConfig.precioUSD),
+    priceCurrency: 'USD',
+    availability: 'https://schema.org/LimitedAvailability',
+  },
+};
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content="LIVIANAS — 30 días de transformación real" />
+    <meta property="og:description" content="No es una dieta. Es la decisión de dejar de abandonarte. Grupos de 8 mujeres con acompañamiento real." />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="es_UY" />
+    <meta property="og:site_name" content="LIVIANAS" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="LIVIANAS — 30 días de transformación real" />
+    <meta name="twitter:description" content="No es una dieta. Es la decisión de dejar de abandonarte." />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+
+    <!-- Font Preload -->
+    <link rel="preload" href="/fonts/DMSans-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/PlayfairDisplay-Bold.woff2" as="font" type="font/woff2" crossorigin />
+
+    <!-- Schema Markup -->
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(productSchema)} />
+
+    <!-- Meta Pixel -->
+    {siteConfig.metaPixelId && (
+      <script set:html={`
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '${siteConfig.metaPixelId}');
+        fbq('track', 'PageView');
+      `} />
+      <noscript>
+        <img height="1" width="1" style="display:none" src={`https://www.facebook.com/tr?id=${siteConfig.metaPixelId}&ev=PageView&noscript=1`} />
+      </noscript>
+    )}
+
+    <!-- GA4 -->
+    {siteConfig.ga4Id && (
+      <script async src={`https://www.googletagmanager.com/gtag/js?id=${siteConfig.ga4Id}`} />
+      <script set:html={`
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '${siteConfig.ga4Id}');
+      `} />
+    )}
+  </head>
+  <body>
+    <slot />
+
+    <!-- Intersection Observer for scroll animations -->
+    <script>
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.15 }
+      );
+      document.querySelectorAll('.animate-on-scroll').forEach((el) => observer.observe(el));
+    </script>
+
+    <!-- Tracking Events -->
+    <script>
+      // WhatsApp click tracking
+      document.querySelectorAll('[data-utm]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const source = (btn as HTMLElement).dataset.utm;
+
+          // Meta Pixel
+          if (typeof (window as any).fbq !== 'undefined') {
+            (window as any).fbq('track', 'Lead', {
+              content_name: 'WhatsApp Click',
+              content_category: source,
+              value: 300,
+              currency: 'USD',
+            });
+            if (source === 'pricing') {
+              (window as any).fbq('track', 'Contact', { content_name: 'Pricing CTA' });
+            }
+          }
+
+          // GA4
+          if (typeof (window as any).gtag !== 'undefined') {
+            (window as any).gtag('event', 'whatsapp_click', {
+              button_location: source,
+            });
+          }
+        });
+      });
+
+      // Scroll depth — ViewContent at 50%
+      let scrollTracked = false;
+      window.addEventListener('scroll', () => {
+        if (scrollTracked) return;
+        const scrollPercent = (window.scrollY + window.innerHeight) / document.documentElement.scrollHeight;
+        if (scrollPercent >= 0.5) {
+          scrollTracked = true;
+          if (typeof (window as any).fbq !== 'undefined') {
+            (window as any).fbq('track', 'ViewContent', { content_name: 'Landing LIVIANAS' });
+          }
+        }
+      }, { passive: true });
+
+      // FAQ open tracking
+      document.querySelectorAll('.faq-item').forEach((item) => {
+        item.addEventListener('toggle', () => {
+          if ((item as HTMLDetailsElement).open) {
+            const question = item.querySelector('summary span')?.textContent || '';
+            if (typeof (window as any).gtag !== 'undefined') {
+              (window as any).gtag('event', 'faq_open', { question });
+            }
+          }
+        });
+      });
+
+      // Page engagement timer
+      [30, 60, 120].forEach((seconds) => {
+        setTimeout(() => {
+          if (typeof (window as any).gtag !== 'undefined') {
+            (window as any).gtag('event', 'page_engagement', { engagement_time: seconds });
+          }
+        }, seconds * 1000);
+      });
+    </script>
+  </body>
+</html>

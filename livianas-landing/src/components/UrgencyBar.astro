@@ -1,0 +1,30 @@
+---
+import { siteConfig } from '../lib/config';
+---
+
+<div role="status" aria-live="polite" class="urgency-bar">
+  <div class="container flex flex-col sm:flex-row items-center justify-center gap-3 text-center">
+    <p class="text-white text-sm md:text-base" style="text-wrap: balance;">
+      La cohorte inicia el <strong class="text-[var(--color-warm)] font-bold">{siteConfig.fechaInicioCohorte.replace(' de 2026', '')}</strong> — Grupos de máximo <strong class="text-[var(--color-warm)] font-bold">{siteConfig.cuposDisponibles} mujeres</strong>
+    </p>
+    <span class="inline-flex items-center gap-2 bg-white/15 px-3 py-1 rounded-full text-white text-sm font-medium whitespace-nowrap">
+      <span class="pulse-dot" aria-hidden="true"></span>
+      Inscripciones abiertas
+    </span>
+  </div>
+</div>
+
+<style>
+  .urgency-bar {
+    background-color: var(--color-sage);
+    padding: var(--space-4) var(--space-4);
+  }
+
+  .pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--color-whatsapp);
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+</style>

@@ -1,0 +1,19 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer role="contentinfo" class="py-8" style="background: var(--color-dark);">
+  <div class="container flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+    <p class="text-sm text-[#9E9E9E]">
+      &copy; {year} LIVIANAS — Método Livianas por Ana &bull; Todos los derechos reservados
+    </p>
+    <nav aria-label="Legal" class="flex gap-4">
+      <a href="/privacidad" class="text-sm text-[#9E9E9E] hover:text-white transition-colors duration-[var(--transition-base)]">
+        Política de privacidad
+      </a>
+      <a href="/terminos" class="text-sm text-[#9E9E9E] hover:text-white transition-colors duration-[var(--transition-base)]">
+        Términos y condiciones
+      </a>
+    </nav>
+  </div>
+</footer>

@@ -1,0 +1,47 @@
+---
+import SectionLabel from './SectionLabel.astro';
+import { includesData } from '../lib/config';
+---
+
+<section id="incluye" aria-labelledby="incluye-title" class="section" style="background: var(--color-sage-wash);">
+  <div class="container animate-on-scroll">
+    <div class="text-center mb-10">
+      <SectionLabel text="TODO LO QUE INCLUYE" />
+      <h2 id="incluye-title" class="font-[var(--font-display)] font-bold text-[var(--text-3xl)] md:text-[var(--text-4xl)] text-[var(--color-dark)]">
+        Una experiencia completa de transformación
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4" role="list">
+      {includesData.map((item) => (
+        <div class="include-item" role="listitem">
+          <span class="flex-shrink-0 w-8 h-8 bg-[var(--color-sage)] rounded-[var(--radius-sm)] flex items-center justify-center">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </span>
+          <div>
+            <h3 class="font-bold text-base text-[var(--color-dark)] mb-1">{item.title}</h3>
+            <p class="text-sm text-[var(--color-gray)]">{item.description}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .include-item {
+    background: white;
+    border-radius: var(--radius-md);
+    padding: var(--space-4) var(--space-6);
+    display: flex;
+    gap: var(--space-4);
+    align-items: flex-start;
+    transition: box-shadow var(--transition-base);
+  }
+
+  .include-item:hover {
+    box-shadow: var(--shadow-md);
+  }
+</style>
