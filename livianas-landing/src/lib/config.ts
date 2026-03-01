@@ -12,16 +12,36 @@ export const siteConfig = {
     floating: encodeURIComponent('Hola, quiero saber más sobre LIVIANAS 🌿'),
   },
 
+  // CTA Messages
+  ctaMessages: {
+    primary: 'Inscribirme ahora',
+    secondary: 'Hablar con Ana',
+    miniPricing: 'Reservar mi lugar',
+    finalCta: 'Quiero mi lugar en el círculo',
+    afterPainPoints: 'Quiero cambiar esto',
+  },
+
+  // Payment Links
+  paymentLinks: {
+    mercadoPago: import.meta.env.PUBLIC_MERCADOPAGO_LINK || '',
+    dlocalGo: import.meta.env.PUBLIC_DLOCAL_LINK || '',
+    paypal: import.meta.env.PUBLIC_PAYPAL_LINK || '',
+  },
+
   // Contenido dinamico
   cuposDisponibles: 8,
   fechaCierre: '28 de marzo',
-  fechaInicioCohorte: '31 de marzo de 2026',
+  fechaCierreISO: '2026-03-28T23:59:59',
+  fechaInicioCírculo: '31 de marzo de 2026',
   inscripcionesAbiertas: true,
-  textoUrgencia: 'Inscripciones cierran el 28 de marzo — Solo <strong>8 lugares</strong> por grupo',
+  textoUrgencia: 'El círculo cierra el 28 de marzo — Solo <strong>8 lugares</strong> por grupo',
 
   // Precio
-  precioUSD: 300,
+  precioUSD: 297,
   precioRegularUSD: 450,
+  precioSemanal: 74,
+  precioCuota: 99,
+  valorTotal: 1050,
 
   // Tracking
   metaPixelId: import.meta.env.PUBLIC_META_PIXEL_ID || '',
@@ -38,28 +58,42 @@ export function getWhatsAppLink(location: keyof typeof siteConfig.whatsappMessag
   return `https://wa.me/${siteConfig.whatsappNumber}?text=${msg}`;
 }
 
+// Helper para obtener link de pago (prioriza MercadoPago > dLocal > PayPal)
+export function getPaymentLink(): string {
+  const { mercadoPago, dlocalGo, paypal } = siteConfig.paymentLinks;
+  return mercadoPago || dlocalGo || paypal || '#precio';
+}
+
 // ===== Datos de Secciones =====
 
 export const painPointsData = [
   {
     emoji: '😤',
     title: 'Lunes de nuevo',
-    description: 'Otra dieta nueva, otra app de calorías, otra promesa de "esta vez sí". Para el miércoles ya abandonaste. Y el domingo volvés a empezar. El problema nunca fue la fuerza de voluntad.',
+    description: 'Otra dieta nueva, otra app de calorías, otra promesa de "esta vez sí".',
+    highlight: 'Para el miércoles ya abandonaste. Y el domingo volvés a empezar.',
+    detail: 'El problema nunca fue la fuerza de voluntad.',
   },
   {
     emoji: '😔',
     title: 'Presa de la balanza',
-    description: 'Te pesás cada mañana y ese número decide tu estado de ánimo. Subiste 300 gramos y el día se arruinó. Tu valor no puede depender de un aparato.',
+    description: 'Te pesás cada mañana y ese número decide tu estado de ánimo.',
+    highlight: 'Subiste 300 gramos y el día se arruinó.',
+    detail: 'Tu valor no puede depender de un aparato.',
   },
   {
     emoji: '😰',
     title: 'Comer para apagar emociones',
-    description: 'No es hambre, es ansiedad. Es abrir la heladera después de un día difícil y no poder parar. Después viene la culpa. Y nadie entiende por qué no podés "simplemente controlarte".',
+    description: 'No es hambre, es ansiedad. Es abrir la heladera después de un día difícil y no poder parar.',
+    highlight: 'Después viene la culpa.',
+    detail: 'Y nadie entiende por qué no podés "simplemente controlarte".',
   },
   {
     emoji: '😞',
     title: 'Sola en esto',
-    description: 'Todas te preguntan si bajaste de peso, nadie te pregunta cómo estás. Las dietas son en soledad. Te sentís la única que no puede con algo que parece tan "fácil".',
+    description: 'Todas te preguntan si bajaste de peso, nadie te pregunta cómo estás.',
+    highlight: 'Las dietas son en soledad.',
+    detail: 'Te sentís la única que no puede con algo que parece tan "fácil".',
   },
 ];
 
@@ -119,57 +153,53 @@ export const weeksData = [
 
 export const includesData = [
   {
-    title: '4 clases en vivo de 1h30',
-    description: 'Coaching grupal semanal con Ana. Teoría + ejercicio práctico + espacio de preguntas.',
+    title: 'Coaching grupal en vivo cada semana',
+    description: '4 sesiones de 1h30 con Ana. Teoría + ejercicio práctico + espacio de preguntas.',
   },
   {
-    title: 'Grupo privado de WhatsApp',
-    description: 'Acompañamiento diario durante las 4 semanas. Comunidad de mujeres que te entienden.',
+    title: 'Comunidad diaria que te sostiene',
+    description: 'Grupo privado de WhatsApp con acompañamiento durante las 4 semanas. Mujeres que te entienden.',
   },
   {
-    title: 'Plan de alimentación antiinflamatoria',
-    description: 'Guía de porciones con tu mano como medida. Menú semanal con recetas simples y ricas.',
+    title: 'Plan de alimentación sin restricciones',
+    description: 'Guía antiinflamatoria de porciones con tu mano como medida. Menú semanal con recetas simples.',
   },
   {
-    title: 'Rutinas de movimiento (20-30 min)',
-    description: 'Videos grabados, sin equipo. Para cualquier nivel. Diseñadas para energizarte, no para castigarte.',
+    title: 'Movimiento que te energiza',
+    description: 'Rutinas de 20-30 min, sin equipo, para cualquier nivel. Diseñadas para energizarte, no castigarte.',
   },
   {
     title: 'Workbook de autoconocimiento',
     description: 'Ejercicios semanales para identificar patrones, soltar creencias y construir tu nueva narrativa.',
   },
   {
-    title: 'Grabaciones de todas las clases',
-    description: 'Si no podés asistir en vivo, tenés acceso a las grabaciones para verlas a tu ritmo.',
+    title: 'Acceso de por vida a las grabaciones',
+    description: 'Si no podés asistir en vivo, tenés todas las clases grabadas para verlas a tu ritmo.',
   },
 ];
 
-export const testimonialsData = [
-  {
-    text: 'Por primera vez entendí que mi problema no era la comida, era cómo me trataba a mí misma. LIVIANAS cambió mi relación conmigo.',
-    name: 'María F.',
-    age: 42,
-    location: 'Montevideo',
-    initials: 'MF',
-  },
-  {
-    text: 'Bajé 4 kilos sin darme cuenta. Pero lo más importante es que dejé de pesarme todos los días y de castigarme por comer.',
-    name: 'Carolina S.',
-    age: 35,
-    location: 'Buenos Aires',
-    initials: 'CS',
-  },
-  {
-    text: 'El grupo fue todo. Saber que no estaba sola, que otras mujeres sentían lo mismo. Ana te guía con una calidez increíble.',
-    name: 'Lucía P.',
-    age: 38,
-    location: 'Montevideo',
-    initials: 'LP',
-  },
+export const valueStackData = [
+  { item: '4 sesiones de coaching grupal en vivo', value: 400 },
+  { item: 'Plan de alimentación antiinflamatoria', value: 150 },
+  { item: 'Grupo de WhatsApp con acompañamiento diario', value: 200 },
+  { item: 'Workbook de autoconocimiento', value: 80 },
+  { item: 'Rutinas de movimiento (4 semanas)', value: 120 },
+  { item: 'Grabaciones de por vida', value: 100 },
+];
+
+export const paraQuienEsData = [
+  'Sentís que la comida te controla en vez de nutrirte',
+  'Empezás dietas los lunes y las abandonás a mitad de semana',
+  'Comés por ansiedad, aburrimiento o tristeza — y después te sentís culpable',
+  'Tu estado de ánimo depende de lo que dice la balanza',
+  'Sabés que el problema no es la comida, pero no sabés cómo cambiar',
+  'Estás cansada de hacerlo sola y querés un espacio seguro con otras mujeres',
+  'Sentís que tu relación con tu cuerpo necesita sanar desde adentro',
+  'Buscás un cambio real, no otra dieta con fecha de vencimiento',
 ];
 
 export const pricingFeatures = [
-  '4 clases en vivo de 1h30 con Ana',
+  '4 sesiones de coaching grupal en vivo con Ana',
   'Grupo privado de WhatsApp con acompañamiento diario',
   'Plan de alimentación antiinflamatoria personalizable',
   'Guía de porciones sin contar calorías',
@@ -180,10 +210,17 @@ export const pricingFeatures = [
   'Acceso de por vida al material del programa',
 ];
 
+export const miniPricingFeatures = [
+  'Coaching grupal en vivo con Ana cada semana',
+  'Comunidad de mujeres + acompañamiento diario',
+  'Plan de alimentación + rutinas de movimiento',
+  'Acceso de por vida al material completo',
+];
+
 export const faqData = [
   {
     question: '¿Cuánto dura el programa?',
-    answer: 'El programa dura 4 semanas exactas. Cada semana tenés una clase en vivo de 1h30 con Ana y acompañamiento diario por el grupo privado de WhatsApp.',
+    answer: 'El programa dura 4 semanas exactas. Cada semana tenés una sesión en vivo de 1h30 con Ana y acompañamiento diario por el grupo privado de WhatsApp.',
   },
   {
     question: '¿Qué pasa si no puedo asistir a una clase en vivo?',
@@ -215,10 +252,22 @@ export const faqData = [
   },
   {
     question: '¿Cómo es la forma de pago?',
-    answer: 'Podés pagar con MercadoPago (Uruguay), dLocal Go (Latinoamérica) o PayPal (internacional). El pago es único, sin suscripciones ni cargos ocultos.',
+    answer: 'Podés pagar con MercadoPago (Uruguay), dLocal Go (Latinoamérica) o PayPal (internacional). El pago es único de USD 297, o en 3 cuotas de USD 99. Sin suscripciones ni cargos ocultos.',
   },
   {
     question: '¿Qué diferencia tiene esto de una dieta o un gym?',
-    answer: 'Las dietas te dicen qué comer. El gym te dice qué mover. LIVIANAS te enseña por qué hacés lo que hacés y cómo cambiar desde adentro. Es un programa integral: alimentación + movimiento + emociones + comunidad.',
+    answer: 'Las dietas te dicen qué comer. El gym te dice qué mover. LIVIANAS te enseña por qué hacés lo que hacés y cómo cambiar desde adentro. Trabajamos las tres dimensiones: conducta, emoción y espiritualidad.',
+  },
+  {
+    question: '¿Cómo es el proceso de pago?',
+    answer: 'Hacés click en "Inscribirme ahora", elegís tu medio de pago preferido y completás el pago. Recibís confirmación inmediata por WhatsApp con toda la información del círculo.',
+  },
+  {
+    question: '¿Hay garantía?',
+    answer: 'Si después de la primera semana sentís que no es para vos, hablamos. Queremos que estés 100% comprometida y cómoda con tu decisión.',
+  },
+  {
+    question: '¿Puedo hablar con Ana antes de inscribirme?',
+    answer: 'Sí. Podés escribirle por WhatsApp tocando el botón "Hablar con Ana" y ella te responde personalmente.',
   },
 ];
