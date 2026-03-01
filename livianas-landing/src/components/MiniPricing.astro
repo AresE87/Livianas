@@ -1,0 +1,124 @@
+---
+import { siteConfig, miniPricingFeatures, getPaymentLink } from '../lib/config';
+
+const paymentLink = getPaymentLink();
+---
+
+<section id="mini-precio" aria-labelledby="mini-precio-title" class="section mini-pricing-section">
+  <div class="container animate-on-scroll">
+    <div class="mini-pricing-card">
+      <p class="text-sm font-medium text-[var(--color-sage)] uppercase tracking-[0.1em] mb-2">
+        Tu inversión
+      </p>
+
+      <h2 id="mini-precio-title" class="font-[var(--font-display)] font-bold text-[var(--text-3xl)] text-[var(--color-dark)] mb-1">
+        Transformación integral por
+      </h2>
+
+      <div class="mb-1">
+        <span class="text-base text-[var(--color-gray)] line-through">USD {siteConfig.precioRegularUSD}</span>
+      </div>
+
+      <div class="mb-2">
+        <span class="text-lg text-[var(--color-sage)]">USD</span>
+        <span class="font-[var(--font-display)] font-bold text-[var(--text-5xl)] text-[var(--color-dark)]">{siteConfig.precioUSD}</span>
+      </div>
+
+      <p class="text-sm text-[var(--color-gray)] mb-6">
+        Solo USD {siteConfig.precioSemanal} por semana &bull; Conducta + emoción + espiritualidad
+      </p>
+
+      <ul class="mini-pricing-features">
+        {miniPricingFeatures.map((feature) => (
+          <li class="flex items-center gap-2 text-[var(--color-dark)] text-sm">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-sage)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0" aria-hidden="true">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            {feature}
+          </li>
+        ))}
+      </ul>
+
+      <a
+        href={paymentLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-utm="mini-pricing"
+        class="mini-pricing-cta"
+      >
+        {siteConfig.ctaMessages.miniPricing}
+      </a>
+
+      <p class="text-xs text-[var(--color-gray)] mt-3">
+        o <strong>3 cuotas de USD {siteConfig.precioCuota}</strong> &bull; Pago seguro
+      </p>
+
+      <a href="#precio" class="mini-pricing-link">
+        Ver todo lo que incluye ↓
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .mini-pricing-section {
+    background: var(--color-sage-wash);
+  }
+
+  .mini-pricing-card {
+    max-width: 560px;
+    margin: 0 auto;
+    text-align: center;
+    background: white;
+    border-radius: var(--radius-xl);
+    padding: var(--space-8) var(--space-6);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid rgba(123, 143, 107, 0.15);
+  }
+
+  .mini-pricing-features {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    text-align: left;
+    max-width: 360px;
+    margin: 0 auto var(--space-6);
+  }
+
+  .mini-pricing-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 320px;
+    padding: var(--space-3) var(--space-6);
+    background: var(--color-sage);
+    color: white;
+    font-weight: 700;
+    font-size: 1.05rem;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: all var(--transition-base);
+    cursor: pointer;
+  }
+
+  .mini-pricing-cta:hover {
+    background: var(--color-sage-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .mini-pricing-link {
+    display: inline-block;
+    margin-top: var(--space-4);
+    font-size: 0.875rem;
+    color: var(--color-sage);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color var(--transition-fast);
+  }
+
+  .mini-pricing-link:hover {
+    color: var(--color-sage-dark);
+  }
+</style>

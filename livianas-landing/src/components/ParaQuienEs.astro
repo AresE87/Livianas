@@ -1,0 +1,89 @@
+---
+import SectionLabel from './SectionLabel.astro';
+import { paraQuienEsData, siteConfig, getPaymentLink } from '../lib/config';
+
+const paymentLink = getPaymentLink();
+---
+
+<section id="para-quien" aria-labelledby="para-quien-title" class="section">
+  <div class="container animate-on-scroll">
+    <div class="text-center mb-10">
+      <SectionLabel text="¿ES PARA VOS?" />
+      <h2 id="para-quien-title" class="font-[var(--font-display)] font-bold text-[var(--text-3xl)] md:text-[var(--text-4xl)] text-[var(--color-dark)]">
+        Esto es para vos si...
+      </h2>
+    </div>
+
+    <div class="para-quien-card">
+      <ul class="para-quien-list" role="list">
+        {paraQuienEsData.map((item, index) => (
+          <li class="para-quien-item" role="listitem" style={`animation-delay: ${index * 80}ms;`}>
+            <span class="para-quien-check" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </span>
+            <span class="text-base text-[var(--color-dark)]">{item}</span>
+          </li>
+        ))}
+      </ul>
+
+      <div class="para-quien-cta">
+        <p class="text-base text-[var(--color-sage-dark)] font-medium italic mb-4">
+          Si marcaste aunque sea una, LIVIANAS fue creado para vos.
+        </p>
+        <a
+          href={paymentLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-utm="para-quien"
+          class="inline-flex items-center justify-center gap-2 font-bold text-lg rounded-[var(--radius-md)] bg-[var(--color-sage)] text-white px-6 py-3 hover:bg-[var(--color-sage-dark)] hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)] transition-all duration-[var(--transition-base)] cursor-pointer no-underline"
+        >
+          Quiero ser parte del círculo
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .para-quien-card {
+    max-width: 640px;
+    margin: 0 auto;
+    background: white;
+    border-radius: var(--radius-xl);
+    padding: var(--space-8) var(--space-6);
+    box-shadow: var(--shadow-md);
+  }
+
+  .para-quien-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-bottom: var(--space-8);
+  }
+
+  .para-quien-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+
+  .para-quien-check {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--color-sage);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+  }
+
+  .para-quien-cta {
+    text-align: center;
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-sage-wash);
+  }
+</style>

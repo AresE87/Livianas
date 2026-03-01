@@ -180,6 +180,28 @@ const productSchema = {
         });
       });
 
+      // Payment link click tracking
+      document.querySelectorAll('[data-utm^="payment-"]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const source = (btn as HTMLElement).dataset.utm;
+
+          if (typeof (window as any).fbq !== 'undefined') {
+            (window as any).fbq('track', 'InitiateCheckout', {
+              content_name: 'Payment Click',
+              content_category: source,
+              value: 297,
+              currency: 'USD',
+            });
+          }
+
+          if (typeof (window as any).gtag !== 'undefined') {
+            (window as any).gtag('event', 'payment_click', {
+              button_location: source,
+            });
+          }
+        });
+      });
+
       // Scroll depth — ViewContent at 50%
       let scrollTracked = false;
       window.addEventListener('scroll', () => {

@@ -1,0 +1,169 @@
+---
+import { siteConfig } from '../lib/config';
+
+interface Props {
+  variant?: 'topbar' | 'section';
+}
+
+const { variant = 'section' } = Astro.props;
+const targetDate = siteConfig.fechaCierreISO;
+---
+
+<div
+  class:list={['countdown', `countdown--${variant}`]}
+  data-target={targetDate}
+  aria-label="Cuenta regresiva para cierre de inscripciones"
+>
+  <div class="countdown-unit">
+    <span class="countdown-number" data-days>00</span>
+    <span class="countdown-label">días</span>
+  </div>
+  <span class="countdown-separator">:</span>
+  <div class="countdown-unit">
+    <span class="countdown-number" data-hours>00</span>
+    <span class="countdown-label">hrs</span>
+  </div>
+  <span class="countdown-separator">:</span>
+  <div class="countdown-unit">
+    <span class="countdown-number" data-minutes>00</span>
+    <span class="countdown-label">min</span>
+  </div>
+  <span class="countdown-separator countdown-separator--seconds">:</span>
+  <div class="countdown-unit">
+    <span class="countdown-number countdown-number--seconds" data-seconds>00</span>
+    <span class="countdown-label">seg</span>
+  </div>
+</div>
+
+<style>
+  .countdown {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .countdown-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 36px;
+  }
+
+  .countdown-number {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+
+  .countdown-label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.7;
+    line-height: 1;
+    margin-top: 2px;
+  }
+
+  .countdown-separator {
+    font-weight: 700;
+    opacity: 0.5;
+    align-self: flex-start;
+    line-height: 1;
+  }
+
+  /* Topbar variant */
+  .countdown--topbar {
+    gap: 1px;
+  }
+
+  .countdown--topbar .countdown-number {
+    font-size: 0.95rem;
+    color: var(--color-warm);
+  }
+
+  .countdown--topbar .countdown-label {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.55rem;
+  }
+
+  .countdown--topbar .countdown-separator {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.95rem;
+  }
+
+  .countdown--topbar .countdown-unit {
+    min-width: 28px;
+  }
+
+  /* Section variant */
+  .countdown--section .countdown-number {
+    font-size: 1.5rem;
+    color: var(--color-dark);
+    background: var(--color-sage-wash);
+    border-radius: var(--radius-sm);
+    padding: var(--space-1) var(--space-2);
+  }
+
+  .countdown--section .countdown-label {
+    color: var(--color-gray);
+  }
+
+  .countdown--section .countdown-separator {
+    font-size: 1.5rem;
+    color: var(--color-sage);
+  }
+
+  .countdown--section .countdown-unit {
+    min-width: 48px;
+  }
+
+  /* Pulse on seconds */
+  .countdown-number--seconds {
+    animation: pulse-dot 1s ease-in-out infinite;
+  }
+
+  /* Hide seconds on topbar mobile for space */
+  @media (max-width: 479px) {
+    .countdown--topbar .countdown-separator--seconds,
+    .countdown--topbar [data-seconds] {
+      display: none;
+    }
+    .countdown--topbar .countdown-unit:last-child {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  function initCountdowns() {
+    document.querySelectorAll('.countdown').forEach((el) => {
+      const target = new Date((el as HTMLElement).dataset.target!).getTime();
+
+      function update() {
+        const now = Date.now();
+        const diff = Math.max(0, target - now);
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        const daysEl = el.querySelector('[data-days]');
+        const hoursEl = el.querySelector('[data-hours]');
+        const minutesEl = el.querySelector('[data-minutes]');
+        const secondsEl = el.querySelector('[data-seconds]');
+
+        if (daysEl) daysEl.textContent = String(days).padStart(2, '0');
+        if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
+        if (minutesEl) minutesEl.textContent = String(minutes).padStart(2, '0');
+        if (secondsEl) secondsEl.textContent = String(seconds).padStart(2, '0');
+      }
+
+      update();
+      setInterval(update, 1000);
+    });
+  }
+
+  initCountdowns();
+</script>

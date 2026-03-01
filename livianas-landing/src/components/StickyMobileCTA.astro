@@ -1,0 +1,120 @@
+---
+import { siteConfig, getPaymentLink } from '../lib/config';
+
+const paymentLink = getPaymentLink();
+---
+
+<div class="sticky-cta" id="sticky-cta" aria-hidden="true">
+  <div class="sticky-cta-inner">
+    <div class="sticky-cta-price">
+      <span class="sticky-cta-price-label">Desde</span>
+      <span class="sticky-cta-price-value">USD {siteConfig.precioUSD}</span>
+    </div>
+    <a
+      href={paymentLink}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-utm="sticky-mobile"
+      class="sticky-cta-button"
+    >
+      {siteConfig.ctaMessages.primary}
+    </a>
+  </div>
+</div>
+
+<style>
+  .sticky-cta {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 40;
+    background: white;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.1);
+    padding: var(--space-2) var(--space-4);
+    transform: translateY(100%);
+    transition: transform var(--transition-base);
+  }
+
+  .sticky-cta.is-visible {
+    transform: translateY(0);
+  }
+
+  .sticky-cta-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    max-width: var(--container-max);
+    margin: 0 auto;
+  }
+
+  .sticky-cta-price {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sticky-cta-price-label {
+    font-size: 0.7rem;
+    color: var(--color-gray);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: 1;
+  }
+
+  .sticky-cta-price-value {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--color-dark);
+    line-height: 1.2;
+  }
+
+  .sticky-cta-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-2) var(--space-4);
+    background: var(--color-sage);
+    color: white;
+    font-weight: 700;
+    font-size: 0.9rem;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background var(--transition-fast);
+  }
+
+  .sticky-cta-button:hover {
+    background: var(--color-sage-dark);
+  }
+
+  /* Only visible on mobile/tablet */
+  @media (min-width: 768px) {
+    .sticky-cta {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const stickyCta = document.getElementById('sticky-cta');
+  const hero = document.getElementById('hero');
+
+  if (stickyCta && hero) {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          stickyCta.classList.remove('is-visible');
+          stickyCta.setAttribute('aria-hidden', 'true');
+        } else {
+          stickyCta.classList.add('is-visible');
+          stickyCta.setAttribute('aria-hidden', 'false');
+        }
+      },
+      { threshold: 0 }
+    );
+    observer.observe(hero);
+  }
+</script>

@@ -8,7 +8,7 @@ import { painPointsData } from '../lib/config';
     <div class="text-center mb-10">
       <SectionLabel text="¿TE SUENA FAMILIAR?" />
       <h2 id="problema-title" class="font-[var(--font-display)] font-bold text-[var(--text-3xl)] md:text-[var(--text-4xl)] text-[var(--color-dark)]">
-        Quizás estás viviendo esto...
+        Sé lo que se siente...
       </h2>
     </div>
 
@@ -23,9 +23,21 @@ import { painPointsData } from '../lib/config';
           </h3>
           <p class="text-base text-[var(--color-gray)] leading-relaxed">
             {item.description}
+            {' '}<strong class="text-[var(--color-rose)]">{item.highlight}</strong>
+            {' '}{item.detail}
           </p>
         </article>
       ))}
+    </div>
+
+    <div class="pain-bridge animate-on-scroll">
+      <p class="font-[var(--font-display)] font-bold italic text-[var(--text-xl)] md:text-[var(--text-2xl)] text-[var(--color-dark)] mb-4 leading-snug">
+        Si te identificaste con alguna de estas, no es tu culpa. Y no estás sola.
+      </p>
+      <a href="#mini-precio" class="pain-bridge-cta">
+        Quiero cambiar esto
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+      </a>
     </div>
   </div>
 </section>
@@ -33,16 +45,40 @@ import { painPointsData } from '../lib/config';
 <style>
   .pain-card {
     background: white;
-    border: 1px solid var(--color-rose-pale);
+    border-left: 4px solid transparent;
     border-radius: var(--radius-md);
     padding: var(--space-6);
-    transition: transform var(--transition-base), box-shadow var(--transition-base), border-top var(--transition-base);
+    transition: all var(--transition-base);
   }
 
   .pain-card:hover {
-    transform: translateY(-6px);
+    transform: translateY(-4px);
     box-shadow: var(--shadow-lg);
-    border-top: 3px solid;
-    border-image: linear-gradient(to right, var(--color-rose), var(--color-warm)) 1;
+    border-left-color: var(--color-rose);
+  }
+
+  .pain-bridge {
+    text-align: center;
+    margin-top: var(--space-10);
+    padding-top: var(--space-8);
+  }
+
+  .pain-bridge-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--color-sage-dark);
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-md);
+    border: 2px solid var(--color-sage);
+    transition: all var(--transition-base);
+  }
+
+  .pain-bridge-cta:hover {
+    background: var(--color-sage-wash);
+    transform: translateY(-2px);
   }
 </style>
