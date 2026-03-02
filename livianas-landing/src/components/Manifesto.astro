@@ -1,0 +1,261 @@
+---
+import { paraQuienEsData } from '../lib/config';
+---
+
+<section id="manifesto" class="manifesto-section">
+  <div class="manifesto-bg" aria-hidden="true"></div>
+  <div class="manifesto-overlay" aria-hidden="true"></div>
+
+  <div class="container manifesto-container">
+
+    <!-- Comparison Text Block -->
+    <div class="manifesto-comparison">
+
+      <div class="manifesto-block manifesto-block--old" data-gsap="manifesto-text">
+        <span class="manifesto-label">Lo normal es preguntar:</span>
+        <p class="manifesto-question manifesto-question--crossed">
+          &iquest;qu&eacute; dieta hago ahora?
+        </p>
+      </div>
+
+      <div class="manifesto-divider" data-gsap="manifesto-text" aria-hidden="true">
+        <svg width="2" height="80" viewBox="0 0 2 80" fill="none">
+          <line x1="1" y1="0" x2="1" y2="80" stroke="var(--color-clay)" stroke-width="2" stroke-dasharray="4 6" opacity="0.4"/>
+        </svg>
+      </div>
+
+      <div class="manifesto-block manifesto-block--new" data-gsap="manifesto-text">
+        <span class="manifesto-label manifesto-label--clay">Nosotras preguntamos:</span>
+        <p class="manifesto-question manifesto-question--big">
+          &iquest;qu&eacute; me est&aacute; pasando por dentro?
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Para Quien Es Checklist -->
+    <div class="manifesto-checklist" data-gsap="manifesto-text">
+      <h3 class="manifesto-checklist__title">Esto es para vos si...</h3>
+      <ul class="manifesto-checklist__list">
+        {paraQuienEsData.map((item) => (
+          <li class="manifesto-checklist__item">
+            <span class="manifesto-checklist__dot" aria-hidden="true"></span>
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- Subtle CTA -->
+    <div class="manifesto-cta" data-gsap="manifesto-text">
+      <a href="#features" class="manifesto-cta__link">
+        Conoc&eacute; el programa
+        <svg class="manifesto-cta__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 3v10M4 9l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  /* ============================
+     Section & Background
+     ============================ */
+  .manifesto-section {
+    position: relative;
+    overflow: hidden;
+    padding: var(--space-24) 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+  }
+
+  @media (min-width: 768px) {
+    .manifesto-section {
+      padding: var(--space-32) 0;
+    }
+  }
+
+  .manifesto-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    z-index: 0;
+  }
+
+  /* Disable fixed attachment on mobile (iOS/Android ignores it anyway) */
+  @media (max-width: 1023px) {
+    .manifesto-bg {
+      background-attachment: scroll;
+    }
+  }
+
+  .manifesto-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(26, 26, 26, 0.92) 0%,
+      rgba(26, 26, 26, 0.88) 40%,
+      rgba(26, 26, 26, 0.94) 100%
+    );
+    z-index: 1;
+  }
+
+  .manifesto-container {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ============================
+     Comparison Block
+     ============================ */
+  .manifesto-comparison {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-8);
+    margin-bottom: var(--space-16);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @media (min-width: 768px) {
+    .manifesto-comparison {
+      gap: var(--space-10);
+      margin-bottom: var(--space-20);
+    }
+  }
+
+  .manifesto-block {
+    text-align: center;
+  }
+
+  .manifesto-divider {
+    display: flex;
+    justify-content: center;
+  }
+
+  .manifesto-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-text-light);
+    margin-bottom: var(--space-4);
+  }
+
+  .manifesto-label--clay {
+    color: var(--color-clay);
+  }
+
+  .manifesto-question {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--color-white);
+  }
+
+  .manifesto-question--crossed {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    text-decoration: line-through;
+    text-decoration-color: rgba(255, 255, 255, 0.25);
+    text-decoration-thickness: 2px;
+    opacity: 0.5;
+  }
+
+  .manifesto-question--big {
+    font-size: clamp(2rem, 6vw, 4rem);
+  }
+
+  /* ============================
+     Checklist
+     ============================ */
+  .manifesto-checklist {
+    max-width: 640px;
+    margin: 0 auto var(--space-16);
+  }
+
+  .manifesto-checklist__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--color-white);
+    margin-bottom: var(--space-8);
+    text-align: center;
+  }
+
+  .manifesto-checklist__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .manifesto-checklist__item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-4);
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.78);
+    line-height: 1.55;
+  }
+
+  @media (min-width: 768px) {
+    .manifesto-checklist__item {
+      font-size: var(--text-base);
+    }
+  }
+
+  .manifesto-checklist__dot {
+    flex-shrink: 0;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--color-clay);
+    margin-top: 7px;
+  }
+
+  /* ============================
+     Bottom CTA
+     ============================ */
+  .manifesto-cta {
+    text-align: center;
+  }
+
+  .manifesto-cta__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(255, 255, 255, 0.45);
+    transition: color var(--transition-base);
+    text-decoration: none;
+  }
+
+  .manifesto-cta__link:hover {
+    color: var(--color-clay-light);
+  }
+
+  .manifesto-cta__arrow {
+    transition: transform var(--transition-base);
+  }
+
+  .manifesto-cta__link:hover .manifesto-cta__arrow {
+    transform: translateY(3px);
+  }
+</style>

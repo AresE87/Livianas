@@ -50,7 +50,7 @@ const targetDate = siteConfig.fechaCierreISO;
   }
 
   .countdown-number {
-    font-family: var(--font-body);
+    font-family: var(--font-mono);
     font-weight: 700;
     font-variant-numeric: tabular-nums;
     line-height: 1;
@@ -72,14 +72,14 @@ const targetDate = siteConfig.fechaCierreISO;
     line-height: 1;
   }
 
-  /* Topbar variant */
+  /* Topbar variant (used in final CTA dark bg) */
   .countdown--topbar {
     gap: 1px;
   }
 
   .countdown--topbar .countdown-number {
-    font-size: 0.95rem;
-    color: var(--color-warm);
+    font-size: 1.15rem;
+    color: var(--color-clay-light);
   }
 
   .countdown--topbar .countdown-label {
@@ -89,29 +89,29 @@ const targetDate = siteConfig.fechaCierreISO;
 
   .countdown--topbar .countdown-separator {
     color: rgba(255, 255, 255, 0.4);
-    font-size: 0.95rem;
+    font-size: 1.15rem;
   }
 
   .countdown--topbar .countdown-unit {
     min-width: 28px;
   }
 
-  /* Section variant */
+  /* Section variant (pricing page, light bg) */
   .countdown--section .countdown-number {
     font-size: 1.5rem;
-    color: var(--color-dark);
-    background: var(--color-sage-wash);
+    color: var(--color-moss);
+    background: var(--color-cream-warm);
     border-radius: var(--radius-sm);
     padding: var(--space-1) var(--space-2);
   }
 
   .countdown--section .countdown-label {
-    color: var(--color-gray);
+    color: var(--color-text-muted);
   }
 
   .countdown--section .countdown-separator {
     font-size: 1.5rem;
-    color: var(--color-sage);
+    color: var(--color-moss);
   }
 
   .countdown--section .countdown-unit {

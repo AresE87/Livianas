@@ -1,0 +1,350 @@
+---
+import { siteConfig, getPaymentLink, getWhatsAppLink } from '../lib/config';
+
+const paymentHref = getPaymentLink();
+const whatsappHref = getWhatsAppLink('hero');
+---
+
+<section id="hero" class="hero" aria-label="Presentacion principal">
+  <!-- Background image with gradient overlay -->
+  <div class="hero__bg" aria-hidden="true">
+    <img
+      src="https://images.unsplash.com/photo-1470115636492-6d2b56f9146d?w=1920&q=80"
+      alt=""
+      class="hero__bg-image"
+      loading="eager"
+      decoding="async"
+      fetchpriority="high"
+    />
+    <div class="hero__overlay"></div>
+  </div>
+
+  <!-- Badge -->
+  <div class="hero__badge" data-gsap="hero-badge">
+    <span class="hero__badge-text">Conducta &middot; Emoci&oacute;n &middot; Espiritualidad</span>
+  </div>
+
+  <!-- Content: lower-third composition -->
+  <div class="hero__content">
+    <!-- Title block -->
+    <div class="hero__title-block" data-gsap="hero-title">
+      <span class="hero__title-line hero__title-line--sans">No es una</span>
+      <span class="hero__title-line hero__title-line--serif">dieta.</span>
+      <p class="hero__title-sub">
+        Es la decisi&oacute;n de dejar de abandonarte.
+      </p>
+    </div>
+
+    <!-- Subtitle -->
+    <p class="hero__subtitle" data-gsap="hero-subtitle">
+      4 semanas &middot; 8 mujeres &middot; Conducta, emoci&oacute;n y espiritualidad
+    </p>
+
+    <!-- CTA row -->
+    <div class="hero__ctas" data-gsap="hero-ctas">
+      <a
+        href={paymentHref}
+        class="btn btn--primary hero__cta-primary"
+        data-utm="hero-primary"
+      >
+        {siteConfig.ctaMessages.primary}
+        <svg
+          class="hero__cta-arrow"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M5 12h14" />
+          <path d="m12 5 7 7-7 7" />
+        </svg>
+      </a>
+      <a
+        href={whatsappHref}
+        class="btn btn--ghost hero__cta-ghost"
+        target="_blank"
+        rel="noopener noreferrer"
+        data-utm="hero-secondary"
+      >
+        {siteConfig.ctaMessages.secondary}
+      </a>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="hero__scroll" aria-hidden="true">
+    <div class="hero__scroll-track">
+      <svg
+        class="hero__scroll-chevron"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="m6 9 6 6 6-6" />
+      </svg>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ==========================================
+     CINEMATIC HERO — Full-viewport, lower-third
+     ========================================== */
+
+  .hero {
+    position: relative;
+    width: 100%;
+    height: 100dvh;
+    min-height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+    background: var(--color-carbon);
+  }
+
+  /* --- Background layer --- */
+  .hero__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .hero__bg-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+    display: block;
+  }
+
+  /* Gradient overlay: moss-dark to near-black */
+  .hero__overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        to bottom,
+        rgba(31, 45, 37, 0.3) 0%,
+        rgba(26, 26, 26, 0.45) 30%,
+        rgba(26, 26, 26, 0.7) 60%,
+        rgba(26, 26, 26, 0.92) 85%,
+        rgba(26, 26, 26, 0.98) 100%
+      );
+  }
+
+  /* --- Badge at top --- */
+  .hero__badge {
+    position: absolute;
+    top: calc(var(--space-16) + var(--space-8));
+    left: var(--space-6);
+    z-index: 2;
+  }
+
+  @media (min-width: 768px) {
+    .hero__badge {
+      top: calc(var(--space-16) + var(--space-12));
+      left: var(--space-12);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .hero__badge {
+      left: calc((100vw - var(--container-max)) / 2 + var(--space-6));
+    }
+  }
+
+  .hero__badge-text {
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-full);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  /* --- Content: lower-third --- */
+  .hero__content {
+    position: relative;
+    z-index: 2;
+    padding: 0 var(--space-6) var(--space-16);
+    max-width: var(--container-max);
+    width: 100%;
+  }
+
+  @media (min-width: 768px) {
+    .hero__content {
+      padding: 0 var(--space-12) var(--space-20);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .hero__content {
+      padding: 0 calc((100vw - var(--container-max)) / 2 + var(--space-6)) var(--space-24);
+      max-width: none;
+    }
+  }
+
+  /* --- Title composition --- */
+  .hero__title-block {
+    margin-bottom: var(--space-6);
+  }
+
+  .hero__title-line {
+    display: block;
+    color: white;
+    line-height: 1;
+  }
+
+  .hero__title-line--sans {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(1.75rem, 5vw, 3rem);
+    letter-spacing: -0.01em;
+    margin-bottom: var(--space-1);
+  }
+
+  .hero__title-line--serif {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+    font-size: clamp(4rem, 13vw, 9rem);
+    letter-spacing: -0.03em;
+    line-height: 0.85;
+    margin-bottom: var(--space-5);
+  }
+
+  .hero__title-sub {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: clamp(1rem, 2.5vw, 1.375rem);
+    color: rgba(255, 255, 255, 0.7);
+    letter-spacing: -0.005em;
+    line-height: 1.45;
+    max-width: 520px;
+  }
+
+  /* --- Subtitle --- */
+  .hero__subtitle {
+    font-family: var(--font-mono);
+    font-size: clamp(0.6875rem, 1.4vw, 0.8125rem);
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: var(--space-8);
+  }
+
+  /* --- CTAs --- */
+  .hero__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .hero__cta-primary {
+    font-size: var(--text-base);
+    padding: var(--space-4) var(--space-8);
+    gap: var(--space-2);
+  }
+
+  @media (min-width: 768px) {
+    .hero__cta-primary {
+      font-size: var(--text-lg);
+      padding: var(--space-5) var(--space-10);
+    }
+  }
+
+  .hero__cta-arrow {
+    transition: transform var(--transition-base);
+  }
+
+  .hero__cta-primary:hover .hero__cta-arrow {
+    transform: translateX(4px);
+  }
+
+  .hero__cta-ghost {
+    font-size: var(--text-sm);
+    padding: var(--space-3) var(--space-6);
+  }
+
+  @media (min-width: 768px) {
+    .hero__cta-ghost {
+      font-size: var(--text-base);
+      padding: var(--space-4) var(--space-8);
+    }
+  }
+
+  /* --- Scroll indicator --- */
+  .hero__scroll {
+    position: absolute;
+    bottom: var(--space-6);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+  }
+
+  .hero__scroll-track {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    animation: hero-scroll-bounce 2.4s ease-in-out infinite;
+  }
+
+  .hero__scroll-chevron {
+    color: rgba(255, 255, 255, 0.3);
+  }
+
+  .hero__scroll-chevron:first-child {
+    opacity: 0.6;
+  }
+
+  @keyframes hero-scroll-bounce {
+    0%, 100% {
+      transform: translateY(0);
+      opacity: 0.6;
+    }
+    50% {
+      transform: translateY(6px);
+      opacity: 1;
+    }
+  }
+
+  /* --- Mobile adjustments --- */
+  @media (max-width: 479px) {
+    .hero__content {
+      padding-bottom: calc(var(--space-16) + var(--space-4));
+    }
+
+    .hero__ctas {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .hero__cta-primary,
+    .hero__cta-ghost {
+      width: 100%;
+      text-align: center;
+      justify-content: center;
+    }
+  }
+</style>

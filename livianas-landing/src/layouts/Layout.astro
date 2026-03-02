@@ -91,11 +91,12 @@ const productSchema = {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <!-- Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://www.googletagmanager.com" />
 
-    <!-- Font Preload -->
-    <link rel="preload" href="/fonts/DMSans-Regular.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/PlayfairDisplay-Bold.woff2" as="font" type="font/woff2" crossorigin />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:wght@400;700&family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
     <!-- Schema Markup -->
     <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
@@ -135,25 +136,162 @@ const productSchema = {
   <body>
     <slot />
 
-    <!-- Intersection Observer for scroll animations -->
+    <!-- GSAP + ScrollTrigger animations -->
     <script>
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('is-visible');
-              observer.unobserve(entry.target);
+      import gsap from 'gsap';
+      import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      // --- Hero staggered entrance ---
+      const heroItems = document.querySelectorAll('[data-gsap="hero-label"], [data-gsap="hero-title"], [data-gsap="hero-subtitle"], [data-gsap="hero-ctas"], [data-gsap="hero-scroll"]');
+      if (heroItems.length) {
+        gsap.set(heroItems, { opacity: 0, y: 40 });
+        gsap.to(heroItems, {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          ease: 'power3.out',
+          stagger: 0.15,
+          delay: 0.3,
+        });
+      }
+
+      // --- Generic fade-in-up for all other data-gsap elements ---
+      document.querySelectorAll('[data-gsap]').forEach((el) => {
+        const attr = (el as HTMLElement).dataset.gsap || '';
+        // Skip hero items (already animated above)
+        if (attr.startsWith('hero-')) return;
+
+        gsap.set(el, { opacity: 0, y: 30 });
+        ScrollTrigger.create({
+          trigger: el,
+          start: 'top 85%',
+          once: true,
+          onEnter: () => {
+            gsap.to(el, {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              ease: 'power2.out',
+            });
+          },
+        });
+      });
+
+      // --- Navbar background on scroll ---
+      const navbar = document.getElementById('navbar');
+      if (navbar) {
+        ScrollTrigger.create({
+          start: 80,
+          onUpdate: (self) => {
+            if (self.progress > 0) {
+              navbar.classList.add('navbar--scrolled');
+            } else {
+              navbar.classList.remove('navbar--scrolled');
             }
-          });
-        },
-        { threshold: 0.15 }
-      );
-      document.querySelectorAll('.animate-on-scroll').forEach((el) => observer.observe(el));
+          },
+        });
+      }
+
+      // --- Manifesto parallax background ---
+      const manifestoBg = document.querySelector('.manifesto-bg');
+      if (manifestoBg) {
+        gsap.to(manifestoBg, {
+          yPercent: -20,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.manifesto-section',
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          },
+        });
+      }
+
+      // --- Archive cards staggered entrance ---
+      const archiveCards = document.querySelectorAll('.archive-card');
+      if (archiveCards.length) {
+        gsap.set(archiveCards, { opacity: 0, y: 40 });
+        ScrollTrigger.create({
+          trigger: '.archive-grid',
+          start: 'top 80%',
+          once: true,
+          onEnter: () => {
+            gsap.to(archiveCards, {
+              opacity: 1,
+              y: 0,
+              duration: 0.7,
+              ease: 'power2.out',
+              stagger: 0.1,
+            });
+          },
+        });
+      }
+
+      // --- Pricing card scale entrance ---
+      const pricingCard = document.querySelector('.pricing-card');
+      if (pricingCard) {
+        gsap.set(pricingCard, { opacity: 0, scale: 0.95 });
+        ScrollTrigger.create({
+          trigger: pricingCard,
+          start: 'top 80%',
+          once: true,
+          onEnter: () => {
+            gsap.to(pricingCard, {
+              opacity: 1,
+              scale: 1,
+              duration: 0.8,
+              ease: 'back.out(1.2)',
+            });
+          },
+        });
+      }
+
+      // --- Feature panels staggered entrance ---
+      const featurePanels = document.querySelectorAll('.feature-panel');
+      if (featurePanels.length) {
+        gsap.set(featurePanels, { opacity: 0, y: 50 });
+        ScrollTrigger.create({
+          trigger: '.features-section',
+          start: 'top 70%',
+          once: true,
+          onEnter: () => {
+            gsap.to(featurePanels, {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              ease: 'power2.out',
+              stagger: 0.2,
+            });
+          },
+        });
+      }
+
+      // --- FAQ items staggered entrance ---
+      const faqItems = document.querySelectorAll('.faq-card');
+      if (faqItems.length) {
+        gsap.set(faqItems, { opacity: 0, y: 20 });
+        ScrollTrigger.create({
+          trigger: '#faq',
+          start: 'top 75%',
+          once: true,
+          onEnter: () => {
+            gsap.to(faqItems, {
+              opacity: 1,
+              y: 0,
+              duration: 0.5,
+              ease: 'power2.out',
+              stagger: 0.06,
+            });
+          },
+        });
+      }
     </script>
 
     <!-- Tracking Events -->
     <script>
-      // WhatsApp click tracking
+      // CTA click tracking
       document.querySelectorAll('[data-utm]').forEach((btn) => {
         btn.addEventListener('click', () => {
           const source = (btn as HTMLElement).dataset.utm;
@@ -161,41 +299,24 @@ const productSchema = {
           // Meta Pixel
           if (typeof (window as any).fbq !== 'undefined') {
             (window as any).fbq('track', 'Lead', {
-              content_name: 'WhatsApp Click',
+              content_name: 'CTA Click',
               content_category: source,
-              value: 300,
+              value: 297,
               currency: 'USD',
             });
-            if (source === 'pricing') {
-              (window as any).fbq('track', 'Contact', { content_name: 'Pricing CTA' });
+            if (source?.includes('pricing') || source?.includes('payment')) {
+              (window as any).fbq('track', 'InitiateCheckout', {
+                content_name: 'Payment Click',
+                content_category: source,
+                value: 297,
+                currency: 'USD',
+              });
             }
           }
 
           // GA4
           if (typeof (window as any).gtag !== 'undefined') {
-            (window as any).gtag('event', 'whatsapp_click', {
-              button_location: source,
-            });
-          }
-        });
-      });
-
-      // Payment link click tracking
-      document.querySelectorAll('[data-utm^="payment-"]').forEach((btn) => {
-        btn.addEventListener('click', () => {
-          const source = (btn as HTMLElement).dataset.utm;
-
-          if (typeof (window as any).fbq !== 'undefined') {
-            (window as any).fbq('track', 'InitiateCheckout', {
-              content_name: 'Payment Click',
-              content_category: source,
-              value: 297,
-              currency: 'USD',
-            });
-          }
-
-          if (typeof (window as any).gtag !== 'undefined') {
-            (window as any).gtag('event', 'payment_click', {
+            (window as any).gtag('event', 'cta_click', {
               button_location: source,
             });
           }
@@ -210,19 +331,17 @@ const productSchema = {
         if (scrollPercent >= 0.5) {
           scrollTracked = true;
           if (typeof (window as any).fbq !== 'undefined') {
-            (window as any).fbq('track', 'ViewContent', { content_name: 'Landing LIVIANAS' });
+            (window as any).fbq('track', 'ViewContent', { content_name: 'Landing LIVIANAS v2' });
           }
         }
       }, { passive: true });
 
       // FAQ open tracking
-      document.querySelectorAll('.faq-item').forEach((item) => {
-        item.addEventListener('toggle', () => {
-          if ((item as HTMLDetailsElement).open) {
-            const question = item.querySelector('summary span')?.textContent || '';
-            if (typeof (window as any).gtag !== 'undefined') {
-              (window as any).gtag('event', 'faq_open', { question });
-            }
+      document.querySelectorAll('.faq-card').forEach((item) => {
+        item.addEventListener('click', () => {
+          const question = item.querySelector('.faq-question span')?.textContent || '';
+          if (typeof (window as any).gtag !== 'undefined') {
+            (window as any).gtag('event', 'faq_open', { question });
           }
         });
       });

@@ -1,0 +1,228 @@
+---
+import { includesData } from '../lib/config';
+
+const icons = [
+  // 1. Coaching mic
+  `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="10" y="4" width="12" height="18" rx="6"/><path d="M6 16a10 10 0 0 0 20 0"/><line x1="16" y1="28" x2="16" y2="24"/><line x1="11" y1="28" x2="21" y2="28"/></svg>`,
+  // 2. Community / people
+  `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="4"/><circle cx="22" cy="12" r="3"/><path d="M4 26v-2a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v2"/><path d="M22 15a4 4 0 0 1 4 4v3"/></svg>`,
+  // 3. Food / nutrition (leaf + bowl)
+  `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 28c0-10 8-18 20-20C24 18 16 26 6 28z"/><path d="M6 28C14 20 18 14 26 8"/><line x1="4" y1="28" x2="8" y2="28"/></svg>`,
+  // 4. Movement / walking figure
+  `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="6" r="3"/><path d="M12 28l3-8"/><path d="M20 28l-3-8"/><path d="M15 20l-5-6 4-2"/><path d="M17 20l5-6-4-2"/></svg>`,
+  // 5. Spiritual / star
+  `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4l3.5 7.5L28 13l-6 5.5L23.5 28 16 23.5 8.5 28 10 18.5 4 13l8.5-1.5z"/></svg>`,
+  // 6. Video / play
+  `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="6" width="24" height="20" rx="3"/><polygon points="13,11 22,16 13,21" fill="currentColor" stroke="none"/></svg>`,
+];
+
+const tickerText = 'Conducta \u00b7 Emoci\u00f3n \u00b7 Espiritualidad';
+---
+
+<section id="incluye" aria-labelledby="archive-title" class="archive-section section">
+  <div class="container">
+    <!-- Header -->
+    <div class="archive-header" data-gsap="archive-header">
+      <h2 id="archive-title" class="archive-title">
+        <span class="archive-title-serif">Todo lo que recib&iacute;s</span>
+      </h2>
+      <p class="archive-subtitle">
+        6 componentes dise&ntilde;ados para un cambio real
+      </p>
+    </div>
+
+    <!-- Cards grid -->
+    <div class="archive-grid" role="list">
+      {includesData.map((item, i) => (
+        <article class="archive-card" data-gsap="archive-card" role="listitem">
+          <div class="archive-card-inner">
+            <span class="archive-card-index">{String(i + 1).padStart(2, '0')}/</span>
+            <div class="archive-card-icon" set:html={icons[i]} />
+            <h3 class="archive-card-title">{item.title}</h3>
+            <p class="archive-card-desc">{item.description}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+
+  <!-- Ticker strip -->
+  <div class="ticker-strip" aria-hidden="true">
+    <div class="ticker-track">
+      {Array.from({ length: 8 }).map(() => (
+        <span class="ticker-item">{tickerText}</span>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .archive-section {
+    background: var(--color-cream);
+    overflow: hidden;
+  }
+
+  .archive-header {
+    text-align: center;
+    margin-bottom: var(--space-12);
+  }
+
+  .archive-title {
+    margin-bottom: var(--space-3);
+  }
+
+  .archive-title-serif {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+    font-size: var(--text-4xl);
+    color: var(--color-carbon);
+    line-height: 1.15;
+  }
+
+  @media (min-width: 768px) {
+    .archive-title-serif {
+      font-size: var(--text-5xl);
+    }
+  }
+
+  .archive-subtitle {
+    font-family: var(--font-sans);
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  /* --- Card Grid --- */
+  .archive-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  @media (min-width: 768px) {
+    .archive-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-6);
+    }
+  }
+
+  /* --- Card --- */
+  .archive-card {
+    background: var(--color-white);
+    border-radius: var(--radius-3xl);
+    overflow: hidden;
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+    position: relative;
+  }
+
+  .archive-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .archive-card-inner {
+    padding: var(--space-8) var(--space-6);
+    position: relative;
+  }
+
+  @media (min-width: 768px) {
+    .archive-card-inner {
+      padding: var(--space-10) var(--space-8);
+    }
+  }
+
+  /* Mono index label */
+  .archive-card-index {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-text-light);
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-4);
+    user-select: none;
+  }
+
+  /* Icon */
+  .archive-card-icon {
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-cream);
+    border-radius: var(--radius-lg);
+    color: var(--color-moss);
+    margin-bottom: var(--space-5);
+  }
+
+  /* Title */
+  .archive-card-title {
+    font-family: var(--font-outfit);
+    font-weight: 700;
+    font-size: var(--text-lg);
+    color: var(--color-carbon);
+    line-height: 1.3;
+    margin-bottom: var(--space-2);
+  }
+
+  @media (min-width: 768px) {
+    .archive-card-title {
+      font-size: var(--text-xl);
+    }
+  }
+
+  /* Description */
+  .archive-card-desc {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: 1.6;
+  }
+
+  /* --- Ticker Strip --- */
+  .ticker-strip {
+    margin-top: var(--space-16);
+    background: var(--color-moss);
+    padding: var(--space-4) 0;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .ticker-track {
+    display: flex;
+    gap: 0;
+    white-space: nowrap;
+    animation: ticker-scroll 30s linear infinite;
+    width: max-content;
+  }
+
+  .ticker-item {
+    font-family: var(--font-outfit);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.85);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0 var(--space-8);
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 768px) {
+    .ticker-item {
+      font-size: var(--text-base);
+      padding: 0 var(--space-10);
+    }
+  }
+
+  @keyframes ticker-scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+</style>

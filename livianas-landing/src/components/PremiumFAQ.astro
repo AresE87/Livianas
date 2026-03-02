@@ -1,0 +1,324 @@
+---
+import { faqData, getWhatsAppLink } from '../lib/config';
+
+const directWhatsAppLink = getWhatsAppLink('finalCta');
+---
+
+<section id="faq" aria-labelledby="faq-title" class="section" data-gsap="faq">
+  <div class="container container--narrow">
+    <div class="faq-header">
+      <h2 id="faq-title" class="faq-title">
+        <span class="faq-title__serif">Preguntas</span>
+        <span class="faq-title__sans">frecuentes</span>
+      </h2>
+    </div>
+
+    <div class="faq-list" role="list">
+      {faqData.map((item, index) => (
+        <div class="faq-item" role="listitem" data-faq-index={index}>
+          <button
+            class="faq-trigger"
+            aria-expanded="false"
+            aria-controls={`faq-panel-${index}`}
+            id={`faq-trigger-${index}`}
+          >
+            <span class="faq-question">{item.question}</span>
+            <span class="faq-icon" aria-hidden="true">
+              <span class="faq-icon__bar faq-icon__bar--h"></span>
+              <span class="faq-icon__bar faq-icon__bar--v"></span>
+            </span>
+          </button>
+          <div
+            class="faq-panel"
+            id={`faq-panel-${index}`}
+            role="region"
+            aria-labelledby={`faq-trigger-${index}`}
+            hidden
+          >
+            <div class="faq-answer">
+              <p>{item.answer}</p>
+              {item.showDirectCta && (
+                <a
+                  href={directWhatsAppLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-utm="faq-direct-ana"
+                  class="faq-whatsapp-btn"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                  </svg>
+                  Escribirle a Ana directamente
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* --- Section --- */
+  section {
+    background: var(--color-cream);
+  }
+
+  /* --- Header --- */
+  .faq-header {
+    text-align: center;
+    margin-bottom: var(--space-12);
+  }
+
+  .faq-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    line-height: 1.1;
+  }
+
+  .faq-title__serif {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: var(--text-5xl);
+    color: var(--color-carbon);
+    letter-spacing: -0.02em;
+  }
+
+  .faq-title__sans {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: var(--text-3xl);
+    color: var(--color-carbon);
+    letter-spacing: -0.01em;
+    margin-top: var(--space-1);
+  }
+
+  @media (min-width: 768px) {
+    .faq-title__serif {
+      font-size: var(--text-6xl);
+    }
+    .faq-title__sans {
+      font-size: var(--text-4xl);
+    }
+  }
+
+  /* --- FAQ list --- */
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  /* --- Individual Item --- */
+  .faq-item {
+    background: var(--color-cream-warm);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    transition: box-shadow var(--transition-base);
+  }
+
+  .faq-item:hover {
+    box-shadow: var(--shadow-sm);
+  }
+
+  .faq-item[data-open="true"] {
+    box-shadow: var(--shadow-md);
+  }
+
+  /* --- Trigger button --- */
+  .faq-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: var(--space-5) var(--space-6);
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+    transition: background var(--transition-fast);
+  }
+
+  .faq-trigger:hover {
+    background: rgba(46, 64, 54, 0.04);
+  }
+
+  @media (min-width: 768px) {
+    .faq-trigger {
+      padding: var(--space-6) var(--space-8);
+    }
+  }
+
+  .faq-question {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: var(--text-base);
+    color: var(--color-carbon);
+    line-height: 1.4;
+  }
+
+  @media (min-width: 768px) {
+    .faq-question {
+      font-size: var(--text-lg);
+    }
+  }
+
+  /* --- Plus/Minus icon --- */
+  .faq-icon {
+    position: relative;
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    border-radius: var(--radius-full);
+    background: var(--color-moss);
+    transition: transform var(--transition-base), background var(--transition-base);
+  }
+
+  .faq-icon__bar {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: white;
+    border-radius: 2px;
+    transition: transform var(--transition-base), opacity var(--transition-base);
+  }
+
+  .faq-icon__bar--h {
+    width: 12px;
+    height: 2px;
+    transform: translate(-50%, -50%);
+  }
+
+  .faq-icon__bar--v {
+    width: 2px;
+    height: 12px;
+    transform: translate(-50%, -50%);
+  }
+
+  /* Open state icon */
+  .faq-item[data-open="true"] .faq-icon {
+    background: var(--color-clay);
+    transform: rotate(90deg);
+  }
+
+  .faq-item[data-open="true"] .faq-icon__bar--v {
+    opacity: 0;
+    transform: translate(-50%, -50%) scaleY(0);
+  }
+
+  /* --- Panel (answer) --- */
+  .faq-panel {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .faq-panel[hidden] {
+    display: block;
+    max-height: 0;
+  }
+
+  .faq-panel.is-open {
+    max-height: 600px;
+  }
+
+  .faq-answer {
+    padding: 0 var(--space-6) var(--space-6);
+  }
+
+  @media (min-width: 768px) {
+    .faq-answer {
+      padding: 0 var(--space-8) var(--space-8);
+    }
+  }
+
+  .faq-answer p {
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: 1.7;
+    color: var(--color-text-muted);
+  }
+
+  /* --- WhatsApp button inside answer --- */
+  .faq-whatsapp-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+    padding: var(--space-3) var(--space-5);
+    background: var(--color-whatsapp);
+    color: white;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: var(--text-sm);
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .faq-whatsapp-btn:hover {
+    background: var(--color-whatsapp-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+</style>
+
+<script>
+  function initPremiumFAQ() {
+    const items = document.querySelectorAll('.faq-item[data-faq-index]');
+
+    items.forEach((item) => {
+      const trigger = item.querySelector('.faq-trigger') as HTMLButtonElement;
+      const panel = item.querySelector('.faq-panel') as HTMLElement;
+
+      if (!trigger || !panel) return;
+
+      trigger.addEventListener('click', () => {
+        const isOpen = item.getAttribute('data-open') === 'true';
+
+        // Close all other items
+        items.forEach((other) => {
+          if (other !== item && other.getAttribute('data-open') === 'true') {
+            const otherTrigger = other.querySelector('.faq-trigger') as HTMLButtonElement;
+            const otherPanel = other.querySelector('.faq-panel') as HTMLElement;
+            other.setAttribute('data-open', 'false');
+            otherTrigger.setAttribute('aria-expanded', 'false');
+            otherPanel.classList.remove('is-open');
+            otherPanel.setAttribute('hidden', '');
+          }
+        });
+
+        // Toggle current
+        if (isOpen) {
+          item.setAttribute('data-open', 'false');
+          trigger.setAttribute('aria-expanded', 'false');
+          panel.classList.remove('is-open');
+          // Delay hidden attribute until transition ends
+          setTimeout(() => {
+            if (item.getAttribute('data-open') !== 'true') {
+              panel.setAttribute('hidden', '');
+            }
+          }, 500);
+        } else {
+          item.setAttribute('data-open', 'true');
+          trigger.setAttribute('aria-expanded', 'true');
+          panel.removeAttribute('hidden');
+          // Force reflow before adding class so transition fires
+          panel.offsetHeight;
+          panel.classList.add('is-open');
+        }
+      });
+    });
+  }
+
+  initPremiumFAQ();
+</script>
