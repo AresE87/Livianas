@@ -24,7 +24,6 @@ export const siteConfig = {
   // Payment Links
   paymentLinks: {
     mercadoPago: import.meta.env.PUBLIC_MERCADOPAGO_LINK || '',
-    dlocalGo: import.meta.env.PUBLIC_DLOCAL_LINK || '',
     paypal: import.meta.env.PUBLIC_PAYPAL_LINK || '',
   },
 
@@ -40,7 +39,7 @@ export const siteConfig = {
   precioUSD: 297,
   precioRegularUSD: 450,
   precioSemanal: 74,
-  precioCuota: 99,
+  // precioCuota eliminado — MP maneja cuotas automáticamente con tarjeta de crédito
   valorTotal: 450,
 
   // Tracking
@@ -58,10 +57,10 @@ export function getWhatsAppLink(location: keyof typeof siteConfig.whatsappMessag
   return `https://wa.me/${siteConfig.whatsappNumber}?text=${msg}`;
 }
 
-// Helper para obtener link de pago (prioriza MercadoPago > dLocal > PayPal)
+// Helper para obtener link de pago (prioriza MercadoPago > PayPal)
 export function getPaymentLink(): string {
-  const { mercadoPago, dlocalGo, paypal } = siteConfig.paymentLinks;
-  return mercadoPago || dlocalGo || paypal || '#precio';
+  const { mercadoPago, paypal } = siteConfig.paymentLinks;
+  return mercadoPago || paypal || '#precio';
 }
 
 // ===== Datos de Secciones =====
@@ -252,7 +251,7 @@ export const faqData = [
   },
   {
     question: '¿Cómo es la forma de pago?',
-    answer: 'Podés pagar con MercadoPago (Uruguay), dLocal Go (Latinoamérica) o PayPal (internacional). El pago es único de USD 297, o en 3 cuotas de USD 99. Sin suscripciones ni cargos ocultos.',
+    answer: 'Podés pagar con Mercado Pago (Uruguay y Latinoamérica) o PayPal (internacional). El pago es único de USD 297. Si pagás con tarjeta de crédito, Mercado Pago te ofrece cuotas automáticamente. Sin suscripciones ni cargos ocultos.',
   },
   {
     question: '¿Qué diferencia tiene esto de una dieta?',
