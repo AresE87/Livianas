@@ -2,7 +2,7 @@
 import SectionLabel from './SectionLabel.astro';
 import CountdownTimer from './CountdownTimer.astro';
 import PaymentButtons from './PaymentButtons.astro';
-import { siteConfig, pricingFeatures, valueStackData } from '../lib/config';
+import { siteConfig, pricingFeatures, valueStackItems } from '../lib/config';
 ---
 
 <section id="precio" aria-labelledby="precio-title" class="section pricing-section">
@@ -42,23 +42,21 @@ import { siteConfig, pricingFeatures, valueStackData } from '../lib/config';
         <!-- Value Stack -->
         <div class="value-stack">
           <p class="text-xs font-bold uppercase tracking-[0.1em] text-[var(--color-gray)] mb-3">Todo lo que recibís:</p>
-          {valueStackData.map((item) => (
+          {valueStackItems.map((item) => (
             <div class="value-stack-row">
-              <span class="text-sm text-[var(--color-dark)]">{item.item}</span>
-              <span class="text-sm text-[var(--color-gray)]">USD {item.value}</span>
+              <span class="flex items-center gap-2 text-sm text-[var(--color-dark)]">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-sage)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                {item}
+              </span>
             </div>
           ))}
-          <div class="value-stack-total">
-            <span class="font-bold text-[var(--color-dark)]">Valor total</span>
-            <span class="font-bold text-[var(--color-dark)]">USD {siteConfig.valorTotal}</span>
-          </div>
         </div>
 
         <!-- Price -->
         <div class="mb-2 mt-6">
           <p class="text-sm text-[var(--color-gray)] mb-1">Tu inversión hoy:</p>
-          <div class="mb-1">
-            <span class="text-base text-[var(--color-gray)] line-through">USD {siteConfig.precioRegularUSD}</span>
+          <div class="mb-2">
+            <span class="text-xl font-bold text-[var(--color-dark)] line-through decoration-red-500 decoration-2">USD {siteConfig.valorTotal}</span>
           </div>
           <span class="text-lg text-[var(--color-sage)]">USD</span>
           <span class="font-[var(--font-display)] font-bold text-[var(--text-5xl)] text-[var(--color-dark)]">
@@ -147,19 +145,8 @@ import { siteConfig, pricingFeatures, valueStackData } from '../lib/config';
 
   .value-stack-row {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     padding: var(--space-1) 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  }
-
-  .value-stack-total {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: var(--space-2) 0 0;
-    margin-top: var(--space-1);
-    border-top: 2px solid var(--color-sage);
   }
 
   .guarantee {

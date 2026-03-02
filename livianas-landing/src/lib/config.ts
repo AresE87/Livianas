@@ -6,8 +6,8 @@ export const siteConfig = {
 
   // Mensajes prellenados
   whatsappMessages: {
-    hero: encodeURIComponent('Hola Ana, quiero info sobre LIVIANAS 🌿'),
-    pricing: encodeURIComponent('Hola Ana, quiero inscribirme en LIVIANAS 🌿'),
+    hero: encodeURIComponent('Hola, quiero info sobre LIVIANAS 🌿'),
+    pricing: encodeURIComponent('Hola, quiero inscribirme en LIVIANAS 🌿'),
     finalCta: encodeURIComponent('Hola Ana, estoy lista para LIVIANAS 🌿'),
     floating: encodeURIComponent('Hola, quiero saber más sobre LIVIANAS 🌿'),
   },
@@ -15,7 +15,7 @@ export const siteConfig = {
   // CTA Messages
   ctaMessages: {
     primary: 'Inscribirme ahora',
-    secondary: 'Hablar con Ana',
+    secondary: 'Quiero saber más',
     miniPricing: 'Reservar mi lugar',
     finalCta: 'Quiero mi lugar en el círculo',
     afterPainPoints: 'Quiero cambiar esto',
@@ -41,7 +41,7 @@ export const siteConfig = {
   precioRegularUSD: 450,
   precioSemanal: 74,
   precioCuota: 99,
-  valorTotal: 1050,
+  valorTotal: 450,
 
   // Tracking
   metaPixelId: import.meta.env.PUBLIC_META_PIXEL_ID || '',
@@ -129,16 +129,16 @@ export const weeksData = [
     number: 2,
     emoji: '🔥',
     title: 'ACCIÓN',
-    name: 'Mover',
-    description: 'Armá tu estructura de alimentación antiinflamatoria y movimiento. Sin contar calorías, con guía real.',
+    name: 'Transformar',
+    description: 'Armá tu estructura de alimentación antiinflamatoria. Sin contar calorías, con guía real y recetas simples.',
     gradient: 'linear-gradient(135deg, #E8EDE4, #D1DCC9)',
   },
   {
     number: 3,
     emoji: '⚡',
-    title: 'ENERGÍA',
-    name: 'Fluir',
-    description: 'Trabajá sobre tu energía emocional. Aprendé a soltar la culpa, la ansiedad y el control excesivo.',
+    title: 'CONEXIÓN',
+    name: 'Sentir',
+    description: 'Conectá con tu lado espiritual. Aprendé a soltar la culpa, la ansiedad y el control excesivo desde un lugar más profundo.',
     gradient: 'linear-gradient(135deg, #E4EDF5, #C9D6E8)',
   },
   {
@@ -165,12 +165,12 @@ export const includesData = [
     description: 'Guía antiinflamatoria de porciones con tu mano como medida. Menú semanal con recetas simples.',
   },
   {
-    title: 'Movimiento que te energiza',
-    description: 'Rutinas de 20-30 min, sin equipo, para cualquier nivel. Diseñadas para energizarte, no castigarte.',
+    title: 'Guía de movimiento consciente',
+    description: 'Recomendaciones simples: caminatas, estiramientos y respiraciones. Sin rutinas exigentes, a tu ritmo.',
   },
   {
-    title: 'Workbook de autoconocimiento',
-    description: 'Ejercicios semanales para identificar patrones, soltar creencias y construir tu nueva narrativa.',
+    title: 'Trabajo espiritual y de autoconocimiento',
+    description: 'Ejercicios semanales para conectar con vos misma, soltar creencias y construir tu nueva narrativa desde adentro.',
   },
   {
     title: 'Acceso de por vida a las grabaciones',
@@ -178,13 +178,13 @@ export const includesData = [
   },
 ];
 
-export const valueStackData = [
-  { item: '4 sesiones de coaching grupal en vivo', value: 400 },
-  { item: 'Plan de alimentación antiinflamatoria', value: 150 },
-  { item: 'Grupo de WhatsApp con acompañamiento diario', value: 200 },
-  { item: 'Workbook de autoconocimiento', value: 80 },
-  { item: 'Rutinas de movimiento (4 semanas)', value: 120 },
-  { item: 'Grabaciones de por vida', value: 100 },
+export const valueStackItems = [
+  '4 sesiones de coaching grupal en vivo con Ana',
+  'Plan de alimentación antiinflamatoria',
+  'Grupo de WhatsApp con acompañamiento diario',
+  'Trabajo espiritual y de autoconocimiento',
+  'Guía de movimiento consciente',
+  'Grabaciones de por vida de todas las sesiones',
 ];
 
 export const paraQuienEsData = [
@@ -201,10 +201,10 @@ export const paraQuienEsData = [
 export const pricingFeatures = [
   '4 sesiones de coaching grupal en vivo con Ana',
   'Grupo privado de WhatsApp con acompañamiento diario',
-  'Plan de alimentación antiinflamatoria personalizable',
+  'Plan de alimentación antiinflamatoria grupal',
   'Guía de porciones sin contar calorías',
-  'Rutinas de movimiento de 20-30 min (sin equipo)',
-  'Workbook de autoconocimiento semanal',
+  'Trabajo espiritual y ejercicios de autoconocimiento',
+  'Guía de movimiento consciente (caminatas, respiraciones, estiramientos)',
   'Grabaciones de todas las clases',
   'Comunidad de mujeres que te sostienen',
   'Acceso de por vida al material del programa',
@@ -213,7 +213,7 @@ export const pricingFeatures = [
 export const miniPricingFeatures = [
   'Coaching grupal en vivo con Ana cada semana',
   'Comunidad de mujeres + acompañamiento diario',
-  'Plan de alimentación + rutinas de movimiento',
+  'Alimentación + espiritualidad + autoconocimiento',
   'Acceso de por vida al material completo',
 ];
 
@@ -227,8 +227,8 @@ export const faqData = [
     answer: 'Todas las clases quedan grabadas con acceso de por vida. Las podés ver las veces que quieras, a tu ritmo.',
   },
   {
-    question: '¿Necesito experiencia previa o algún nivel de fitness?',
-    answer: 'No. Las rutinas son de 20-30 minutos, sin equipo, y se adaptan a cualquier nivel. Muchas participantes nunca habían hecho ejercicio regular.',
+    question: '¿Necesito experiencia previa o hacer ejercicio?',
+    answer: 'No. LIVIANAS no es un programa de ejercicio. Incluimos recomendaciones suaves como caminatas, estiramientos y respiraciones, pero el foco está en tu alimentación, tus emociones y tu conexión espiritual.',
   },
   {
     question: '¿Voy a tener que contar calorías o pesar la comida?',
@@ -255,8 +255,8 @@ export const faqData = [
     answer: 'Podés pagar con MercadoPago (Uruguay), dLocal Go (Latinoamérica) o PayPal (internacional). El pago es único de USD 297, o en 3 cuotas de USD 99. Sin suscripciones ni cargos ocultos.',
   },
   {
-    question: '¿Qué diferencia tiene esto de una dieta o un gym?',
-    answer: 'Las dietas te dicen qué comer. El gym te dice qué mover. LIVIANAS te enseña por qué hacés lo que hacés y cómo cambiar desde adentro. Trabajamos las tres dimensiones: conducta, emoción y espiritualidad.',
+    question: '¿Qué diferencia tiene esto de una dieta?',
+    answer: 'Las dietas te dicen qué comer, pero nunca tocan lo que hay debajo. LIVIANAS te enseña por qué hacés lo que hacés y cómo cambiar desde adentro. Trabajamos las tres dimensiones: conducta, emoción y espiritualidad.',
   },
   {
     question: '¿Cómo es el proceso de pago?',
@@ -268,6 +268,7 @@ export const faqData = [
   },
   {
     question: '¿Puedo hablar con Ana antes de inscribirme?',
-    answer: 'Sí. Podés escribirle por WhatsApp tocando el botón "Hablar con Ana" y ella te responde personalmente.',
+    answer: 'Por supuesto. Si llegaste hasta acá y todavía tenés dudas, escribile directamente. Ana se toma el tiempo de responder personalmente a cada mujer que está considerando ser parte del círculo.',
+    showDirectCta: true,
   },
 ];

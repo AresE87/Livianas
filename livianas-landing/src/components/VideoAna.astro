@@ -1,19 +1,44 @@
 ---
-// This section replaces the video placeholder with a manifesto/philosophy section
-// When Ana records her video, replace this with a <lite-youtube> or <lite-vimeo> component
+// VIDEO DE ANA PRESENTANDO EL MÉTODO
+// Cuando Ana grabe el video, reemplazar el placeholder con:
+//   <lite-youtube videoid="YOUTUBE_ID" /> o un <video> / <iframe>
 ---
 
-<section id="filosofia" aria-labelledby="filosofia-title" class="section">
+<section id="video-ana" aria-labelledby="video-title" class="section">
   <div class="container container--narrow text-center animate-on-scroll">
+
+    <!-- Título de la sección -->
+    <p class="text-xs font-semibold tracking-[0.15em] uppercase text-[var(--color-sage-dark)] mb-3">Conocé el método</p>
+    <h2 id="video-title" class="font-[var(--font-display)] font-bold text-[var(--text-2xl)] md:text-[var(--text-3xl)] text-[var(--color-dark)] leading-snug mb-6">
+      Ana te explica cómo funciona
+    </h2>
+
+    <!-- Video placeholder -->
+    <div class="video-wrapper">
+      <div class="video-placeholder">
+        <!-- Play button -->
+        <div class="play-button" aria-hidden="true">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <circle cx="24" cy="24" r="24" fill="var(--color-sage)" opacity="0.9"/>
+            <path d="M19 15l14 9-14 9V15z" fill="white"/>
+          </svg>
+        </div>
+        <p class="placeholder-text">Video próximamente</p>
+        <p class="placeholder-sub">Ana te cuenta en 2 minutos de qué se trata LIVIANAS</p>
+      </div>
+    </div>
+
+    <!-- Frase de Ana debajo del video -->
     <blockquote class="manifesto">
-      <p id="filosofia-title" class="font-[var(--font-display)] font-bold italic text-[var(--text-2xl)] md:text-[var(--text-3xl)] text-[var(--color-dark)] leading-snug mb-4">
+      <p class="font-[var(--font-display)] font-bold italic text-[var(--text-xl)] md:text-[var(--text-2xl)] text-[var(--color-dark)] leading-snug mb-3">
         "No necesitás más fuerza de voluntad. Necesitás entender por qué hacés lo que hacés."
       </p>
-      <footer class="text-base text-[var(--color-sage-dark)] font-medium">
+      <footer class="text-sm text-[var(--color-sage-dark)] font-medium">
         — Ana, creadora del Método Livianas
       </footer>
     </blockquote>
 
+    <!-- Pilares -->
     <div class="pillars">
       <div class="pillar">
         <span class="pillar-icon" aria-hidden="true">
@@ -41,15 +66,65 @@
 </section>
 
 <style>
+  .video-wrapper {
+    max-width: 720px;
+    margin: 0 auto var(--space-8);
+  }
+
+  .video-placeholder {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background: linear-gradient(135deg, var(--color-sage-wash) 0%, var(--color-warm-pale) 100%);
+    border-radius: var(--radius-lg);
+    border: 2px dashed var(--color-sage);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    cursor: default;
+    transition: border-color 0.3s ease;
+  }
+
+  .video-placeholder:hover {
+    border-color: var(--color-sage-dark);
+  }
+
+  .play-button {
+    opacity: 0.8;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .video-placeholder:hover .play-button {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+
+  .placeholder-text {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--text-lg);
+    color: var(--color-dark);
+    margin: 0;
+  }
+
+  .placeholder-sub {
+    font-size: var(--text-sm);
+    color: var(--color-gray);
+    margin: 0;
+    max-width: 280px;
+  }
+
   .manifesto {
-    padding: var(--space-8) var(--space-4);
+    padding: var(--space-6) var(--space-4);
+    margin-bottom: var(--space-4);
   }
 
   .pillars {
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--space-4);
-    margin-top: var(--space-8);
+    margin-top: var(--space-4);
   }
 
   @media (min-width: 480px) {
