@@ -2,7 +2,7 @@
 
 export const siteConfig = {
   // WhatsApp
-  whatsappNumber: import.meta.env.PUBLIC_WHATSAPP_NUMBER || '598XXXXXXXXX',
+  whatsappNumber: import.meta.env.PUBLIC_WHATSAPP_NUMBER || '59891086674',
 
   // Mensajes prellenados
   whatsappMessages: {
@@ -29,11 +29,11 @@ export const siteConfig = {
 
   // Contenido dinamico
   cuposDisponibles: 8,
-  fechaCierre: '28 de marzo',
-  fechaCierreISO: '2026-03-28T23:59:59',
-  fechaInicioCírculo: '31 de marzo de 2026',
+  fechaCierre: '8 de abril',
+  fechaCierreISO: '2026-04-08T23:59:59',
+  fechaInicioCírculo: '11 de abril de 2026',
   inscripcionesAbiertas: true,
-  textoUrgencia: 'El círculo cierra el 28 de marzo — Solo <strong>8 lugares</strong> por grupo',
+  textoUrgencia: 'El círculo cierra el 8 de abril — Solo <strong>8 lugares</strong> por grupo',
 
   // Precio
   precioUSD: 297,
