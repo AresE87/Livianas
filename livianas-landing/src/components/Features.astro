@@ -23,7 +23,41 @@ import { weeksData, transformationData } from '../lib/config';
           <div class="week-card__badge">
             <span class="week-card__badge-text">Semana {week.number}</span>
           </div>
-          <div class="week-card__emoji">{week.emoji}</div>
+          <div class="week-card__icon" aria-hidden="true">
+            {week.number === 1 && (
+              <!-- Seedling / Eye opening -->
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="24" cy="14" r="6" />
+                <circle cx="24" cy="14" r="2" />
+                <path d="M24 20v18" />
+                <path d="M18 32c0-4 2.7-7 6-7s6 3 6 7" />
+              </svg>
+            )}
+            {week.number === 2 && (
+              <!-- Flame / Transformation -->
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M24 6c-2 8-10 14-10 22a10 10 0 0020 0C34 20 26 14 24 6z" />
+                <path d="M24 44c-3 0-5-2.5-5-6 0-5 5-9 5-9s5 4 5 9c0 3.5-2 6-5 6z" />
+              </svg>
+            )}
+            {week.number === 3 && (
+              <!-- Hands holding heart / Connection -->
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M24 38s-14-8.5-14-18c0-5.5 4-9 8-9 2.5 0 4.5 1 6 3.5 1.5-2.5 3.5-3.5 6-3.5 4 0 8 3.5 8 9 0 9.5-14 18-14 18z" />
+              </svg>
+            )}
+            {week.number === 4 && (
+              <!-- Diamond / Radiant self -->
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M24 6l-12 12 12 22 12-22L24 6z" />
+                <path d="M12 18h24" />
+                <path d="M18 6l-6 12" />
+                <path d="M30 6l6 12" />
+                <path d="M24 18l-6-12" />
+                <path d="M24 18l6-12" />
+              </svg>
+            )}
+          </div>
           <h3 class="week-card__title">{week.title}</h3>
           <span class="week-card__name">{week.name}</span>
           <p class="week-card__description">{week.description}</p>
@@ -51,7 +85,12 @@ import { weeksData, transformationData } from '../lib/config';
               <svg class="transformation__arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
-              <span class="transformation__leaf" aria-hidden="true">&#127807;</span>
+              <div class="transformation__elegant-arrow" aria-hidden="true">
+                <span class="transformation__line"></span>
+                <svg viewBox="0 0 12 8" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m1 1 5 5 5-5" />
+                </svg>
+              </div>
             </div>
             <div class="transformation__to">
               <span class="transformation__label transformation__label--to">Despu&eacute;s</span>
@@ -172,9 +211,15 @@ import { weeksData, transformationData } from '../lib/config';
     color: var(--color-sage-dark);
   }
 
-  .week-card__emoji {
-    font-size: 2.5rem;
-    line-height: 1;
+  .week-card__icon {
+    width: 48px;
+    height: 48px;
+    color: var(--color-sage);
+  }
+
+  .week-card__icon svg {
+    width: 100%;
+    height: 100%;
   }
 
   .week-card__title {
@@ -328,10 +373,25 @@ import { weeksData, transformationData } from '../lib/config';
     display: none;
   }
 
-  .transformation__leaf {
-    font-size: 1.2rem;
-    line-height: 1;
-    opacity: 0.7;
+  .transformation__elegant-arrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .transformation__elegant-arrow .transformation__line {
+    width: 1px;
+    height: 12px;
+    background: var(--color-sage);
+    opacity: 0.35;
+  }
+
+  .transformation__elegant-arrow svg {
+    width: 10px;
+    height: 7px;
+    color: var(--color-sage);
+    opacity: 0.4;
   }
 
   @media (min-width: 768px) {
@@ -339,7 +399,7 @@ import { weeksData, transformationData } from '../lib/config';
       display: block;
     }
 
-    .transformation__leaf {
+    .transformation__elegant-arrow {
       display: none;
     }
   }

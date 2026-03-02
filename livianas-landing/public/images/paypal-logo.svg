@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="none">
+  <!-- Back P (light blue, offset right/down) -->
+  <path d="M38 12 C54 12 62 18 60 30 C58 42 48 48 34 48 L30 48 L27 64 L19 64 L28 16 L38 16 Z"
+        fill="#009CDE" transform="translate(6, 4)"/>
+  <path d="M36 22 C44 22 48 25 47 31 C46 37 41 40 34 40 L31 40 L33 28 L36 28 Z"
+        fill="white" transform="translate(6, 4)"/>
+
+  <!-- Front P (dark blue) -->
+  <path d="M32 8 C48 8 56 14 54 26 C52 38 42 44 28 44 L24 44 L21 60 L13 60 L22 12 L32 12 Z"
+        fill="#003087"/>
+  <path d="M30 18 C38 18 42 21 41 27 C40 33 35 36 28 36 L25 36 L27 24 L30 24 Z"
+        fill="white"/>
+</svg>

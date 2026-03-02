@@ -57,10 +57,14 @@ export function getWhatsAppLink(location: keyof typeof siteConfig.whatsappMessag
   return `https://wa.me/${siteConfig.whatsappNumber}?text=${msg}`;
 }
 
-// Helper para obtener link de pago (prioriza MercadoPago > PayPal)
+// Helper para obtener link de pago (página interna de checkout)
 export function getPaymentLink(): string {
-  const { mercadoPago, paypal } = siteConfig.paymentLinks;
-  return mercadoPago || paypal || '#precio';
+  return '/pago';
+}
+
+// Helper para obtener links directos de pago (para la página de pago)
+export function getDirectPaymentLink(method: 'mercadoPago' | 'paypal'): string {
+  return siteConfig.paymentLinks[method] || '#';
 }
 
 // ===== Datos de Secciones =====
@@ -263,7 +267,7 @@ export const faqData = [
   },
   {
     question: '¿Hay garantía?',
-    answer: 'Si después de la primera semana sentís que no es para vos, hablamos. Queremos que estés 100% comprometida y cómoda con tu decisión.',
+    answer: 'Si durante la primera semana sentís que no es para vos, te devolvemos el 100%. Sin preguntas, sin vueltas. Queremos que estés segura de tu decisión.',
   },
   {
     question: '¿Puedo hablar con Ana antes de inscribirme?',

@@ -9,7 +9,7 @@ const whatsappHref = getWhatsAppLink('hero');
   <!-- Background image with gradient overlay -->
   <div class="hero__bg" aria-hidden="true">
     <img
-      src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1920&q=80"
+      src="https://images.unsplash.com/photo-1676877883867-4fd7e3e17caa?w=1920&q=80"
       alt=""
       class="hero__bg-image"
       loading="eager"
@@ -124,7 +124,7 @@ const whatsappHref = getWhatsAppLink('hero');
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 40%;
+    object-position: center 55%;
     display: block;
   }
 
@@ -136,9 +136,9 @@ const whatsappHref = getWhatsAppLink('hero');
       linear-gradient(
         to bottom,
         rgba(251, 249, 245, 0) 0%,
-        rgba(251, 249, 245, 0.25) 40%,
-        rgba(251, 249, 245, 0.7) 70%,
-        rgba(251, 249, 245, 0.95) 100%
+        rgba(251, 249, 245, 0.3) 35%,
+        rgba(251, 249, 245, 0.75) 60%,
+        rgba(251, 249, 245, 0.97) 100%
       );
   }
 
@@ -234,21 +234,23 @@ const whatsappHref = getWhatsAppLink('hero');
     font-family: var(--font-sans);
     font-weight: 400;
     font-size: clamp(1rem, 2.5vw, 1.375rem);
-    color: var(--color-text-muted);
+    color: var(--color-carbon-light);
     letter-spacing: -0.005em;
     line-height: 1.45;
     max-width: 520px;
+    text-shadow: 0 1px 8px rgba(251, 249, 245, 0.6);
   }
 
   /* --- Subtitle --- */
   .hero__subtitle {
     font-family: var(--font-sans);
     font-size: clamp(0.6875rem, 1.4vw, 0.8125rem);
-    font-weight: 500;
-    color: var(--color-text-light);
+    font-weight: 600;
+    color: var(--color-text-muted);
     letter-spacing: 0.05em;
     text-transform: uppercase;
     margin-bottom: var(--space-8);
+    text-shadow: 0 1px 8px rgba(251, 249, 245, 0.6);
   }
 
   /* --- CTAs --- */
