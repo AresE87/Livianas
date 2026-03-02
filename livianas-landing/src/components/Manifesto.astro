@@ -20,7 +20,7 @@ import { paraQuienEsData } from '../lib/config';
 
       <div class="manifesto-divider" data-gsap="manifesto-text" aria-hidden="true">
         <svg width="2" height="80" viewBox="0 0 2 80" fill="none">
-          <line x1="1" y1="0" x2="1" y2="80" stroke="var(--color-clay)" stroke-width="2" stroke-dasharray="4 6" opacity="0.4"/>
+          <line x1="1" y1="0" x2="1" y2="80" stroke="var(--color-sage)" stroke-width="2" stroke-dasharray="4 6" opacity="0.3"/>
         </svg>
       </div>
 
@@ -81,30 +81,20 @@ import { paraQuienEsData } from '../lib/config';
   .manifesto-bg {
     position: absolute;
     inset: 0;
-    background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=1920&q=80');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
+    background: linear-gradient(
+      160deg,
+      var(--color-sage-wash) 0%,
+      var(--color-cream) 35%,
+      var(--color-blush-wash) 70%,
+      var(--color-cream-warm) 100%
+    );
     z-index: 0;
-  }
-
-  /* Disable fixed attachment on mobile (iOS/Android ignores it anyway) */
-  @media (max-width: 1023px) {
-    .manifesto-bg {
-      background-attachment: scroll;
-    }
   }
 
   .manifesto-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      180deg,
-      rgba(26, 26, 26, 0.92) 0%,
-      rgba(26, 26, 26, 0.88) 40%,
-      rgba(26, 26, 26, 0.94) 100%
-    );
+    background: transparent;
     z-index: 1;
   }
 
@@ -145,16 +135,16 @@ import { paraQuienEsData } from '../lib/config';
 
   .manifesto-label {
     display: block;
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.7rem;
     text-transform: uppercase;
     letter-spacing: 0.15em;
-    color: var(--color-text-light);
+    color: var(--color-text-muted);
     margin-bottom: var(--space-4);
   }
 
   .manifesto-label--clay {
-    color: var(--color-clay);
+    color: var(--color-sage);
   }
 
   .manifesto-question {
@@ -162,15 +152,15 @@ import { paraQuienEsData } from '../lib/config';
     font-style: italic;
     font-weight: 400;
     line-height: 1.15;
-    color: var(--color-white);
+    color: var(--color-carbon);
   }
 
   .manifesto-question--crossed {
     font-size: clamp(1.5rem, 4vw, 2.5rem);
     text-decoration: line-through;
-    text-decoration-color: rgba(255, 255, 255, 0.25);
+    text-decoration-color: var(--color-text-light);
     text-decoration-thickness: 2px;
-    opacity: 0.5;
+    opacity: 0.45;
   }
 
   .manifesto-question--big {
@@ -190,7 +180,7 @@ import { paraQuienEsData } from '../lib/config';
     font-size: clamp(1.25rem, 3vw, 1.75rem);
     font-style: italic;
     font-weight: 400;
-    color: var(--color-white);
+    color: var(--color-carbon);
     margin-bottom: var(--space-8);
     text-align: center;
   }
@@ -208,7 +198,7 @@ import { paraQuienEsData } from '../lib/config';
     gap: var(--space-4);
     font-family: var(--font-sans);
     font-size: var(--text-sm);
-    color: rgba(255, 255, 255, 0.78);
+    color: var(--color-text);
     line-height: 1.55;
   }
 
@@ -223,7 +213,7 @@ import { paraQuienEsData } from '../lib/config';
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: var(--color-clay);
+    background: var(--color-sage);
     margin-top: 7px;
   }
 
@@ -238,17 +228,17 @@ import { paraQuienEsData } from '../lib/config';
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.12em;
-    color: rgba(255, 255, 255, 0.45);
+    color: var(--color-text-muted);
     transition: color var(--transition-base);
     text-decoration: none;
   }
 
   .manifesto-cta__link:hover {
-    color: var(--color-clay-light);
+    color: var(--color-sage);
   }
 
   .manifesto-cta__arrow {

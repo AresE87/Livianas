@@ -1,5 +1,5 @@
 ---
-import { weeksData, transformationData, siteConfig } from '../lib/config';
+import { weeksData, transformationData } from '../lib/config';
 ---
 
 <section id="features" class="section features-section">
@@ -11,218 +11,59 @@ import { weeksData, transformationData, siteConfig } from '../lib/config';
         <span class="features-title__serif">Tres dimensiones.</span>
         <span class="features-title__sans">Un solo proceso.</span>
       </h2>
+      <p class="features-subtitle">
+        Cada semana abre una nueva capa de transformaci&oacute;n: lo que com&eacute;s, lo que sent&iacute;s y lo que cre&eacute;s sobre vos misma.
+      </p>
     </header>
 
-    <!-- Three Panels -->
-    <div class="features-grid">
-
-      <!-- ======================== -->
-      <!-- Panel 1: Card Shuffle   -->
-      <!-- ======================== -->
-      <div class="feature-panel" data-gsap="feature-panel">
-        <span class="feature-label">// semanas</span>
-        <h3 class="feature-heading">Tu proceso, semana a semana</h3>
-        <div class="card-shuffle">
-          <div class="card-shuffle__stack" id="cardStack">
-            {weeksData.map((week, i) => (
-              <div
-                class={`card-shuffle__card ${i === 0 ? 'card-shuffle__card--active' : ''}`}
-                data-index={i}
-                style={`--card-offset: ${i}; z-index: ${weeksData.length - i};`}
-              >
-                <span class="card-shuffle__week">Semana {week.number}</span>
-                <span class="card-shuffle__emoji">{week.emoji}</span>
-                <span class="card-shuffle__title">{week.title}</span>
-                <span class="card-shuffle__name">{week.name}</span>
-              </div>
-            ))}
+    <!-- Weeks Cards Grid -->
+    <div class="weeks-grid" data-gsap="features-weeks">
+      {weeksData.map((week) => (
+        <article class="feature-panel week-card" data-gsap="feature-panel" style={`--card-gradient: ${week.gradient};`}>
+          <div class="week-card__badge">
+            <span class="week-card__badge-text">Semana {week.number}</span>
           </div>
-          <div class="card-shuffle__dots">
-            {weeksData.map((_, i) => (
-              <span class={`card-shuffle__dot ${i === 0 ? 'card-shuffle__dot--active' : ''}`} data-dot={i}></span>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <!-- ======================== -->
-      <!-- Panel 2: Terminal        -->
-      <!-- ======================== -->
-      <div class="feature-panel feature-panel--dark" data-gsap="feature-panel">
-        <span class="feature-label feature-label--dark">// proceso</span>
-        <h3 class="feature-heading feature-heading--dark">Transformaci&oacute;n en tiempo real</h3>
-        <div class="terminal">
-          <div class="terminal__header">
-            <div class="terminal__dots">
-              <span class="terminal__dot terminal__dot--red"></span>
-              <span class="terminal__dot terminal__dot--yellow"></span>
-              <span class="terminal__dot terminal__dot--green"></span>
-            </div>
-            <span class="terminal__title">proceso.sh</span>
-          </div>
-          <div class="terminal__body">
-            <div class="terminal__status">
-              <span class="terminal__live-dot"></span>
-              <span class="terminal__live-text">Proceso activo</span>
-            </div>
-            <div class="terminal__line">
-              <span class="terminal__prompt">$</span>
-              <span class="terminal__from" id="terminalFrom"></span>
-            </div>
-            <div class="terminal__line terminal__line--result">
-              <span class="terminal__arrow">&rarr;</span>
-              <span class="terminal__to" id="terminalTo"></span>
-              <span class="terminal__cursor" id="terminalCursor">|</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ======================== -->
-      <!-- Panel 3: Calendar Grid  -->
-      <!-- ======================== -->
-      <div class="feature-panel" data-gsap="feature-panel">
-        <span class="feature-label">// agenda</span>
-        <h3 class="feature-heading">4 semanas, 1 compromiso</h3>
-        <div class="calendar-grid">
-          <div class="calendar-grid__weeks">
-            {weeksData.map((week, i) => (
-              <div class={`calendar-grid__week`} data-cal-week={i}>
-                <span class="calendar-grid__label">S{week.number}</span>
-                <span class="calendar-grid__icon">{week.emoji}</span>
-                <span class="calendar-grid__name">{week.title}</span>
-              </div>
-            ))}
-          </div>
-          <svg class="calendar-grid__cursor" id="calCursor" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="12" cy="12" r="10" stroke="var(--color-clay)" stroke-width="2" fill="var(--color-clay)" fill-opacity="0.15"/>
-            <circle cx="12" cy="12" r="4" fill="var(--color-clay)"/>
-          </svg>
-          <p class="calendar-grid__footer">
-            Solo <strong>{siteConfig.cuposDisponibles}</strong> lugares por grupo
-          </p>
-        </div>
-      </div>
-
+          <div class="week-card__emoji">{week.emoji}</div>
+          <h3 class="week-card__title">{week.title}</h3>
+          <span class="week-card__name">{week.name}</span>
+          <p class="week-card__description">{week.description}</p>
+        </article>
+      ))}
     </div>
+
+    <!-- Transformation: Before → After -->
+    <div class="transformation" data-gsap="features-transformation">
+      <div class="transformation__header">
+        <h3 class="transformation__title">
+          <span class="transformation__title-serif">De donde est&aacute;s</span>
+          <span class="transformation__title-sans">a donde quer&eacute;s llegar</span>
+        </h3>
+      </div>
+
+      <div class="transformation__list">
+        {transformationData.map((item) => (
+          <div class="transformation__row feature-panel">
+            <div class="transformation__from">
+              <span class="transformation__label transformation__label--from">Antes</span>
+              <p class="transformation__text transformation__text--from">{item.from}</p>
+            </div>
+            <div class="transformation__divider">
+              <svg class="transformation__arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span class="transformation__leaf" aria-hidden="true">&#127807;</span>
+            </div>
+            <div class="transformation__to">
+              <span class="transformation__label transformation__label--to">Despu&eacute;s</span>
+              <p class="transformation__text transformation__text--to">{item.to}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
   </div>
 </section>
-
-<!-- Card Shuffle + Terminal Scripts -->
-<script define:vars={{ transformationData }}>
-  // === Card Shuffle ===
-  (function initCardShuffle() {
-    const stack = document.getElementById('cardStack');
-    if (!stack) return;
-    const cards = stack.querySelectorAll('.card-shuffle__card');
-    const dots = document.querySelectorAll('.card-shuffle__dot');
-    let current = 0;
-    const total = cards.length;
-
-    function showCard(index) {
-      cards.forEach((card, i) => {
-        card.classList.remove('card-shuffle__card--active', 'card-shuffle__card--exiting');
-        if (i === index) {
-          card.classList.add('card-shuffle__card--active');
-        }
-      });
-      dots.forEach((dot, i) => {
-        dot.classList.toggle('card-shuffle__dot--active', i === index);
-      });
-    }
-
-    setInterval(() => {
-      cards[current].classList.add('card-shuffle__card--exiting');
-      current = (current + 1) % total;
-      setTimeout(() => showCard(current), 300);
-    }, 3000);
-  })();
-
-  // === Terminal Typewriter ===
-  (function initTerminal() {
-    const fromEl = document.getElementById('terminalFrom');
-    const toEl = document.getElementById('terminalTo');
-    const cursorEl = document.getElementById('terminalCursor');
-    if (!fromEl || !toEl) return;
-
-    const data = transformationData;
-    let dataIndex = 0;
-
-    async function typeText(el, text, speed) {
-      el.textContent = '';
-      for (let i = 0; i < text.length; i++) {
-        el.textContent += text[i];
-        await new Promise(r => setTimeout(r, speed));
-      }
-    }
-
-    async function clearText(el, speed) {
-      const text = el.textContent;
-      for (let i = text.length; i >= 0; i--) {
-        el.textContent = text.substring(0, i);
-        await new Promise(r => setTimeout(r, speed));
-      }
-    }
-
-    async function cycle() {
-      const item = data[dataIndex];
-      cursorEl.style.opacity = '1';
-      await typeText(fromEl, item.from, 35);
-      await new Promise(r => setTimeout(r, 400));
-      await typeText(toEl, item.to, 30);
-      await new Promise(r => setTimeout(r, 2500));
-      await clearText(toEl, 15);
-      await clearText(fromEl, 15);
-      await new Promise(r => setTimeout(r, 300));
-      dataIndex = (dataIndex + 1) % data.length;
-      cycle();
-    }
-
-    cycle();
-  })();
-
-  // === Calendar Cursor Animation ===
-  (function initCalendarCursor() {
-    const cursor = document.getElementById('calCursor');
-    const weeks = document.querySelectorAll('[data-cal-week]');
-    if (!cursor || weeks.length === 0) return;
-
-    let current = 0;
-    const total = weeks.length;
-
-    function activateWeek(index) {
-      weeks.forEach((w, i) => {
-        w.classList.toggle('calendar-grid__week--active', i === index);
-      });
-
-      const target = weeks[index];
-      const parent = target.closest('.calendar-grid__weeks');
-      if (!parent) return;
-      const parentRect = parent.getBoundingClientRect();
-      const targetRect = target.getBoundingClientRect();
-
-      const x = targetRect.left - parentRect.left + targetRect.width / 2 - 12;
-      const y = targetRect.top - parentRect.top + targetRect.height / 2 - 12;
-      cursor.style.transform = `translate(${x}px, ${y}px)`;
-      cursor.style.opacity = '1';
-
-      // Click effect
-      setTimeout(() => {
-        cursor.style.transform = `translate(${x}px, ${y}px) scale(0.7)`;
-        setTimeout(() => {
-          cursor.style.transform = `translate(${x}px, ${y}px) scale(1)`;
-        }, 150);
-      }, 400);
-    }
-
-    activateWeek(0);
-
-    setInterval(() => {
-      current = (current + 1) % total;
-      activateWeek(current);
-    }, 2200);
-  })();
-</script>
 
 <style>
   /* ============================
@@ -236,12 +77,16 @@ import { weeksData, transformationData, siteConfig } from '../lib/config';
   .features-header {
     text-align: center;
     margin-bottom: var(--space-16);
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .features-title {
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
+    margin-bottom: var(--space-4);
   }
 
   .features-title__serif {
@@ -249,7 +94,7 @@ import { weeksData, transformationData, siteConfig } from '../lib/config';
     font-size: clamp(2rem, 5vw, 3.5rem);
     font-style: italic;
     font-weight: 400;
-    color: var(--color-moss);
+    color: var(--color-sage);
     line-height: 1.15;
   }
 
@@ -261,413 +106,306 @@ import { weeksData, transformationData, siteConfig } from '../lib/config';
     line-height: 1.2;
   }
 
-  /* ============================
-     Grid Layout
-     ============================ */
-  .features-grid {
-    display: grid;
-    gap: var(--space-6);
+  .features-subtitle {
+    font-family: var(--font-sans);
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    line-height: 1.7;
   }
 
-  @media (min-width: 1024px) {
-    .features-grid {
-      grid-template-columns: 1fr 1fr 1fr;
+  /* ============================
+     Weeks Card Grid
+     ============================ */
+  .weeks-grid {
+    display: grid;
+    gap: var(--space-6);
+    margin-bottom: var(--space-20);
+  }
+
+  @media (min-width: 768px) {
+    .weeks-grid {
+      grid-template-columns: 1fr 1fr;
       gap: var(--space-8);
     }
   }
 
   /* ============================
-     Panel Base
+     Individual Week Card
      ============================ */
-  .feature-panel {
-    background: var(--color-white);
-    border-radius: var(--radius-2xl);
-    padding: var(--space-8);
+  .week-card {
+    background: var(--card-gradient, var(--color-cream-warm));
+    border-radius: var(--radius-3xl);
+    padding: var(--space-8) var(--space-6);
     position: relative;
-    overflow: hidden;
-    border: 1px solid var(--color-border);
     display: flex;
     flex-direction: column;
-    min-height: 420px;
+    align-items: center;
+    text-align: center;
+    gap: var(--space-3);
+    border: 1px solid rgba(123, 143, 107, 0.08);
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
   }
 
-  .feature-panel--dark {
-    background: var(--color-carbon);
-    border-color: rgba(255,255,255,0.06);
+  .week-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
   }
 
-  .feature-label {
-    display: inline-block;
-    font-family: var(--font-mono);
+  .week-card__badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(8px);
+    padding: var(--space-1) var(--space-4);
+    border-radius: var(--radius-full);
+    margin-bottom: var(--space-2);
+  }
+
+  .week-card__badge-text {
+    font-family: var(--font-sans);
     font-size: 0.7rem;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
+    color: var(--color-sage-dark);
+  }
+
+  .week-card__emoji {
+    font-size: 2.5rem;
+    line-height: 1;
+  }
+
+  .week-card__title {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-sage-dark);
+  }
+
+  .week-card__name {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--color-carbon);
+    line-height: 1.2;
+  }
+
+  .week-card__description {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
     color: var(--color-text-muted);
-    margin-bottom: var(--space-4);
-    background: var(--color-cream);
+    line-height: 1.65;
+    max-width: 320px;
+  }
+
+  /* ============================
+     Transformation Section
+     ============================ */
+  .transformation {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .transformation__header {
+    text-align: center;
+    margin-bottom: var(--space-10);
+  }
+
+  .transformation__title {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .transformation__title-serif {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--color-blush);
+    line-height: 1.2;
+  }
+
+  .transformation__title-sans {
+    font-family: var(--font-sans);
+    font-size: clamp(1.2rem, 2.5vw, 1.75rem);
+    font-weight: 700;
+    color: var(--color-carbon);
+    line-height: 1.3;
+  }
+
+  /* ============================
+     Transformation Rows
+     ============================ */
+  .transformation__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .transformation__row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: var(--space-4);
+    background: var(--color-white);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-6);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow var(--transition-base);
+  }
+
+  .transformation__row:hover {
+    box-shadow: var(--shadow-md);
+  }
+
+  .transformation__from,
+  .transformation__to {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .transformation__label {
+    font-family: var(--font-sans);
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    display: inline-block;
     padding: var(--space-1) var(--space-3);
     border-radius: var(--radius-full);
     width: max-content;
   }
 
-  .feature-label--dark {
-    background: var(--color-carbon-light);
-    color: var(--color-text-light);
-  }
-
-  .feature-heading {
-    font-family: var(--font-sans);
-    font-size: var(--text-lg);
-    font-weight: 700;
-    color: var(--color-carbon);
-    margin-bottom: var(--space-6);
-    line-height: 1.3;
-  }
-
-  .feature-heading--dark {
-    color: var(--color-white);
-  }
-
-  /* ============================
-     Panel 1: Card Shuffle
-     ============================ */
-  .card-shuffle {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: var(--space-6);
-  }
-
-  .card-shuffle__stack {
-    position: relative;
-    width: 100%;
-    max-width: 260px;
-    height: 180px;
-  }
-
-  .card-shuffle__card {
-    position: absolute;
-    inset: 0;
-    background: var(--color-cream);
-    border-radius: var(--radius-xl);
-    padding: var(--space-6);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-2);
-    border: 1px solid var(--color-border);
-    opacity: 0;
-    transform: translateY(20px) scale(0.95);
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    pointer-events: none;
-  }
-
-  .card-shuffle__card--active {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    pointer-events: auto;
-    z-index: 10 !important;
-  }
-
-  .card-shuffle__card--exiting {
-    opacity: 0;
-    transform: translateY(-20px) scale(0.95);
-  }
-
-  .card-shuffle__week {
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
+  .transformation__label--from {
+    background: var(--color-sand);
     color: var(--color-text-muted);
   }
 
-  .card-shuffle__emoji {
-    font-size: 2rem;
-    line-height: 1;
+  .transformation__label--to {
+    background: var(--color-sage-wash);
+    color: var(--color-sage-dark);
   }
 
-  .card-shuffle__title {
+  .transformation__text {
     font-family: var(--font-sans);
     font-size: var(--text-sm);
-    font-weight: 800;
-    letter-spacing: 0.12em;
-    color: var(--color-moss);
-    text-transform: uppercase;
+    line-height: 1.6;
   }
 
-  .card-shuffle__name {
-    font-family: var(--font-display);
-    font-size: var(--text-xl);
-    font-style: italic;
-    color: var(--color-carbon);
-    font-weight: 400;
-  }
-
-  .card-shuffle__dots {
-    display: flex;
-    gap: var(--space-2);
-  }
-
-  .card-shuffle__dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--color-border);
-    transition: all var(--transition-base);
-  }
-
-  .card-shuffle__dot--active {
-    background: var(--color-moss);
-    transform: scale(1.3);
-  }
-
-  /* ============================
-     Panel 2: Terminal
-     ============================ */
-  .terminal {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    background: #111111;
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    border: 1px solid rgba(255,255,255,0.08);
-  }
-
-  .terminal__header {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    padding: var(--space-3) var(--space-4);
-    background: rgba(255,255,255,0.04);
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-  }
-
-  .terminal__dots {
-    display: flex;
-    gap: 6px;
-  }
-
-  .terminal__dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-  }
-
-  .terminal__dot--red { background: #FF5F57; }
-  .terminal__dot--yellow { background: #FFBD2E; }
-  .terminal__dot--green { background: #28CA41; }
-
-  .terminal__title {
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    color: var(--color-text-light);
-    opacity: 0.6;
-  }
-
-  .terminal__body {
-    flex: 1;
-    padding: var(--space-5);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-4);
-  }
-
-  .terminal__status {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-  }
-
-  .terminal__live-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #28CA41;
-    animation: pulse-dot 2s ease-in-out infinite;
-  }
-
-  .terminal__live-text {
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    color: #28CA41;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
-
-  .terminal__line {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--space-2);
-    min-height: 1.6em;
-  }
-
-  .terminal__line--result {
-    margin-top: var(--space-1);
-  }
-
-  .terminal__prompt {
-    font-family: var(--font-mono);
-    font-size: var(--text-sm);
-    color: var(--color-text-light);
-    opacity: 0.4;
-    flex-shrink: 0;
-  }
-
-  .terminal__from {
-    font-family: var(--font-mono);
-    font-size: var(--text-sm);
-    color: rgba(255,255,255,0.5);
-    line-height: 1.5;
+  .transformation__text--from {
+    color: var(--color-text-muted);
     text-decoration: line-through;
-    text-decoration-color: rgba(255,255,255,0.2);
-    word-break: break-word;
+    text-decoration-color: var(--color-sand);
+    text-decoration-thickness: 1.5px;
   }
 
-  .terminal__arrow {
-    font-family: var(--font-mono);
-    font-size: var(--text-sm);
-    color: var(--color-clay);
-    flex-shrink: 0;
+  .transformation__text--to {
+    color: var(--color-sage-dark);
+    font-weight: 600;
   }
 
-  .terminal__to {
-    font-family: var(--font-mono);
-    font-size: var(--text-sm);
-    color: var(--color-white);
-    font-weight: 500;
-    line-height: 1.5;
-    word-break: break-word;
-  }
-
-  .terminal__cursor {
-    font-family: var(--font-mono);
-    font-size: var(--text-sm);
-    color: var(--color-clay);
-    animation: blink 0.8s step-end infinite;
-    flex-shrink: 0;
-  }
-
-  /* ============================
-     Panel 3: Calendar Grid
-     ============================ */
-  .calendar-grid {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: var(--space-5);
-  }
-
-  .calendar-grid__weeks {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-3);
-    position: relative;
-  }
-
-  .calendar-grid__week {
+  /* Divider */
+  .transformation__divider {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--space-2);
-    padding: var(--space-4) var(--space-3);
-    border-radius: var(--radius-lg);
-    background: var(--color-cream);
-    border: 1px solid var(--color-border);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    gap: var(--space-1);
+    flex-shrink: 0;
   }
 
-  .calendar-grid__week--active {
-    background: var(--color-moss);
-    border-color: var(--color-moss);
-    transform: scale(1.04);
-    box-shadow: var(--shadow-md);
+  .transformation__arrow {
+    width: 20px;
+    height: 20px;
+    color: var(--color-blush);
+    display: none;
   }
 
-  .calendar-grid__week--active .calendar-grid__label,
-  .calendar-grid__week--active .calendar-grid__name {
-    color: var(--color-white);
-  }
-
-  .calendar-grid__label {
-    font-family: var(--font-mono);
-    font-size: 0.6rem;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: var(--color-text-muted);
-    transition: color var(--transition-base);
-  }
-
-  .calendar-grid__icon {
-    font-size: 1.3rem;
+  .transformation__leaf {
+    font-size: 1.2rem;
     line-height: 1;
+    opacity: 0.7;
   }
 
-  .calendar-grid__name {
-    font-family: var(--font-sans);
-    font-size: 0.65rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-carbon);
-    transition: color var(--transition-base);
-  }
+  @media (min-width: 768px) {
+    .transformation__arrow {
+      display: block;
+    }
 
-  .calendar-grid__cursor {
-    position: absolute;
-    width: 24px;
-    height: 24px;
-    pointer-events: none;
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 5;
-    opacity: 0;
-    filter: drop-shadow(0 2px 4px rgba(204, 88, 51, 0.4));
-  }
-
-  .calendar-grid__footer {
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    text-align: center;
-    color: var(--color-text-muted);
-    letter-spacing: 0.05em;
-  }
-
-  .calendar-grid__footer strong {
-    color: var(--color-clay);
-    font-weight: 700;
+    .transformation__leaf {
+      display: none;
+    }
   }
 
   /* ============================
-     Responsive
+     Responsive: Mobile Stacking
      ============================ */
-  @media (max-width: 1023px) {
-    .features-grid {
+  @media (max-width: 767px) {
+    .weeks-grid {
       grid-template-columns: 1fr;
-      max-width: 480px;
-      margin: 0 auto;
+      max-width: 420px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: var(--space-16);
     }
 
-    .feature-panel {
-      min-height: 380px;
+    .transformation__row {
+      grid-template-columns: 1fr;
+      text-align: center;
+      gap: var(--space-3);
+      padding: var(--space-5);
+    }
+
+    .transformation__from,
+    .transformation__to {
+      align-items: center;
+    }
+
+    .transformation__divider {
+      padding: var(--space-1) 0;
+    }
+
+    .transformation__label {
+      margin: 0 auto;
     }
   }
 
-  @media (min-width: 768px) and (max-width: 1023px) {
-    .features-grid {
-      grid-template-columns: 1fr 1fr;
-      max-width: 100%;
+  /* ============================
+     Responsive: Tablet+
+     ============================ */
+  @media (min-width: 768px) {
+    .transformation__row {
+      gap: var(--space-6);
+      padding: var(--space-6) var(--space-8);
     }
 
-    .features-grid .feature-panel:last-child {
-      grid-column: 1 / -1;
-      max-width: 480px;
-      margin: 0 auto;
-      width: 100%;
+    .transformation__text {
+      font-size: var(--text-base);
+    }
+  }
+
+  /* ============================
+     Responsive: Desktop (4-col option)
+     ============================ */
+  @media (min-width: 1024px) {
+    .weeks-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-6);
+    }
+
+    .week-card {
+      padding: var(--space-8) var(--space-5);
+    }
+
+    .week-card__description {
+      font-size: 0.8rem;
     }
   }
 </style>
