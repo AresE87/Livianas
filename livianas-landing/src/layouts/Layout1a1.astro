@@ -5,11 +5,15 @@ import { site1a1Config, faq1a1Data } from '../lib/config-1a1';
 interface Props {
   title?: string;
   description?: string;
+  ogTitle?: string;
+  ogDescription?: string;
 }
 
 const {
   title = 'LIVIANAS 1:1 — Programa Personalizado de 3 Meses | Transformación Individual',
   description = 'Programa individual de 3 meses con Ana. 12 sesiones de coaching 1 a 1, plan de alimentación personalizado, acompañamiento ilimitado por WhatsApp. Solo 3 cupos.',
+  ogTitle = title,
+  ogDescription = description,
 } = Astro.props;
 
 const canonicalUrl = new URL(Astro.url.pathname, site1a1Config.siteUrl).href;
@@ -73,8 +77,8 @@ const productSchema = {
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:title" content="LIVIANAS 1:1 — Tu transformación personalizada" />
-    <meta property="og:description" content="3 meses de coaching individual con Ana. Plan 100% personalizado. Solo 3 cupos." />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -83,8 +87,8 @@ const productSchema = {
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="LIVIANAS 1:1 — Tu transformación personalizada" />
-    <meta name="twitter:description" content="3 meses de coaching individual con Ana. Solo 3 cupos." />
+    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:description" content={ogDescription} />
     <meta name="twitter:image" content={ogImage} />
 
     <!-- Favicon -->

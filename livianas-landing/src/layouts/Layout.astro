@@ -5,11 +5,15 @@ import { siteConfig, faqData } from '../lib/config';
 interface Props {
   title?: string;
   description?: string;
+  ogTitle?: string;
+  ogDescription?: string;
 }
 
 const {
   title = 'LIVIANAS — Experiencia 30 Días | Transformación Grupal para Mujeres',
   description = 'Programa grupal de 4 semanas para mujeres. Alimentación antiinflamatoria, coaching emocional y acompañamiento diario. Grupos reducidos de 8. Sin dietas. Con resultados.',
+  ogTitle = title,
+  ogDescription = description,
 } = Astro.props;
 
 const canonicalUrl = new URL(Astro.url.pathname, siteConfig.siteUrl).href;
@@ -73,8 +77,8 @@ const productSchema = {
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:title" content="LIVIANAS — 30 días de transformación real" />
-    <meta property="og:description" content="No es una dieta. Es la decisión de dejar de abandonarte. Grupos de 8 mujeres con acompañamiento real." />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -83,8 +87,8 @@ const productSchema = {
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="LIVIANAS — 30 días de transformación real" />
-    <meta name="twitter:description" content="No es una dieta. Es la decisión de dejar de abandonarte." />
+    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:description" content={ogDescription} />
     <meta name="twitter:image" content={ogImage} />
 
     <!-- Favicon -->
