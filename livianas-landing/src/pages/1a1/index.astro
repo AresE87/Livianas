@@ -1,0 +1,1131 @@
+---
+import Layout1a1 from '../../layouts/Layout1a1.astro';
+import { site1a1Config, getWhatsAppLink1a1, getPaymentLink1a1, painPoints1a1Data, transformation1a1Data, phases1a1Data, includes1a1Data, paraQuienEs1a1Data, pricingFeatures1a1, faq1a1Data } from '../../lib/config-1a1';
+import CountdownTimer from '../../components/CountdownTimer.astro';
+import WhatsAppButton from '../../components/WhatsAppButton.astro';
+
+const paymentHref = getPaymentLink1a1();
+const whatsappHero = getWhatsAppLink1a1('hero');
+const whatsappPricing = getWhatsAppLink1a1('pricing');
+const whatsappFinal = getWhatsAppLink1a1('finalCta');
+const whatsappFloating = getWhatsAppLink1a1('floating');
+
+// Icons for includes cards
+const icons = [
+  // 1. Sessions — Person with circle
+  `<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="18" cy="12" r="5" stroke="currentColor" stroke-width="1.4"/>
+    <path d="M8 30c0-5.5 4.5-10 10-10s10 4.5 10 10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    <circle cx="18" cy="12" r="2" fill="currentColor" opacity="0.3"/>
+  </svg>`,
+  // 2. Nutrition — Leaf
+  `<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M8 30c0-12 9-20 22-22C28 20 19 28 8 30z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M8 30C17 21 21 15 30 8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/>
+  </svg>`,
+  // 3. WhatsApp — Chat bubble
+  `<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M6 28l2-6a12 12 0 1 1 4.8 4.8L6 28z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M14 16h8M14 20h5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
+  </svg>`,
+  // 4. Emotional — Heart
+  `<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 29s-10-6.5-10-14a6 6 0 0 1 10-4.5A6 6 0 0 1 28 15c0 7.5-10 14-10 14z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`,
+  // 5. Progress — Chart up
+  `<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M6 28L14 18l6 4 10-14" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M24 8h6v6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`,
+  // 6. Recordings — Play circle
+  `<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="18" cy="18" r="13" stroke="currentColor" stroke-width="1.4"/>
+    <path d="M15 12.5l9 5.5-9 5.5z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`,
+];
+
+const cardBackgrounds = [
+  'var(--color-white)',
+  'var(--color-blush-wash)',
+  'var(--color-sage-wash)',
+  'var(--color-lavender-wash)',
+  'var(--color-blush-wash)',
+  'var(--color-sage-wash)',
+];
+
+const iconColors = [
+  'var(--color-sage)',
+  'var(--color-blush)',
+  'var(--color-sage-dark)',
+  'var(--color-lavender)',
+  'var(--color-blush-dark)',
+  'var(--color-sage)',
+];
+---
+
+<Layout1a1>
+  <!-- ==========================================
+       NAVBAR
+       ========================================== -->
+  <nav id="navbar" class="navbar" aria-label="Navegacion principal">
+    <div class="navbar__inner">
+      <a href="/1a1" class="navbar__logo" aria-label="LIVIANAS 1:1 - Inicio">
+        LIVIANAS <span class="navbar__logo-badge">1:1</span>
+      </a>
+      <div class="navbar__links" role="navigation">
+        <a href="#programa" class="navbar__link">Programa</a>
+        <a href="#precio" class="navbar__link">Precio</a>
+        <a href="#faq" class="navbar__link">FAQ</a>
+        <span class="navbar__divider" aria-hidden="true"></span>
+        <span class="navbar__countdown">
+          <span class="navbar__countdown-dot" aria-hidden="true"></span>
+          Solo {site1a1Config.cuposDisponibles} cupos
+        </span>
+      </div>
+      <a href={whatsappHero} target="_blank" rel="noopener noreferrer" class="navbar__cta" data-utm="navbar-1a1">
+        {site1a1Config.ctaMessages.secondary}
+      </a>
+      <button class="navbar__hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobile-menu-1a1" type="button">
+        <span class="navbar__hamburger-line" aria-hidden="true"></span>
+        <span class="navbar__hamburger-line" aria-hidden="true"></span>
+        <span class="navbar__hamburger-line" aria-hidden="true"></span>
+      </button>
+    </div>
+    <div id="mobile-menu-1a1" class="navbar__mobile" aria-hidden="true">
+      <a href="#programa" class="navbar__mobile-link">Programa</a>
+      <a href="#precio" class="navbar__mobile-link">Precio</a>
+      <a href="#faq" class="navbar__mobile-link">FAQ</a>
+      <div class="navbar__mobile-divider"></div>
+      <span class="navbar__mobile-countdown">
+        <span class="navbar__countdown-dot" aria-hidden="true"></span>
+        Solo {site1a1Config.cuposDisponibles} cupos disponibles
+      </span>
+      <a href={whatsappHero} target="_blank" rel="noopener noreferrer" class="navbar__mobile-cta btn btn--primary" data-utm="navbar-mobile-1a1">
+        {site1a1Config.ctaMessages.secondary}
+      </a>
+    </div>
+  </nav>
+
+  <!-- ==========================================
+       HERO
+       ========================================== -->
+  <section id="hero" class="hero" aria-label="Presentacion principal">
+    <div class="hero__bg" aria-hidden="true">
+      <img
+        src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1920&q=80"
+        alt=""
+        class="hero__bg-image"
+        loading="eager"
+        decoding="async"
+        fetchpriority="high"
+      />
+      <div class="hero__overlay"></div>
+    </div>
+
+    <div class="hero__badge" data-gsap="hero-label">
+      <span class="hero__badge-text">Programa Individual &middot; 3 Meses &middot; 100% Personalizado</span>
+    </div>
+
+    <div class="hero__content">
+      <div class="hero__title-block" data-gsap="hero-title">
+        <span class="hero__title-line hero__title-line--sans">Solo vos</span>
+        <span class="hero__title-line hero__title-line--serif">y Ana.</span>
+        <p class="hero__title-sub">
+          3 meses de acompa&ntilde;amiento individual para transformar tu relaci&oacute;n con la comida, tu cuerpo y tus emociones. De ra&iacute;z.
+        </p>
+      </div>
+
+      <p class="hero__subtitle" data-gsap="hero-subtitle">
+        12 sesiones 1:1 &middot; Solo {site1a1Config.cuposDisponibles} cupos &middot; Conducta, emoci&oacute;n y espiritualidad
+      </p>
+
+      <div class="hero__ctas" data-gsap="hero-ctas">
+        <a href={whatsappHero} target="_blank" rel="noopener noreferrer" class="btn btn--primary hero__cta-primary" data-utm="hero-primary-1a1">
+          {site1a1Config.ctaMessages.primary}
+          <svg class="hero__cta-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="hero__scroll" aria-hidden="true">
+      <div class="hero__scroll-track">
+        <svg class="hero__scroll-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       EXCLUSIVE BADGE SECTION
+       ========================================== -->
+  <section class="exclusive-section section" data-gsap="exclusive">
+    <div class="container container--narrow">
+      <div class="exclusive-card">
+        <div class="exclusive-icon" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+        </div>
+        <h2 class="exclusive-title">
+          &iquest;Por qu&eacute; un programa <em>1 a 1</em>?
+        </h2>
+        <p class="exclusive-text">
+          Porque tu historia es &uacute;nica. Porque lo que necesit&aacute;s no es otro programa gen&eacute;rico, sino alguien que te mire a vos, escuche tu proceso y dise&ntilde;e un camino hecho a tu medida. En el programa 1:1, Ana trabaja exclusivamente con vos durante 3 meses completos.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       MANIFESTO / PARA QUIEN ES
+       ========================================== -->
+  <section id="manifesto" class="manifesto-section">
+    <div class="manifesto-bg" aria-hidden="true"></div>
+    <div class="manifesto-overlay" aria-hidden="true"></div>
+    <div class="container manifesto-container">
+      <div class="manifesto-comparison">
+        <div class="manifesto-block manifesto-block--old" data-gsap="manifesto-text">
+          <span class="manifesto-label">Lo que ven&iacute;as haciendo:</span>
+          <p class="manifesto-question manifesto-question--crossed">
+            buscar soluciones gen&eacute;ricas que no funcionan
+          </p>
+        </div>
+        <div class="manifesto-divider" data-gsap="manifesto-text" aria-hidden="true">
+          <svg width="2" height="80" viewBox="0 0 2 80" fill="none">
+            <line x1="1" y1="0" x2="1" y2="80" stroke="var(--color-sage)" stroke-width="2" stroke-dasharray="4 6" opacity="0.3"/>
+          </svg>
+        </div>
+        <div class="manifesto-block manifesto-block--new" data-gsap="manifesto-text">
+          <span class="manifesto-label manifesto-label--clay">Lo que necesit&aacute;s:</span>
+          <p class="manifesto-question manifesto-question--big">
+            que alguien te mire a vos.
+          </p>
+        </div>
+      </div>
+
+      <div class="manifesto-checklist" data-gsap="manifesto-text">
+        <h3 class="manifesto-checklist__title">El programa 1:1 es para vos si...</h3>
+        <ul class="manifesto-checklist__list">
+          {paraQuienEs1a1Data.map((item) => (
+            <li class="manifesto-checklist__item">
+              <span class="manifesto-checklist__dot" aria-hidden="true"></span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="manifesto-cta" data-gsap="manifesto-text">
+        <a href="#programa" class="manifesto-cta__link">
+          Conoc&eacute; el programa
+          <svg class="manifesto-cta__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 3v10M4 9l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       3 PHASES (like Features/Weeks)
+       ========================================== -->
+  <section id="features" class="section features-section">
+    <div class="container">
+      <header class="features-header" data-gsap="features-header">
+        <h2 class="features-title">
+          <span class="features-title__serif">Tres meses.</span>
+          <span class="features-title__sans">Una transformaci&oacute;n profunda.</span>
+        </h2>
+        <p class="features-subtitle">
+          Cada mes abre una nueva fase de tu proceso: diagn&oacute;stico, transformaci&oacute;n e integraci&oacute;n. Todo adaptado a vos.
+        </p>
+      </header>
+
+      <div class="weeks-grid weeks-grid--3" data-gsap="features-weeks">
+        {phases1a1Data.map((phase) => (
+          <article class="feature-panel week-card" style={`--card-gradient: ${phase.gradient};`}>
+            <div class="week-card__badge">
+              <span class="week-card__badge-text">{phase.duration}</span>
+            </div>
+            <div class="week-card__icon" aria-hidden="true">
+              {phase.number === 1 && (
+                <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="24" cy="14" r="6" />
+                  <circle cx="24" cy="14" r="2" />
+                  <path d="M24 20v18" />
+                  <path d="M18 32c0-4 2.7-7 6-7s6 3 6 7" />
+                </svg>
+              )}
+              {phase.number === 2 && (
+                <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M24 6c-2 8-10 14-10 22a10 10 0 0020 0C34 20 26 14 24 6z" />
+                  <path d="M24 44c-3 0-5-2.5-5-6 0-5 5-9 5-9s5 4 5 9c0 3.5-2 6-5 6z" />
+                </svg>
+              )}
+              {phase.number === 3 && (
+                <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M24 6l-12 12 12 22 12-22L24 6z" />
+                  <path d="M12 18h24" />
+                  <path d="M18 6l-6 12" />
+                  <path d="M30 6l6 12" />
+                  <path d="M24 18l-6-12" />
+                  <path d="M24 18l6-12" />
+                </svg>
+              )}
+            </div>
+            <h3 class="week-card__title">{phase.title}</h3>
+            <span class="week-card__name">{phase.name}</span>
+            <p class="week-card__description">{phase.description}</p>
+          </article>
+        ))}
+      </div>
+
+      <!-- Transformation: Before → After -->
+      <div class="transformation" data-gsap="features-transformation">
+        <div class="transformation__header">
+          <h3 class="transformation__title">
+            <span class="transformation__title-serif">De donde est&aacute;s</span>
+            <span class="transformation__title-sans">a donde quer&eacute;s llegar</span>
+          </h3>
+        </div>
+        <div class="transformation__list">
+          {transformation1a1Data.map((item) => (
+            <div class="transformation__row feature-panel">
+              <div class="transformation__from">
+                <span class="transformation__label transformation__label--from">Antes</span>
+                <p class="transformation__text transformation__text--from">{item.from}</p>
+              </div>
+              <div class="transformation__divider">
+                <svg class="transformation__arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <div class="transformation__elegant-arrow" aria-hidden="true">
+                  <span class="transformation__line"></span>
+                  <svg viewBox="0 0 12 8" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m1 1 5 5 5-5" />
+                  </svg>
+                </div>
+              </div>
+              <div class="transformation__to">
+                <span class="transformation__label transformation__label--to">Despu&eacute;s</span>
+                <p class="transformation__text transformation__text--to">{item.to}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       PROGRAM ARCHIVE / INCLUDES
+       ========================================== -->
+  <section id="programa" aria-labelledby="archive-title-1a1" class="archive-section section">
+    <div class="container">
+      <div class="archive-header" data-gsap="archive-header">
+        <h2 id="archive-title-1a1" class="archive-title">
+          <span class="archive-title-serif">Todo lo que incluye</span>
+          <br />
+          <span class="archive-title-sans">tu programa 1:1.</span>
+        </h2>
+        <p class="archive-subtitle">
+          3 meses de acompa&ntilde;amiento completo, dise&ntilde;ado exclusivamente para vos.
+        </p>
+      </div>
+
+      <div class="archive-grid" role="list">
+        {includes1a1Data.map((item, i) => (
+          <article
+            class="archive-card"
+            data-gsap="archive-card"
+            role="listitem"
+            style={`--card-bg: ${cardBackgrounds[i]}; --icon-color: ${iconColors[i]};`}
+          >
+            <div class="archive-card-inner">
+              <div class="archive-card-icon" set:html={icons[i]} />
+              <h3 class="archive-card-title">{item.title}</h3>
+              <p class="archive-card-desc">{item.description}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       ABOUT ANA
+       ========================================== -->
+  <section id="sobre-ana" aria-labelledby="about-ana-title-1a1" class="about-section section">
+    <div class="container">
+      <div class="about-wrapper" data-gsap="about">
+        <div class="about-grid">
+          <div class="about-image-col">
+            <div class="about-image-frame">
+              <img
+                src="/images/ana-foto.webp"
+                alt="Ana, creadora del M&eacute;todo Livianas"
+                width="480"
+                height="600"
+                loading="lazy"
+                decoding="async"
+                class="about-image"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+              />
+              <div class="about-image-placeholder">
+                <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                  <circle cx="12" cy="7" r="4"/>
+                </svg>
+                <span class="about-placeholder-text">Foto de Ana</span>
+              </div>
+            </div>
+          </div>
+          <div class="about-text-col">
+            <span class="about-label">SOBRE ANA</span>
+            <blockquote class="about-quote">
+              &ldquo;En el 1 a 1 puedo ver lo que nadie m&aacute;s ve. Porque te dedico toda mi atenci&oacute;n a vos.&rdquo;
+            </blockquote>
+            <p class="about-bio">
+              Ana es coach de bienestar y creadora del M&eacute;todo Livianas. En el programa 1:1, trabaja de manera individual y profunda con cada mujer, adapt&aacute;ndose a su historia, sus necesidades y su ritmo. Conducta, emoci&oacute;n y espiritualidad &mdash; todo en un proceso hecho a medida.
+            </p>
+            <div class="about-detail">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="about-detail-icon">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+              <span>Programa 100% individual &middot; Solo {site1a1Config.cuposDisponibles} cupos simult&aacute;neos</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       PRICING
+       ========================================== -->
+  <section id="precio" aria-labelledby="precio-title-1a1" class="premium-pricing section">
+    <div class="container">
+      <div class="pricing-header" data-gsap="pricing-header">
+        <h2 id="precio-title-1a1" class="pricing-title">
+          <span class="pricing-title-serif">Tu inversi&oacute;n</span>
+          <span class="pricing-title-sans">en tu transformaci&oacute;n.</span>
+        </h2>
+      </div>
+
+      <div class="pricing-countdown" data-gsap="pricing-countdown">
+        <p class="pricing-countdown-label">Las inscripciones cierran en:</p>
+        <CountdownTimer variant="section" />
+      </div>
+
+      <div class="pricing-card" data-gsap="pricing-card">
+        <div class="pricing-badge-wrap">
+          <span class="pricing-badge">Programa Exclusivo 1:1</span>
+        </div>
+        <p class="pricing-program-name">LIVIANAS &mdash; 3 Meses Personalizado</p>
+        <div class="pricing-prices">
+          <span class="pricing-old-price">USD {site1a1Config.valorTotal}</span>
+          <div class="pricing-main-price">
+            <span class="pricing-currency">USD</span>
+            <span class="pricing-amount">{site1a1Config.precioUSD}</span>
+          </div>
+          <p class="pricing-weekly">USD {site1a1Config.precioMensual} por mes &middot; 3 meses</p>
+          <p class="pricing-installments">Cuotas disponibles con tarjeta de cr&eacute;dito</p>
+        </div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features" role="list">
+          {pricingFeatures1a1.map((feature) => (
+            <li class="pricing-feature-item">
+              <span class="pricing-check">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </span>
+              <span>{feature}</span>
+            </li>
+          ))}
+        </ul>
+        <div class="pricing-ctas">
+          <a href={whatsappPricing} target="_blank" rel="noopener noreferrer" class="btn btn--ghost-card" data-utm="pricing-secondary-1a1">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            {site1a1Config.ctaMessages.secondary}
+          </a>
+          <a href={whatsappPricing} target="_blank" rel="noopener noreferrer" class="btn btn--clay" data-utm="pricing-primary-1a1">
+            {site1a1Config.ctaMessages.primary}
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+          <div class="pricing-mp-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            Pag&aacute; con Mercado Pago &middot; Cuotas disponibles
+          </div>
+        </div>
+      </div>
+
+      <p class="pricing-below-note" data-gsap="pricing-note">
+        Son USD {site1a1Config.precioMensual} por mes de coaching individual, acompa&ntilde;amiento ilimitado y un plan 100% hecho a tu medida.
+      </p>
+
+      <div class="pricing-trust" data-gsap="pricing-trust">
+        <span class="pricing-trust-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Pago seguro
+        </span>
+        <span class="pricing-trust-dot">&bull;</span>
+        <span class="pricing-trust-item">Mercado Pago</span>
+        <span class="pricing-trust-dot">&bull;</span>
+        <span class="pricing-trust-item">PayPal</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       FAQ
+       ========================================== -->
+  <section id="faq" aria-labelledby="faq-title-1a1" class="faq-section section">
+    <div class="container container--narrow">
+      <div class="faq-header">
+        <h2 id="faq-title-1a1" class="faq-title">
+          <span class="faq-title__serif">Preguntas</span>
+          <span class="faq-title__sans">frecuentes</span>
+        </h2>
+      </div>
+
+      <div class="faq-list" role="list">
+        {faq1a1Data.map((item, index) => (
+          <div class="faq-item" role="listitem" data-faq-index={index}>
+            <button
+              class="faq-trigger"
+              aria-expanded="false"
+              aria-controls={`faq-panel-1a1-${index}`}
+              id={`faq-trigger-1a1-${index}`}
+            >
+              <span class="faq-question">{item.question}</span>
+              <span class="faq-icon" aria-hidden="true">
+                <span class="faq-icon__bar faq-icon__bar--h"></span>
+                <span class="faq-icon__bar faq-icon__bar--v"></span>
+              </span>
+            </button>
+            <div
+              class="faq-panel"
+              id={`faq-panel-1a1-${index}`}
+              role="region"
+              aria-labelledby={`faq-trigger-1a1-${index}`}
+              hidden
+            >
+              <div class="faq-answer">
+                <p>{item.answer}</p>
+                {item.showDirectCta && (
+                  <a
+                    href={whatsappFinal}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-utm="faq-direct-ana-1a1"
+                    class="faq-whatsapp-btn"
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                    </svg>
+                    Escribirle a Ana directamente
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       FINAL CTA
+       ========================================== -->
+  <section id="cta-final" aria-labelledby="final-cta-title-1a1" class="final-cta section" data-gsap="final-cta">
+    <div class="final-cta__gradient final-cta__gradient--1" aria-hidden="true"></div>
+    <div class="final-cta__gradient final-cta__gradient--2" aria-hidden="true"></div>
+    <div class="final-cta__gradient final-cta__gradient--3" aria-hidden="true"></div>
+
+    <div class="container container--narrow final-cta__content">
+      <div class="final-cta__headline">
+        <p class="final-cta__line-1">Ya no ten&eacute;s que</p>
+        <h2 id="final-cta-title-1a1" class="final-cta__line-2">hacerlo sola.</h2>
+        <p class="final-cta__line-3">Ana est&aacute; ac&aacute; para vos.</p>
+      </div>
+
+      <p class="final-cta__copy">
+        3 meses, 12 sesiones individuales, un plan hecho a tu medida. El cambio que busc&aacute;s empieza con una conversaci&oacute;n.
+      </p>
+
+      <div class="final-cta__countdown">
+        <p class="final-cta__countdown-label">Las inscripciones cierran en:</p>
+        <div class="final-cta__countdown-timer">
+          <CountdownTimer variant="topbar" />
+        </div>
+      </div>
+
+      <div class="final-cta__actions">
+        <a href={whatsappFinal} target="_blank" rel="noopener noreferrer" data-utm="final-primary-1a1" class="btn btn--white final-cta__btn-primary">
+          {site1a1Config.ctaMessages.finalCta}
+        </a>
+        <a href={whatsappFinal} target="_blank" rel="noopener noreferrer" data-utm="final-secondary-1a1" class="btn btn--ghost final-cta__btn-secondary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          {site1a1Config.ctaMessages.secondary}
+        </a>
+      </div>
+
+      <div class="final-cta__trust">
+        <span class="final-cta__trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+          Respuesta en minutos
+        </span>
+        <span class="final-cta__trust-sep" aria-hidden="true">|</span>
+        <span class="final-cta__trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          Solo {site1a1Config.cuposDisponibles} cupos
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       FOOTER
+       ========================================== -->
+  <footer role="contentinfo" class="premium-footer" data-gsap="footer">
+    <div class="container">
+      <div class="footer-top">
+        <a href="/1a1" class="footer-logo" aria-label="LIVIANAS 1:1 - Volver al inicio">
+          <span class="footer-logo__text">LIVIANAS <span style="font-size:0.6em;opacity:0.7;">1:1</span></span>
+        </a>
+        {site1a1Config.inscripcionesAbiertas && (
+          <div class="footer-status">
+            <span class="footer-status__dot" aria-hidden="true"></span>
+            <span class="footer-status__text">Inscripciones abiertas</span>
+          </div>
+        )}
+      </div>
+      <div class="footer-divider" aria-hidden="true"></div>
+      <nav class="footer-nav" aria-label="Footer">
+        <div class="footer-nav__col">
+          <h3 class="footer-nav__title">Programa</h3>
+          <ul class="footer-nav__list">
+            <li><a href="#features">Las 3 Fases</a></li>
+            <li><a href="#programa">Qu&eacute; incluye</a></li>
+            <li><a href="#precio">Precio</a></li>
+            <li><a href="/">Ver programa grupal</a></li>
+          </ul>
+        </div>
+        <div class="footer-nav__col">
+          <h3 class="footer-nav__title">Soporte</h3>
+          <ul class="footer-nav__list">
+            <li><a href="#faq">Preguntas frecuentes</a></li>
+            <li>
+              <a href={whatsappFloating} target="_blank" rel="noopener noreferrer" class="footer-whatsapp-link">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </svg>
+                Hablar por WhatsApp
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="footer-nav__col">
+          <h3 class="footer-nav__title">Legal</h3>
+          <ul class="footer-nav__list">
+            <li><a href="/terminos">T&eacute;rminos y condiciones</a></li>
+            <li><a href="/privacidad">Pol&iacute;tica de privacidad</a></li>
+          </ul>
+        </div>
+      </nav>
+      <div class="footer-divider" aria-hidden="true"></div>
+      <div class="footer-bottom">
+        <p class="footer-bottom__copy">&copy; {new Date().getFullYear()} LIVIANAS &mdash; Todos los derechos reservados</p>
+        <p class="footer-bottom__tagline">Hecho con cuidado para mujeres que eligen transformarse.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================
+       FLOATING ELEMENTS
+       ========================================== -->
+  <!-- WhatsApp Floating Button -->
+  <a
+    href={whatsappFloating}
+    target="_blank"
+    rel="noopener noreferrer"
+    data-utm="floating-1a1"
+    aria-label="Contactar por WhatsApp"
+    class="whatsapp-float"
+  >
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="white" aria-hidden="true">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  </a>
+
+  <!-- Sticky Mobile CTA -->
+  <div class="sticky-cta" id="sticky-cta" aria-hidden="true">
+    <div class="sticky-cta-inner">
+      <div class="sticky-cta-price">
+        <span class="sticky-cta-price-label">Programa 1:1</span>
+        <span class="sticky-cta-price-value">USD {site1a1Config.precioUSD}</span>
+      </div>
+      <a href={whatsappHero} target="_blank" rel="noopener noreferrer" data-utm="sticky-mobile-1a1" class="sticky-cta-button">
+        {site1a1Config.ctaMessages.primary}
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+  </div>
+</Layout1a1>
+
+<style is:global>
+/* ===== NAVBAR ===== */
+.navbar{position:fixed;top:var(--space-4);left:50%;transform:translateX(-50%);z-index:1000;width:calc(100% - var(--space-8));max-width:960px;border-radius:var(--radius-full);padding:var(--space-2) var(--space-3);transition:background var(--transition-slow),border-color var(--transition-slow),box-shadow var(--transition-slow),padding var(--transition-slow);background:rgba(255,255,255,.3);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.4)}
+.navbar--scrolled{background:rgba(255,255,255,.82);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(123,143,107,.1);box-shadow:0 4px 24px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04)}
+.navbar__inner{display:flex;align-items:center;justify-content:space-between;gap:var(--space-4);min-height:44px}
+.navbar__logo{font-family:var(--font-sans);font-weight:700;font-size:var(--text-sm);letter-spacing:.18em;text-transform:uppercase;color:var(--color-carbon);text-decoration:none;transition:color var(--transition-slow);flex-shrink:0;padding-left:var(--space-3)}
+.navbar--scrolled .navbar__logo{color:var(--color-sage-dark)}
+.navbar__links{display:none;align-items:center;gap:var(--space-5)}
+@media(min-width:768px){.navbar__links{display:flex}}
+.navbar__link{font-family:var(--font-sans);font-size:.8125rem;font-weight:500;color:var(--color-text-muted);text-decoration:none;transition:color var(--transition-base);white-space:nowrap;position:relative}
+.navbar__link::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1.5px;background:currentColor;transition:width var(--transition-base)}
+.navbar__link:hover::after{width:100%}
+.navbar__link:hover{color:var(--color-carbon)}
+.navbar--scrolled .navbar__link{color:var(--color-text-muted)}
+.navbar--scrolled .navbar__link:hover{color:var(--color-sage-dark)}
+.navbar__divider{width:1px;height:16px;background:var(--color-border);transition:background var(--transition-slow)}
+.navbar__countdown{display:flex;align-items:center;gap:var(--space-2);font-family:var(--font-sans);font-size:.6875rem;font-weight:500;color:var(--color-text-light);white-space:nowrap;letter-spacing:.02em;transition:color var(--transition-slow)}
+.navbar--scrolled .navbar__countdown{color:var(--color-text-muted)}
+.navbar__countdown-dot{width:6px;height:6px;border-radius:50%;background:var(--color-blush);animation:pulse-dot 2s ease-in-out infinite;flex-shrink:0}
+.navbar__cta{display:none;align-items:center;justify-content:center;font-family:var(--font-sans);font-size:.8125rem;font-weight:600;padding:var(--space-2) var(--space-5);border-radius:var(--radius-full);text-decoration:none;white-space:nowrap;transition:background var(--transition-base),color var(--transition-base),box-shadow var(--transition-base),transform var(--transition-base);flex-shrink:0;background:transparent;color:var(--color-sage-dark);border:1px solid var(--color-sage)}
+.navbar__cta:hover{transform:translateY(-1px);background:var(--color-sage);color:#fff}
+.navbar--scrolled .navbar__cta{background:var(--color-sage);color:#fff;border-color:var(--color-sage);box-shadow:0 2px 12px rgba(123,143,107,.25)}
+.navbar--scrolled .navbar__cta:hover{background:var(--color-sage-dark);box-shadow:0 4px 20px rgba(123,143,107,.35);transform:translateY(-1px)}
+@media(min-width:768px){.navbar__cta{display:inline-flex}}
+.navbar__hamburger{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;width:40px;height:40px;background:none;border:none;cursor:pointer;padding:var(--space-2);border-radius:var(--radius-sm);transition:background var(--transition-base)}
+.navbar__hamburger:hover{background:rgba(123,143,107,.08)}
+@media(min-width:768px){.navbar__hamburger{display:none}}
+.navbar__hamburger-line{width:20px;height:1.5px;border-radius:1px;background:var(--color-carbon);transition:transform var(--transition-base),opacity var(--transition-base),background var(--transition-slow);transform-origin:center}
+.navbar--scrolled .navbar__hamburger-line{background:var(--color-sage-dark)}
+.navbar__hamburger.is-active .navbar__hamburger-line:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.navbar__hamburger.is-active .navbar__hamburger-line:nth-child(2){opacity:0;transform:scaleX(0)}
+.navbar__hamburger.is-active .navbar__hamburger-line:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+.navbar__mobile{display:flex;flex-direction:column;align-items:center;gap:var(--space-4);padding:0 var(--space-4);max-height:0;overflow:hidden;opacity:0;transition:max-height .4s cubic-bezier(.4,0,.2,1),opacity var(--transition-base),padding var(--transition-base)}
+.navbar--mobile-open .navbar__mobile{max-height:320px;opacity:1;padding:var(--space-4) var(--space-4) var(--space-5)}
+.navbar--mobile-open{background:rgba(255,255,255,.92);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-color:rgba(123,143,107,.1);border-radius:var(--radius-2xl);box-shadow:0 8px 30px rgba(0,0,0,.1)}
+.navbar--mobile-open .navbar__logo{color:var(--color-sage-dark)}
+.navbar--mobile-open .navbar__hamburger-line{background:var(--color-sage-dark)}
+.navbar__mobile-link{font-family:var(--font-sans);font-size:var(--text-base);font-weight:500;color:var(--color-sage-dark);text-decoration:none;padding:var(--space-2) 0;transition:color var(--transition-base)}
+.navbar__mobile-link:hover{color:var(--color-sage)}
+.navbar__mobile-divider{width:40px;height:1px;background:var(--color-border)}
+.navbar__mobile-countdown{display:flex;align-items:center;gap:var(--space-2);font-family:var(--font-sans);font-size:var(--text-xs);font-weight:500;color:var(--color-text-muted)}
+.navbar__mobile-cta{width:100%;text-align:center;font-size:var(--text-sm);padding:var(--space-3) var(--space-6)}
+.navbar__logo-badge{font-size:.6em;opacity:.6;letter-spacing:.08em;vertical-align:super}
+
+/* ===== HERO ===== */
+.hero{position:relative;width:100%;height:100dvh;min-height:600px;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;background:var(--color-cream)}
+.hero__bg{position:absolute;inset:0;z-index:0}
+.hero__bg-image{width:100%;height:100%;object-fit:cover;object-position:center 55%;display:block}
+.hero__overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(251,249,245,0) 0%,rgba(251,249,245,.3) 35%,rgba(251,249,245,.75) 60%,rgba(251,249,245,.97) 100%)}
+.hero__badge{position:absolute;top:calc(var(--space-16) + var(--space-8));left:var(--space-6);z-index:2}
+@media(min-width:768px){.hero__badge{top:calc(var(--space-16) + var(--space-12));left:var(--space-12)}}
+@media(min-width:1024px){.hero__badge{left:calc((100vw - var(--container-max))/2 + var(--space-6))}}
+.hero__badge-text{display:inline-block;font-family:var(--font-sans);font-size:.6875rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--color-sage-dark);padding:var(--space-2) var(--space-4);border:1px solid var(--color-border);border-radius:var(--radius-full);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);background:rgba(255,255,255,.55)}
+.hero__content{position:relative;z-index:2;padding:0 var(--space-6) var(--space-16);max-width:var(--container-max);width:100%}
+@media(min-width:768px){.hero__content{padding:0 var(--space-12) var(--space-20)}}
+@media(min-width:1024px){.hero__content{padding:0 calc((100vw - var(--container-max))/2 + var(--space-6)) var(--space-24);max-width:none}}
+.hero__title-block{margin-bottom:var(--space-6)}
+.hero__title-line{display:block;color:var(--color-carbon);line-height:1}
+.hero__title-line--sans{font-family:var(--font-sans);font-weight:700;font-size:clamp(1.75rem,5vw,3rem);letter-spacing:-.01em;margin-bottom:var(--space-1)}
+.hero__title-line--serif{font-family:var(--font-display);font-style:italic;font-weight:700;font-size:clamp(4rem,13vw,9rem);letter-spacing:-.03em;line-height:.85;margin-bottom:var(--space-5)}
+.hero__title-sub{font-family:var(--font-sans);font-weight:400;font-size:clamp(1rem,2.5vw,1.375rem);color:var(--color-carbon-light);letter-spacing:-.005em;line-height:1.45;max-width:520px;text-shadow:0 1px 8px rgba(251,249,245,.6)}
+.hero__subtitle{font-family:var(--font-sans);font-size:clamp(.6875rem,1.4vw,.8125rem);font-weight:600;color:var(--color-text-muted);letter-spacing:.05em;text-transform:uppercase;margin-bottom:var(--space-8);text-shadow:0 1px 8px rgba(251,249,245,.6)}
+.hero__ctas{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-4)}
+.hero__cta-primary{font-size:var(--text-base);padding:var(--space-4) var(--space-8);gap:var(--space-2)}
+@media(min-width:768px){.hero__cta-primary{font-size:var(--text-lg);padding:var(--space-5) var(--space-10)}}
+.hero__cta-arrow{transition:transform var(--transition-base)}
+.hero__cta-primary:hover .hero__cta-arrow{transform:translateX(4px)}
+.hero__scroll{position:absolute;bottom:var(--space-6);left:50%;transform:translateX(-50%);z-index:2}
+.hero__scroll-track{display:flex;flex-direction:column;align-items:center;gap:2px;animation:hero-scroll-bounce 2.4s ease-in-out infinite}
+.hero__scroll-chevron{color:var(--color-sage);opacity:.4}
+.hero__scroll-chevron:first-child{opacity:.6}
+@keyframes hero-scroll-bounce{0%,100%{transform:translateY(0);opacity:.6}50%{transform:translateY(6px);opacity:1}}
+@media(max-width:479px){.hero__content{padding-bottom:calc(var(--space-16) + var(--space-4))}.hero__ctas{flex-direction:column;align-items:flex-start}.hero__cta-primary{width:100%;text-align:center;justify-content:center}}
+
+/* ===== EXCLUSIVE ===== */
+.exclusive-section{background:var(--color-cream);padding:var(--space-16) 0}
+.exclusive-card{text-align:center;max-width:680px;margin:0 auto;background:var(--color-white);border-radius:var(--radius-3xl);padding:var(--space-10) var(--space-8);box-shadow:var(--shadow-md);border:1px solid var(--color-border)}
+.exclusive-icon{color:var(--color-gold);margin-bottom:var(--space-5)}
+.exclusive-title{font-family:var(--font-display);font-size:var(--text-3xl);font-weight:700;color:var(--color-carbon);line-height:1.3;margin-bottom:var(--space-5)}
+.exclusive-title em{color:var(--color-sage);font-style:italic}
+@media(min-width:768px){.exclusive-title{font-size:var(--text-4xl)}}
+.exclusive-text{font-family:var(--font-sans);font-size:var(--text-lg);color:var(--color-text-muted);line-height:1.7;max-width:560px;margin:0 auto}
+
+/* ===== MANIFESTO ===== */
+.manifesto-section{position:relative;overflow:hidden;padding:var(--space-24) 0;min-height:100vh;display:flex;align-items:center}
+@media(min-width:768px){.manifesto-section{padding:var(--space-32) 0}}
+.manifesto-bg{position:absolute;inset:0;background:linear-gradient(160deg,var(--color-sage-wash) 0%,var(--color-cream) 35%,var(--color-blush-wash) 70%,var(--color-cream-warm) 100%);z-index:0}
+.manifesto-overlay{position:absolute;inset:0;background:transparent;z-index:1}
+.manifesto-container{position:relative;z-index:2}
+.manifesto-comparison{display:flex;flex-direction:column;align-items:center;gap:var(--space-8);margin-bottom:var(--space-16);max-width:800px;margin-left:auto;margin-right:auto}
+@media(min-width:768px){.manifesto-comparison{gap:var(--space-10);margin-bottom:var(--space-20)}}
+.manifesto-block{text-align:center}
+.manifesto-divider{display:flex;justify-content:center}
+.manifesto-label{display:block;font-family:var(--font-sans);font-size:.7rem;text-transform:uppercase;letter-spacing:.15em;color:var(--color-text-muted);margin-bottom:var(--space-4)}
+.manifesto-label--clay{color:var(--color-sage)}
+.manifesto-question{font-family:var(--font-display);font-style:italic;font-weight:400;line-height:1.15;color:var(--color-carbon)}
+.manifesto-question--crossed{font-size:clamp(1.5rem,4vw,2.5rem);text-decoration:line-through;text-decoration-color:var(--color-text-light);text-decoration-thickness:2px;opacity:.45}
+.manifesto-question--big{font-size:clamp(2rem,6vw,4rem)}
+.manifesto-checklist{max-width:640px;margin:0 auto var(--space-16)}
+.manifesto-checklist__title{font-family:var(--font-display);font-size:clamp(1.25rem,3vw,1.75rem);font-style:italic;font-weight:400;color:var(--color-carbon);margin-bottom:var(--space-8);text-align:center}
+.manifesto-checklist__list{list-style:none;display:flex;flex-direction:column;gap:var(--space-4)}
+.manifesto-checklist__item{display:flex;align-items:flex-start;gap:var(--space-4);font-family:var(--font-sans);font-size:var(--text-sm);color:var(--color-text);line-height:1.55}
+@media(min-width:768px){.manifesto-checklist__item{font-size:var(--text-base)}}
+.manifesto-checklist__dot{flex-shrink:0;width:7px;height:7px;border-radius:50%;background:var(--color-sage);margin-top:7px}
+.manifesto-cta{text-align:center}
+.manifesto-cta__link{display:inline-flex;align-items:center;gap:var(--space-2);font-family:var(--font-sans);font-size:.75rem;text-transform:uppercase;letter-spacing:.12em;color:var(--color-text-muted);transition:color var(--transition-base);text-decoration:none}
+.manifesto-cta__link:hover{color:var(--color-sage)}
+.manifesto-cta__arrow{transition:transform var(--transition-base)}
+.manifesto-cta__link:hover .manifesto-cta__arrow{transform:translateY(3px)}
+
+/* ===== FEATURES / WEEKS ===== */
+.features-section{background:var(--color-cream);position:relative}
+.features-header{text-align:center;margin-bottom:var(--space-16);max-width:640px;margin-left:auto;margin-right:auto}
+.features-title{display:flex;flex-direction:column;gap:var(--space-2);margin-bottom:var(--space-4)}
+.features-title__serif{font-family:var(--font-display);font-size:clamp(2rem,5vw,3.5rem);font-style:italic;font-weight:400;color:var(--color-sage);line-height:1.15}
+.features-title__sans{font-family:var(--font-sans);font-size:clamp(1.5rem,3.5vw,2.5rem);font-weight:800;color:var(--color-carbon);line-height:1.2}
+.features-subtitle{font-family:var(--font-sans);font-size:var(--text-lg);color:var(--color-text-muted);line-height:1.7}
+.weeks-grid{display:grid;gap:var(--space-6);margin-bottom:var(--space-20)}
+@media(min-width:768px){.weeks-grid{grid-template-columns:1fr 1fr;gap:var(--space-8)}}
+.weeks-grid--3{grid-template-columns:1fr}
+@media(min-width:768px){.weeks-grid--3{grid-template-columns:repeat(3,1fr)}}
+.week-card{background:var(--card-gradient,var(--color-cream-warm));border-radius:var(--radius-3xl);padding:var(--space-8) var(--space-6);position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:var(--space-3);border:1px solid rgba(123,143,107,.08);box-shadow:var(--shadow-sm);transition:transform var(--transition-base),box-shadow var(--transition-base)}
+.week-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.week-card__badge{display:inline-flex;align-items:center;justify-content:center;background:rgba(255,255,255,.7);backdrop-filter:blur(8px);padding:var(--space-1) var(--space-4);border-radius:var(--radius-full);margin-bottom:var(--space-2)}
+.week-card__badge-text{font-family:var(--font-sans);font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--color-sage-dark)}
+.week-card__icon{width:48px;height:48px;color:var(--color-sage)}
+.week-card__icon svg{width:100%;height:100%}
+.week-card__title{font-family:var(--font-sans);font-size:var(--text-sm);font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--color-sage-dark)}
+.week-card__name{font-family:var(--font-display);font-size:var(--text-2xl);font-style:italic;font-weight:400;color:var(--color-carbon);line-height:1.2}
+.week-card__description{font-family:var(--font-sans);font-size:var(--text-sm);color:var(--color-text-muted);line-height:1.65;max-width:320px}
+.transformation{max-width:800px;margin:0 auto}
+.transformation__header{text-align:center;margin-bottom:var(--space-10)}
+.transformation__title{display:flex;flex-direction:column;gap:var(--space-1)}
+.transformation__title-serif{font-family:var(--font-display);font-size:clamp(1.5rem,3.5vw,2.25rem);font-style:italic;font-weight:400;color:var(--color-blush);line-height:1.2}
+.transformation__title-sans{font-family:var(--font-sans);font-size:clamp(1.2rem,2.5vw,1.75rem);font-weight:700;color:var(--color-carbon);line-height:1.3}
+.transformation__list{display:flex;flex-direction:column;gap:var(--space-5)}
+.transformation__row{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:var(--space-4);background:var(--color-white);border-radius:var(--radius-2xl);padding:var(--space-6);border:1px solid var(--color-border);box-shadow:var(--shadow-sm);transition:box-shadow var(--transition-base)}
+.transformation__row:hover{box-shadow:var(--shadow-md)}
+.transformation__from,.transformation__to{display:flex;flex-direction:column;gap:var(--space-2)}
+.transformation__label{font-family:var(--font-sans);font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;display:inline-block;padding:var(--space-1) var(--space-3);border-radius:var(--radius-full);width:max-content}
+.transformation__label--from{background:var(--color-sand);color:var(--color-text-muted)}
+.transformation__label--to{background:var(--color-sage-wash);color:var(--color-sage-dark)}
+.transformation__text{font-family:var(--font-sans);font-size:var(--text-sm);line-height:1.6}
+.transformation__text--from{color:var(--color-text-muted);text-decoration:line-through;text-decoration-color:var(--color-sand);text-decoration-thickness:1.5px}
+.transformation__text--to{color:var(--color-sage-dark);font-weight:600}
+.transformation__divider{display:flex;flex-direction:column;align-items:center;gap:var(--space-1);flex-shrink:0}
+.transformation__arrow{width:20px;height:20px;color:var(--color-blush);display:none}
+.transformation__elegant-arrow{display:flex;flex-direction:column;align-items:center;gap:2px}
+.transformation__elegant-arrow .transformation__line{width:1px;height:12px;background:var(--color-sage);opacity:.35}
+.transformation__elegant-arrow svg{width:10px;height:7px;color:var(--color-sage);opacity:.4}
+@media(min-width:768px){.transformation__arrow{display:block}.transformation__elegant-arrow{display:none}.transformation__row{gap:var(--space-6);padding:var(--space-6) var(--space-8)}.transformation__text{font-size:var(--text-base)}}
+@media(max-width:767px){.weeks-grid{grid-template-columns:1fr;max-width:420px;margin-left:auto;margin-right:auto;margin-bottom:var(--space-16)}.transformation__row{grid-template-columns:1fr;text-align:center;gap:var(--space-3);padding:var(--space-5)}.transformation__from,.transformation__to{align-items:center}.transformation__divider{padding:var(--space-1) 0}.transformation__label{margin:0 auto}}
+
+/* ===== ARCHIVE / INCLUDES ===== */
+.archive-section{background:var(--color-cream);padding:var(--space-20) 0 var(--space-24)}
+.archive-header{text-align:center;margin-bottom:var(--space-16)}
+.archive-title{margin-bottom:var(--space-4);line-height:1.2}
+.archive-title-serif{font-family:var(--font-display);font-style:italic;font-weight:700;font-size:var(--text-4xl);color:var(--color-carbon);display:inline}
+.archive-title-sans{font-family:var(--font-sans);font-weight:700;font-size:var(--text-3xl);color:var(--color-blush);display:inline-block;margin-top:var(--space-1)}
+@media(min-width:768px){.archive-title-serif{font-size:var(--text-5xl)}.archive-title-sans{font-size:var(--text-4xl)}}
+.archive-subtitle{font-family:var(--font-sans);font-size:var(--text-lg);color:var(--color-text-muted);max-width:520px;margin:0 auto;line-height:1.6}
+.archive-grid{display:grid;grid-template-columns:1fr;gap:var(--space-6);max-width:1080px;margin:0 auto}
+@media(min-width:640px){.archive-grid{grid-template-columns:1fr 1fr}}
+@media(min-width:1024px){.archive-grid{grid-template-columns:1fr 1fr 1fr;gap:var(--space-8)}}
+.archive-card{background:var(--card-bg);border-radius:var(--radius-2xl);overflow:hidden;transition:transform var(--transition-base),box-shadow var(--transition-base);position:relative;box-shadow:var(--shadow-sm)}
+.archive-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.archive-card-inner{padding:var(--space-8) var(--space-6);display:flex;flex-direction:column;align-items:flex-start}
+@media(min-width:768px){.archive-card-inner{padding:var(--space-10) var(--space-8)}}
+.archive-card-icon{width:56px;height:56px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.7);border-radius:var(--radius-xl);color:var(--icon-color);margin-bottom:var(--space-5);flex-shrink:0}
+.archive-card-title{font-family:var(--font-outfit);font-weight:700;font-size:var(--text-lg);color:var(--color-carbon);line-height:1.35;margin-bottom:var(--space-2)}
+@media(min-width:768px){.archive-card-title{font-size:var(--text-xl)}}
+.archive-card-desc{font-family:var(--font-sans);font-size:var(--text-sm);color:var(--color-text-muted);line-height:1.65}
+
+/* ===== ABOUT ANA ===== */
+.about-section{background:var(--color-cream)}
+.about-wrapper{background:var(--color-white);border-radius:var(--radius-3xl);overflow:hidden;padding:var(--space-6);box-shadow:var(--shadow-md)}
+@media(min-width:768px){.about-wrapper{padding:var(--space-10)}}
+@media(min-width:1024px){.about-wrapper{padding:var(--space-12)}}
+.about-grid{display:flex;flex-direction:column;gap:var(--space-8)}
+@media(min-width:768px){.about-grid{display:grid;grid-template-columns:5fr 7fr;gap:var(--space-10);align-items:center}}
+@media(min-width:1024px){.about-grid{gap:var(--space-16)}}
+.about-image-col{display:flex;justify-content:center}
+.about-image-frame{width:100%;max-width:380px;aspect-ratio:4/5;border-radius:var(--radius-2xl);overflow:hidden;border:3px solid var(--color-sage);background:linear-gradient(135deg,var(--color-cream),var(--color-cream-warm));position:relative}
+.about-image{width:100%;height:100%;object-fit:cover;display:block}
+.about-image-placeholder{display:none;width:100%;height:100%;flex-direction:column;align-items:center;justify-content:center;gap:var(--space-3);color:var(--color-sage);background:linear-gradient(135deg,var(--color-cream),var(--color-cream-warm))}
+.about-placeholder-text{font-size:var(--text-sm);color:var(--color-text-muted);opacity:.6}
+.about-text-col{display:flex;flex-direction:column;gap:0}
+.about-label{display:block;font-family:var(--font-sans);font-size:var(--text-xs);font-weight:500;color:var(--color-sage);text-transform:uppercase;letter-spacing:.15em;margin-bottom:var(--space-5)}
+.about-quote{font-family:var(--font-display);font-style:italic;font-weight:700;font-size:var(--text-2xl);color:var(--color-carbon);line-height:1.35;margin:0 0 var(--space-6) 0;padding:0;border:none}
+@media(min-width:768px){.about-quote{font-size:var(--text-3xl)}}
+@media(min-width:1024px){.about-quote{font-size:var(--text-4xl)}}
+.about-bio{font-family:var(--font-sans);font-size:var(--text-base);color:var(--color-text-muted);line-height:1.7;margin-bottom:var(--space-6);max-width:520px}
+@media(min-width:768px){.about-bio{font-size:var(--text-lg)}}
+.about-detail{display:inline-flex;align-items:center;gap:var(--space-2);font-family:var(--font-sans);font-size:var(--text-sm);color:var(--color-sage);font-weight:500;background:var(--color-cream);padding:var(--space-3) var(--space-4);border-radius:var(--radius-full);width:fit-content}
+.about-detail-icon{flex-shrink:0;opacity:.7}
+
+/* ===== PRICING ===== */
+.premium-pricing{background:var(--color-cream)}
+.pricing-header{text-align:center;margin-bottom:var(--space-6)}
+.pricing-title{display:flex;flex-direction:column;align-items:center;gap:var(--space-1)}
+.pricing-title-serif{font-family:var(--font-display);font-style:italic;font-weight:700;font-size:var(--text-4xl);color:var(--color-carbon);line-height:1.15}
+.pricing-title-sans{font-family:var(--font-outfit);font-weight:700;font-size:var(--text-3xl);color:var(--color-sage);line-height:1.2}
+@media(min-width:768px){.pricing-title-serif{font-size:var(--text-5xl)}.pricing-title-sans{font-size:var(--text-4xl)}.pricing-title{flex-direction:row;gap:var(--space-3)}}
+.pricing-countdown{text-align:center;margin-bottom:var(--space-10)}
+.pricing-countdown-label{font-size:var(--text-sm);color:var(--color-text-muted);margin-bottom:var(--space-2)}
+.pricing-card{max-width:580px;margin:0 auto;background:var(--color-sage);border-radius:var(--radius-3xl);padding:var(--space-8) var(--space-6);color:#fff;position:relative;overflow:hidden;box-shadow:var(--shadow-xl)}
+@media(min-width:768px){.pricing-card{padding:var(--space-12) var(--space-10)}}
+.pricing-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 0%,rgba(255,255,255,.06) 0%,transparent 60%);pointer-events:none}
+.pricing-badge-wrap{text-align:center;margin-bottom:var(--space-4);position:relative}
+.pricing-badge{display:inline-block;background:var(--color-blush);color:#fff;font-family:var(--font-outfit);font-weight:700;font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.1em;padding:var(--space-2) var(--space-5);border-radius:var(--radius-full)}
+.pricing-program-name{text-align:center;font-family:var(--font-outfit);font-weight:600;font-size:var(--text-lg);color:rgba(255,255,255,.85);margin-bottom:var(--space-6);position:relative}
+.pricing-prices{text-align:center;margin-bottom:var(--space-6);position:relative}
+.pricing-old-price{font-family:var(--font-sans);font-size:var(--text-xl);font-weight:600;color:var(--color-blush-light);text-decoration:line-through;text-decoration-thickness:2px;display:block;margin-bottom:var(--space-1)}
+.pricing-main-price{display:flex;align-items:baseline;justify-content:center;gap:var(--space-2);margin-bottom:var(--space-2)}
+.pricing-currency{font-family:var(--font-sans);font-size:var(--text-xl);font-weight:500;color:rgba(255,255,255,.7)}
+.pricing-amount{font-family:var(--font-display);font-weight:700;font-size:var(--text-7xl);color:#fff;line-height:1;letter-spacing:-.02em}
+@media(min-width:768px){.pricing-amount{font-size:var(--text-8xl)}}
+.pricing-weekly{font-family:var(--font-outfit);font-weight:600;font-size:var(--text-base);color:rgba(255,255,255,.9);margin-bottom:var(--space-1)}
+.pricing-installments{font-size:var(--text-sm);color:rgba(255,255,255,.55)}
+.pricing-divider{height:1px;background:rgba(255,255,255,.15);margin:var(--space-6) 0;position:relative}
+.pricing-features{list-style:none;padding:0;margin:0 0 var(--space-8) 0;display:flex;flex-direction:column;gap:var(--space-3);position:relative}
+.pricing-feature-item{display:flex;align-items:flex-start;gap:var(--space-3);font-size:var(--text-sm);color:rgba(255,255,255,.9);line-height:1.5}
+@media(min-width:768px){.pricing-feature-item{font-size:var(--text-base)}}
+.pricing-check{flex-shrink:0;width:22px;height:22px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.15);border-radius:var(--radius-sm);margin-top:1px}
+.pricing-ctas{display:flex;flex-direction:column;gap:var(--space-3);margin-bottom:var(--space-4);position:relative}
+.btn--clay{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2);background:var(--color-blush);color:#fff;font-family:var(--font-outfit);font-weight:700;font-size:var(--text-lg);padding:var(--space-4) var(--space-8);border-radius:var(--radius-full);border:none;cursor:pointer;text-decoration:none;transition:all var(--transition-base);box-shadow:0 4px 20px rgba(212,145,126,.4);position:relative;overflow:hidden}
+.btn--clay::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);transition:left var(--transition-slow)}
+.btn--clay:hover::before{left:100%}
+.btn--clay:hover{background:var(--color-blush-light);transform:translateY(-2px) scale(1.02);box-shadow:0 6px 30px rgba(212,145,126,.5)}
+.btn--clay:active{transform:translateY(0) scale(.98)}
+.btn--ghost-card{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2);background:rgba(255,255,255,.08);color:rgba(255,255,255,.85);font-family:var(--font-outfit);font-weight:600;font-size:var(--text-sm);padding:var(--space-3) var(--space-6);border-radius:var(--radius-full);border:1.5px solid rgba(255,255,255,.18);cursor:pointer;text-decoration:none;transition:all var(--transition-base);backdrop-filter:blur(8px)}
+.btn--ghost-card:hover{background:rgba(255,255,255,.18);color:#fff;transform:translateY(-1px)}
+.pricing-mp-badge{display:flex;align-items:center;justify-content:center;gap:var(--space-2);font-family:var(--font-sans);font-size:var(--text-xs);font-weight:500;color:rgba(255,255,255,.55);letter-spacing:.02em;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius-full);padding:var(--space-2) var(--space-4)}
+.pricing-mp-badge svg{opacity:.6}
+.pricing-below-note{text-align:center;font-size:var(--text-sm);color:var(--color-text-muted);max-width:440px;margin:var(--space-8) auto 0;text-wrap:balance}
+.pricing-trust{display:flex;align-items:center;justify-content:center;gap:var(--space-3);margin-top:var(--space-5);font-size:var(--text-sm);color:var(--color-text-muted)}
+.pricing-trust-item{display:inline-flex;align-items:center;gap:var(--space-1)}
+.pricing-trust-dot{opacity:.4}
+
+/* ===== FAQ ===== */
+.faq-section{background:var(--color-cream)}
+.faq-header{text-align:center;margin-bottom:var(--space-12)}
+.faq-title{display:flex;flex-direction:column;align-items:center;gap:0;line-height:1.1}
+.faq-title__serif{font-family:var(--font-display);font-style:italic;font-weight:400;font-size:var(--text-5xl);color:var(--color-carbon);letter-spacing:-.02em}
+.faq-title__sans{font-family:var(--font-sans);font-weight:700;font-size:var(--text-3xl);color:var(--color-carbon);letter-spacing:-.01em;margin-top:var(--space-1)}
+@media(min-width:768px){.faq-title__serif{font-size:var(--text-6xl)}.faq-title__sans{font-size:var(--text-4xl)}}
+.faq-list{display:flex;flex-direction:column;gap:var(--space-3);max-width:800px;margin:0 auto}
+.faq-item{background:var(--color-cream-warm);border-radius:var(--radius-xl);overflow:hidden;transition:box-shadow var(--transition-base)}
+.faq-item:hover{box-shadow:var(--shadow-sm)}
+.faq-item[data-open="true"]{box-shadow:var(--shadow-md)}
+.faq-trigger{width:100%;display:flex;align-items:center;justify-content:space-between;gap:var(--space-4);padding:var(--space-5) var(--space-6);background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;transition:background var(--transition-fast)}
+.faq-trigger:hover{background:rgba(46,64,54,.04)}
+@media(min-width:768px){.faq-trigger{padding:var(--space-6) var(--space-8)}}
+.faq-question{font-family:var(--font-sans);font-weight:600;font-size:var(--text-base);color:var(--color-carbon);line-height:1.4}
+@media(min-width:768px){.faq-question{font-size:var(--text-lg)}}
+.faq-icon{position:relative;width:28px;height:28px;flex-shrink:0;border-radius:var(--radius-full);background:var(--color-sage);transition:transform var(--transition-base),background var(--transition-base)}
+.faq-icon__bar{position:absolute;top:50%;left:50%;background:#fff;border-radius:2px;transition:transform var(--transition-base),opacity var(--transition-base)}
+.faq-icon__bar--h{width:12px;height:2px;transform:translate(-50%,-50%)}
+.faq-icon__bar--v{width:2px;height:12px;transform:translate(-50%,-50%)}
+.faq-item[data-open="true"] .faq-icon{background:var(--color-blush);transform:rotate(90deg)}
+.faq-item[data-open="true"] .faq-icon__bar--v{opacity:0;transform:translate(-50%,-50%) scaleY(0)}
+.faq-panel{max-height:0;overflow:hidden;transition:max-height 500ms cubic-bezier(.4,0,.2,1)}
+.faq-panel[hidden]{display:block;max-height:0}
+.faq-panel.is-open{max-height:600px}
+.faq-answer{padding:0 var(--space-6) var(--space-6)}
+@media(min-width:768px){.faq-answer{padding:0 var(--space-8) var(--space-8)}}
+.faq-answer p{font-family:var(--font-sans);font-size:var(--text-base);line-height:1.7;color:var(--color-text-muted)}
+.faq-whatsapp-btn{display:inline-flex;align-items:center;gap:var(--space-2);margin-top:var(--space-4);padding:var(--space-3) var(--space-5);background:var(--color-whatsapp);color:#fff;font-family:var(--font-sans);font-weight:600;font-size:var(--text-sm);border-radius:var(--radius-full);text-decoration:none;transition:all var(--transition-base);box-shadow:var(--shadow-sm)}
+.faq-whatsapp-btn:hover{background:var(--color-whatsapp-hover);transform:translateY(-2px);box-shadow:var(--shadow-md)}
+
+/* ===== FINAL CTA ===== */
+.final-cta{position:relative;overflow:hidden;background:var(--color-sage-dark);padding:var(--space-24) 0}
+@media(min-width:768px){.final-cta{padding:var(--space-32) 0}}
+.final-cta__gradient{position:absolute;border-radius:50%;pointer-events:none;filter:blur(80px)}
+.final-cta__gradient--1{width:500px;height:500px;top:-15%;left:-10%;background:radial-gradient(circle,rgba(94,114,82,.6) 0%,transparent 70%)}
+.final-cta__gradient--2{width:400px;height:400px;bottom:-10%;right:-5%;background:radial-gradient(circle,rgba(212,145,126,.15) 0%,transparent 70%)}
+.final-cta__gradient--3{width:300px;height:300px;top:40%;left:50%;transform:translateX(-50%);background:radial-gradient(circle,rgba(123,143,107,.4) 0%,transparent 70%)}
+.final-cta__content{position:relative;z-index:1;text-align:center}
+.final-cta__headline{margin-bottom:var(--space-8)}
+.final-cta__line-1{font-family:var(--font-sans);font-weight:400;font-size:var(--text-2xl);color:rgba(255,255,255,.9);line-height:1.2;letter-spacing:-.01em;margin-bottom:var(--space-1)}
+.final-cta__line-2{font-family:var(--font-display);font-weight:700;font-style:italic;font-size:var(--text-6xl);color:#fff;line-height:1;letter-spacing:-.03em;margin:0}
+.final-cta__line-3{font-family:var(--font-sans);font-weight:500;font-size:var(--text-xl);color:var(--color-blush-light);line-height:1.3;margin-top:var(--space-3)}
+@media(min-width:768px){.final-cta__line-1{font-size:var(--text-3xl)}.final-cta__line-2{font-size:var(--text-8xl)}.final-cta__line-3{font-size:var(--text-2xl)}}
+.final-cta__copy{font-family:var(--font-sans);font-size:var(--text-lg);line-height:1.7;color:rgba(255,255,255,.75);max-width:540px;margin:0 auto var(--space-10);text-wrap:balance}
+.final-cta__countdown{margin-bottom:var(--space-10)}
+.final-cta__countdown-label{font-family:var(--font-sans);font-size:var(--text-sm);color:rgba(255,255,255,.5);margin-bottom:var(--space-2)}
+.final-cta__countdown-timer{display:inline-block}
+.final-cta__actions{display:flex;flex-direction:column;align-items:center;gap:var(--space-4);margin-bottom:var(--space-8)}
+@media(min-width:480px){.final-cta__actions{flex-direction:row;justify-content:center}}
+.final-cta__btn-primary{font-weight:700;font-size:var(--text-base);padding:var(--space-4) var(--space-8)}
+.final-cta__btn-secondary{font-size:var(--text-sm)}
+.final-cta__trust{display:flex;flex-direction:column;align-items:center;gap:var(--space-2);font-family:var(--font-sans);font-size:var(--text-sm);color:rgba(255,255,255,.45)}
+@media(min-width:480px){.final-cta__trust{flex-direction:row;justify-content:center;gap:var(--space-4)}}
+.final-cta__trust-item{display:inline-flex;align-items:center;gap:var(--space-2)}
+.final-cta__trust-sep{display:none;color:rgba(255,255,255,.2)}
+@media(min-width:480px){.final-cta__trust-sep{display:inline}}
+
+/* ===== FOOTER ===== */
+.premium-footer{background:var(--color-carbon);border-radius:var(--radius-3xl) var(--radius-3xl) 0 0;padding:var(--space-12) 0 var(--space-8);margin-top:-1px}
+@media(min-width:768px){.premium-footer{padding:var(--space-16) 0 var(--space-10)}}
+.footer-top{display:flex;flex-direction:column;align-items:center;gap:var(--space-4);margin-bottom:var(--space-8)}
+@media(min-width:768px){.footer-top{flex-direction:row;justify-content:space-between;align-items:center}}
+.footer-logo{text-decoration:none}
+.footer-logo__text{font-family:var(--font-display);font-style:italic;font-weight:700;font-size:var(--text-3xl);color:#fff;letter-spacing:.04em}
+@media(min-width:768px){.footer-logo__text{font-size:var(--text-4xl)}}
+.footer-status{display:inline-flex;align-items:center;gap:var(--space-2);padding:var(--space-2) var(--space-4);border-radius:var(--radius-full);border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05)}
+.footer-status__dot{width:8px;height:8px;border-radius:50%;background:#4ADE80;animation:pulse-dot 2s ease-in-out infinite}
+.footer-status__text{font-family:var(--font-sans);font-size:var(--text-xs);color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.08em}
+.footer-divider{height:1px;background:rgba(255,255,255,.08);margin-bottom:var(--space-8)}
+.footer-nav{display:grid;grid-template-columns:1fr;gap:var(--space-8);margin-bottom:var(--space-8)}
+@media(min-width:480px){.footer-nav{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:768px){.footer-nav{grid-template-columns:repeat(3,1fr);gap:var(--space-12)}}
+.footer-nav__title{font-family:var(--font-sans);font-weight:600;font-size:var(--text-sm);color:rgba(255,255,255,.9);text-transform:uppercase;letter-spacing:.08em;margin-bottom:var(--space-4)}
+.footer-nav__list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:var(--space-3)}
+.footer-nav__list a{font-family:var(--font-sans);font-size:var(--text-sm);color:rgba(255,255,255,.45);text-decoration:none;transition:color var(--transition-fast);display:inline-flex;align-items:center;gap:var(--space-2)}
+.footer-nav__list a:hover{color:rgba(255,255,255,.85)}
+.footer-whatsapp-link svg{opacity:.7;transition:opacity var(--transition-fast)}
+.footer-whatsapp-link:hover svg{opacity:1}
+.footer-bottom{display:flex;flex-direction:column;align-items:center;gap:var(--space-2);text-align:center}
+@media(min-width:768px){.footer-bottom{flex-direction:row;justify-content:space-between;text-align:left}}
+.footer-bottom__copy{font-family:var(--font-sans);font-size:var(--text-xs);color:rgba(255,255,255,.3)}
+.footer-bottom__tagline{font-family:var(--font-sans);font-size:var(--text-xs);color:rgba(255,255,255,.2);font-style:italic}
+
+/* ===== WHATSAPP FLOAT ===== */
+.whatsapp-float{position:fixed;bottom:24px;right:24px;z-index:1000;width:56px;height:56px;border-radius:50%;background-color:var(--color-whatsapp);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(18,140,126,.4);transition:all var(--transition-base);text-decoration:none;animation:wa-pulse 2s ease-in-out infinite}
+.whatsapp-float:hover{transform:scale(1.1) translateY(-2px);box-shadow:0 6px 24px rgba(18,140,126,.5);animation-play-state:paused}
+@keyframes wa-pulse{0%,100%{box-shadow:0 4px 16px rgba(18,140,126,.4)}50%{box-shadow:0 4px 24px rgba(18,140,126,.6)}}
+@media(max-width:767px){.whatsapp-float{bottom:76px;right:16px;width:50px;height:50px}.whatsapp-float svg{width:24px;height:24px}}
+
+/* ===== STICKY MOBILE CTA ===== */
+.sticky-cta{position:fixed;bottom:0;left:0;right:0;z-index:40;background:rgba(255,255,255,.92);backdrop-filter:blur(16px) saturate(180%);-webkit-backdrop-filter:blur(16px) saturate(180%);border-top:1px solid var(--color-border);padding:var(--space-2) var(--space-4);transform:translateY(100%);transition:transform var(--transition-base)}
+.sticky-cta.is-visible{transform:translateY(0)}
+.sticky-cta-inner{display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);max-width:var(--container-max);margin:0 auto}
+.sticky-cta-price{display:flex;flex-direction:column}
+.sticky-cta-price-label{font-size:.65rem;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.06em;line-height:1}
+.sticky-cta-price-value{font-family:var(--font-display);font-weight:700;font-size:1.2rem;color:var(--color-carbon);line-height:1.2}
+.sticky-cta-button{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2);padding:var(--space-2) var(--space-5);background:var(--color-blush);color:#fff;font-family:var(--font-sans);font-weight:700;font-size:.9rem;border-radius:var(--radius-full);text-decoration:none;white-space:nowrap;transition:all var(--transition-fast);box-shadow:0 2px 12px rgba(212,145,126,.3)}
+.sticky-cta-button:hover{background:var(--color-blush-light)}
+@media(min-width:768px){.sticky-cta{display:none}}
+</style>
+
+<script>
+  // Navbar mobile toggle
+  const navbar = document.getElementById('navbar') as HTMLElement;
+  const hamburger = navbar?.querySelector('.navbar__hamburger') as HTMLButtonElement;
+  const mobileMenu = document.getElementById('mobile-menu-1a1') as HTMLElement;
+  const heroSection = document.getElementById('hero');
+
+  if (navbar && heroSection) {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          navbar.classList.remove('navbar--scrolled');
+        } else {
+          navbar.classList.add('navbar--scrolled');
+        }
+      },
+      { root: null, threshold: 0, rootMargin: '-80px 0px 0px 0px' }
+    );
+    observer.observe(heroSection);
+  }
+
+  if (hamburger && mobileMenu) {
+    hamburger.addEventListener('click', () => {
+      const isOpen = hamburger.getAttribute('aria-expanded') === 'true';
+      hamburger.setAttribute('aria-expanded', String(!isOpen));
+      mobileMenu.setAttribute('aria-hidden', String(isOpen));
+      navbar?.classList.toggle('navbar--mobile-open', !isOpen);
+      hamburger.classList.toggle('is-active', !isOpen);
+    });
+
+    mobileMenu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        hamburger.setAttribute('aria-expanded', 'false');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+        navbar?.classList.remove('navbar--mobile-open');
+        hamburger.classList.remove('is-active');
+      });
+    });
+  }
+
+  // FAQ accordion
+  function initFAQ1a1() {
+    const items = document.querySelectorAll('.faq-item[data-faq-index]');
+    items.forEach((item) => {
+      const trigger = item.querySelector('.faq-trigger') as HTMLButtonElement;
+      const panel = item.querySelector('.faq-panel') as HTMLElement;
+      if (!trigger || !panel) return;
+
+      trigger.addEventListener('click', () => {
+        const isOpen = item.getAttribute('data-open') === 'true';
+        items.forEach((other) => {
+          if (other !== item && other.getAttribute('data-open') === 'true') {
+            const otherTrigger = other.querySelector('.faq-trigger') as HTMLButtonElement;
+            const otherPanel = other.querySelector('.faq-panel') as HTMLElement;
+            other.setAttribute('data-open', 'false');
+            otherTrigger.setAttribute('aria-expanded', 'false');
+            otherPanel.classList.remove('is-open');
+            otherPanel.setAttribute('hidden', '');
+          }
+        });
+
+        if (isOpen) {
+          item.setAttribute('data-open', 'false');
+          trigger.setAttribute('aria-expanded', 'false');
+          panel.classList.remove('is-open');
+          setTimeout(() => {
+            if (item.getAttribute('data-open') !== 'true') {
+              panel.setAttribute('hidden', '');
+            }
+          }, 500);
+        } else {
+          item.setAttribute('data-open', 'true');
+          trigger.setAttribute('aria-expanded', 'true');
+          panel.removeAttribute('hidden');
+          panel.offsetHeight;
+          panel.classList.add('is-open');
+        }
+      });
+    });
+  }
+
+  initFAQ1a1();
+
+  // Sticky CTA
+  const stickyCta = document.getElementById('sticky-cta');
+  const hero = document.getElementById('hero');
+  if (stickyCta && hero) {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          stickyCta.classList.remove('is-visible');
+          stickyCta.setAttribute('aria-hidden', 'true');
+        } else {
+          stickyCta.classList.add('is-visible');
+          stickyCta.setAttribute('aria-hidden', 'false');
+        }
+      },
+      { threshold: 0 }
+    );
+    observer.observe(hero);
+  }
+</script>

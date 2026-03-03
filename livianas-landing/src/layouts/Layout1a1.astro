@@ -1,0 +1,355 @@
+---
+import '../styles/global.css';
+import { site1a1Config, faq1a1Data } from '../lib/config-1a1';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'LIVIANAS 1:1 — Programa Personalizado de 3 Meses | Transformación Individual',
+  description = 'Programa individual de 3 meses con Ana. 12 sesiones de coaching 1 a 1, plan de alimentación personalizado, acompañamiento ilimitado por WhatsApp. Solo 3 cupos.',
+} = Astro.props;
+
+const canonicalUrl = new URL(Astro.url.pathname, site1a1Config.siteUrl).href;
+const ogImage = `${site1a1Config.siteUrl}/images/og-image.jpg`;
+
+// Build FAQ schema from data
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq1a1Data.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'LIVIANAS - Método Livianas',
+  url: site1a1Config.siteUrl,
+  description: 'Transformación personalizada para mujeres',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Montevideo',
+    addressCountry: 'UY',
+  },
+};
+
+const productSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: 'LIVIANAS — Programa 1:1 Personalizado',
+  description: description,
+  brand: {
+    '@type': 'Brand',
+    name: 'LIVIANAS',
+  },
+  offers: {
+    '@type': 'Offer',
+    price: String(site1a1Config.precioUSD),
+    priceCurrency: 'USD',
+    availability: 'https://schema.org/LimitedAvailability',
+  },
+};
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content="LIVIANAS 1:1 — Tu transformación personalizada" />
+    <meta property="og:description" content="3 meses de coaching individual con Ana. Plan 100% personalizado. Solo 3 cupos." />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="es_UY" />
+    <meta property="og:site_name" content="LIVIANAS" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="LIVIANAS 1:1 — Tu transformación personalizada" />
+    <meta name="twitter:description" content="3 meses de coaching individual con Ana. Solo 3 cupos." />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400;1,700&family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Schema Markup -->
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(productSchema)} />
+
+    <!-- Meta Pixel -->
+    {site1a1Config.metaPixelId && (
+      <script set:html={`
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '${site1a1Config.metaPixelId}');
+        fbq('track', 'PageView');
+      `} />
+      <noscript>
+        <img height="1" width="1" style="display:none" src={`https://www.facebook.com/tr?id=${site1a1Config.metaPixelId}&ev=PageView&noscript=1`} />
+      </noscript>
+    )}
+
+    <!-- GA4 -->
+    {site1a1Config.ga4Id && (
+      <script async src={`https://www.googletagmanager.com/gtag/js?id=${site1a1Config.ga4Id}`} />
+      <script set:html={`
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '${site1a1Config.ga4Id}');
+      `} />
+    )}
+  </head>
+  <body>
+    <slot />
+
+    <!-- GSAP + ScrollTrigger animations -->
+    <script>
+      import gsap from 'gsap';
+      import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      // --- Hero staggered entrance ---
+      const heroItems = document.querySelectorAll('[data-gsap="hero-label"], [data-gsap="hero-title"], [data-gsap="hero-subtitle"], [data-gsap="hero-ctas"], [data-gsap="hero-scroll"]');
+      if (heroItems.length) {
+        gsap.set(heroItems, { opacity: 0, y: 40 });
+        gsap.to(heroItems, {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          ease: 'power3.out',
+          stagger: 0.15,
+          delay: 0.3,
+        });
+      }
+
+      // --- Generic fade-in-up for all other data-gsap elements ---
+      document.querySelectorAll('[data-gsap]').forEach((el) => {
+        const attr = (el as HTMLElement).dataset.gsap || '';
+        if (attr.startsWith('hero-')) return;
+
+        gsap.set(el, { opacity: 0, y: 30 });
+        ScrollTrigger.create({
+          trigger: el,
+          start: 'top 85%',
+          once: true,
+          onEnter: () => {
+            gsap.to(el, {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              ease: 'power2.out',
+            });
+          },
+        });
+      });
+
+      // --- Navbar background on scroll ---
+      const navbar = document.getElementById('navbar');
+      if (navbar) {
+        ScrollTrigger.create({
+          start: 80,
+          onUpdate: (self) => {
+            if (self.progress > 0) {
+              navbar.classList.add('navbar--scrolled');
+            } else {
+              navbar.classList.remove('navbar--scrolled');
+            }
+          },
+        });
+      }
+
+      // --- Manifesto parallax background ---
+      const manifestoBg = document.querySelector('.manifesto-bg');
+      if (manifestoBg) {
+        gsap.to(manifestoBg, {
+          yPercent: -20,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.manifesto-section',
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          },
+        });
+      }
+
+      // --- Archive cards staggered entrance ---
+      const archiveCards = document.querySelectorAll('.archive-card');
+      if (archiveCards.length) {
+        gsap.set(archiveCards, { opacity: 0, y: 40 });
+        ScrollTrigger.create({
+          trigger: '.archive-grid',
+          start: 'top 80%',
+          once: true,
+          onEnter: () => {
+            gsap.to(archiveCards, {
+              opacity: 1,
+              y: 0,
+              duration: 0.7,
+              ease: 'power2.out',
+              stagger: 0.1,
+            });
+          },
+        });
+      }
+
+      // --- Pricing card scale entrance ---
+      const pricingCard = document.querySelector('.pricing-card');
+      if (pricingCard) {
+        gsap.set(pricingCard, { opacity: 0, scale: 0.95 });
+        ScrollTrigger.create({
+          trigger: pricingCard,
+          start: 'top 80%',
+          once: true,
+          onEnter: () => {
+            gsap.to(pricingCard, {
+              opacity: 1,
+              scale: 1,
+              duration: 0.8,
+              ease: 'back.out(1.2)',
+            });
+          },
+        });
+      }
+
+      // --- Feature panels staggered entrance ---
+      const featurePanels = document.querySelectorAll('.feature-panel');
+      if (featurePanels.length) {
+        gsap.set(featurePanels, { opacity: 0, y: 50 });
+        ScrollTrigger.create({
+          trigger: '.features-section',
+          start: 'top 70%',
+          once: true,
+          onEnter: () => {
+            gsap.to(featurePanels, {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              ease: 'power2.out',
+              stagger: 0.2,
+            });
+          },
+        });
+      }
+
+      // --- FAQ items staggered entrance ---
+      const faqItems = document.querySelectorAll('.faq-item');
+      if (faqItems.length) {
+        gsap.set(faqItems, { opacity: 0, y: 20 });
+        ScrollTrigger.create({
+          trigger: '#faq',
+          start: 'top 75%',
+          once: true,
+          onEnter: () => {
+            gsap.to(faqItems, {
+              opacity: 1,
+              y: 0,
+              duration: 0.5,
+              ease: 'power2.out',
+              stagger: 0.06,
+            });
+          },
+        });
+      }
+    </script>
+
+    <!-- Tracking Events -->
+    <script>
+      // CTA click tracking
+      document.querySelectorAll('[data-utm]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const source = (btn as HTMLElement).dataset.utm;
+
+          if (typeof (window as any).fbq !== 'undefined') {
+            (window as any).fbq('track', 'Lead', {
+              content_name: 'CTA Click 1a1',
+              content_category: source,
+              value: 1200,
+              currency: 'USD',
+            });
+            if (source?.includes('pricing') || source?.includes('payment')) {
+              (window as any).fbq('track', 'InitiateCheckout', {
+                content_name: 'Payment Click 1a1',
+                content_category: source,
+                value: 1200,
+                currency: 'USD',
+              });
+            }
+          }
+
+          if (typeof (window as any).gtag !== 'undefined') {
+            (window as any).gtag('event', 'cta_click_1a1', {
+              button_location: source,
+            });
+          }
+        });
+      });
+
+      // Scroll depth
+      let scrollTracked = false;
+      window.addEventListener('scroll', () => {
+        if (scrollTracked) return;
+        const scrollPercent = (window.scrollY + window.innerHeight) / document.documentElement.scrollHeight;
+        if (scrollPercent >= 0.5) {
+          scrollTracked = true;
+          if (typeof (window as any).fbq !== 'undefined') {
+            (window as any).fbq('track', 'ViewContent', { content_name: 'Landing LIVIANAS 1a1' });
+          }
+        }
+      }, { passive: true });
+
+      // FAQ open tracking
+      document.querySelectorAll('.faq-item').forEach((item) => {
+        item.addEventListener('click', () => {
+          const question = item.querySelector('.faq-question')?.textContent || '';
+          if (typeof (window as any).gtag !== 'undefined') {
+            (window as any).gtag('event', 'faq_open_1a1', { question });
+          }
+        });
+      });
+
+      // Page engagement timer
+      [30, 60, 120].forEach((seconds) => {
+        setTimeout(() => {
+          if (typeof (window as any).gtag !== 'undefined') {
+            (window as any).gtag('event', 'page_engagement_1a1', { engagement_time: seconds });
+          }
+        }, seconds * 1000);
+      });
+    </script>
+  </body>
+</html>
