@@ -2,6 +2,7 @@
 import Layout1a1 from '../layouts/Layout1a1.astro';
 import { site1a1Config, getWhatsAppLink1a1, getPaymentLink1a1, painPoints1a1Data, transformation1a1Data, phases1a1Data, includes1a1Data, paraQuienEs1a1Data, pricingFeatures1a1, faq1a1Data } from '../lib/config-1a1';
 import CountdownTimer from '../components/CountdownTimer.astro';
+import ChatWidget from '../components/ChatWidget.astro';
 
 const paymentHref = getPaymentLink1a1();
 const whatsappHero = getWhatsAppLink1a1('hero');
@@ -666,6 +667,7 @@ const iconColors = [
       </a>
     </div>
   </div>
+  <ChatWidget />
 </Layout1a1>
 
 <style is:global>
