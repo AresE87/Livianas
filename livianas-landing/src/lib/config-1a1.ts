@@ -61,7 +61,7 @@ export function getWhatsAppLink1a1(location: keyof typeof site1a1Config.whatsapp
 
 // Helper para obtener link de pago
 export function getPaymentLink1a1(): string {
-  return '/1a1/pago';
+  return '/individual/pago';
 }
 
 // Helper para obtener links directos de pago
