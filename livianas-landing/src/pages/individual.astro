@@ -1,7 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { siteConfig, getWhatsAppLink } from '../lib/config';
-import WhatsAppButton from '../components/WhatsAppButton.astro';
 import ChatWidget from '../components/ChatWidget.astro';
 
 const whatsappLink = getWhatsAppLink('individual');
@@ -293,7 +292,6 @@ const faqItems = [
     </div>
   </footer>
 
-  <WhatsAppButton />
   <ChatWidget />
 </Layout>
 
