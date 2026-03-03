@@ -275,3 +275,44 @@ export const faqData = [
     showDirectCta: true,
   },
 ];
+
+// ===== Testimonios =====
+// <!-- PLACEHOLDER: Reemplazar con testimonios reales de clientas -->
+
+export const testimonialsData = [
+  {
+    text: 'Llegué sintiéndome atrapada en un ciclo de dietas y culpa. Después de las 4 semanas, por primera vez entendí que el problema nunca fue la comida. Hoy como sin culpa y me siento en paz con mi cuerpo.',
+    name: 'María G.',
+    age: 34,
+    location: 'Montevideo, Uruguay',
+    initials: 'MG',
+  },
+  {
+    text: 'Ana tiene algo especial: te escucha de verdad. El grupo fue un espacio seguro donde pude ser vulnerable. Bajé 4 kilos sin darme cuenta, pero lo más importante es que dejé de pesarme todos los días.',
+    name: 'Carolina P.',
+    age: 29,
+    location: 'Buenos Aires, Argentina',
+    initials: 'CP',
+  },
+  {
+    text: 'Pensé que era otro programa más, pero desde la primera semana sentí la diferencia. El enfoque espiritual y emocional me ayudó a entender por qué comía de más. Hoy tengo herramientas reales.',
+    name: 'Valentina R.',
+    age: 41,
+    location: 'Santiago, Chile',
+    initials: 'VR',
+  },
+  {
+    text: 'Lo que más valoro es la comunidad. Saber que no estoy sola en esto cambió todo. Las otras mujeres del grupo se convirtieron en mi red de apoyo. Seguimos en contacto después del programa.',
+    name: 'Lucía M.',
+    age: 37,
+    location: 'Bogotá, Colombia',
+    initials: 'LM',
+  },
+  {
+    text: 'Hice el programa desde México y funcionó perfecto. Ana adapta todo a tu realidad. Mi relación con la comida cambió completamente: ya no es una pelea, es un acto de amor propio.',
+    name: 'Fernanda S.',
+    age: 26,
+    location: 'Ciudad de México, México',
+    initials: 'FS',
+  },
+];

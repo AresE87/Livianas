@@ -398,6 +398,14 @@ const iconColors = [
               </svg>
               <span>Programa 100% individual &middot; Solo {site1a1Config.cuposDisponibles} cupos simult&aacute;neos</span>
             </div>
+
+            <a href="/about" class="about-more-link">
+              Conoc&eacute; m&aacute;s sobre Ana
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14"/>
+                <path d="m12 5 7 7-7 7"/>
+              </svg>
+            </a>
           </div>
         </div>
       </div>
@@ -865,6 +873,10 @@ const iconColors = [
 @media(min-width:768px){.about-bio{font-size:var(--text-lg)}}
 .about-detail{display:inline-flex;align-items:center;gap:var(--space-2);font-family:var(--font-sans);font-size:var(--text-sm);color:var(--color-sage);font-weight:500;background:var(--color-cream);padding:var(--space-3) var(--space-4);border-radius:var(--radius-full);width:fit-content}
 .about-detail-icon{flex-shrink:0;opacity:.7}
+.about-more-link{display:inline-flex;align-items:center;gap:var(--space-2);font-family:var(--font-sans);font-size:var(--text-sm);font-weight:600;color:var(--color-sage);text-decoration:none;margin-top:var(--space-5);transition:color var(--transition-base),gap var(--transition-base)}
+.about-more-link:hover{color:var(--color-sage-dark);gap:var(--space-3)}
+.about-more-link svg{transition:transform var(--transition-base)}
+.about-more-link:hover svg{transform:translateX(2px)}
 
 /* ===== PRICING ===== */
 .premium-pricing{background:var(--color-cream)}

@@ -1,6 +1,11 @@
 ---
 import { siteConfig, getPaymentLink } from '../lib/config';
 
+interface Props {
+  basePath?: string;
+}
+
+const { basePath = '' } = Astro.props;
 const paymentHref = getPaymentLink();
 const fechaCierre = siteConfig.fechaCierre;
 ---
@@ -18,9 +23,9 @@ const fechaCierre = siteConfig.fechaCierre;
 
     <!-- Desktop nav links -->
     <div class="navbar__links" role="navigation">
-      <a href="#metodo" class="navbar__link">El Metodo</a>
-      <a href="#programa" class="navbar__link">Programa</a>
-      <a href="#precio" class="navbar__link">Precio</a>
+      <a href={`${basePath}#metodo`} class="navbar__link">El Metodo</a>
+      <a href={`${basePath}#programa`} class="navbar__link">Programa</a>
+      <a href={`${basePath}#precio`} class="navbar__link">Precio</a>
       <span class="navbar__divider" aria-hidden="true"></span>
       <span class="navbar__countdown">
         <span class="navbar__countdown-dot" aria-hidden="true"></span>
@@ -53,9 +58,9 @@ const fechaCierre = siteConfig.fechaCierre;
 
   <!-- Mobile menu -->
   <div id="mobile-menu" class="navbar__mobile" aria-hidden="true">
-    <a href="#metodo" class="navbar__mobile-link">El Metodo</a>
-    <a href="#programa" class="navbar__mobile-link">Programa</a>
-    <a href="#precio" class="navbar__mobile-link">Precio</a>
+    <a href={`${basePath}#metodo`} class="navbar__mobile-link">El Metodo</a>
+    <a href={`${basePath}#programa`} class="navbar__mobile-link">Programa</a>
+    <a href={`${basePath}#precio`} class="navbar__mobile-link">Precio</a>
     <div class="navbar__mobile-divider"></div>
     <span class="navbar__mobile-countdown">
       <span class="navbar__countdown-dot" aria-hidden="true"></span>
