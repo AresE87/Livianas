@@ -1,0 +1,533 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { siteConfig, getWhatsAppLink } from '../lib/config';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+import ChatWidget from '../components/ChatWidget.astro';
+
+const whatsappLink = getWhatsAppLink('individual');
+const year = new Date().getFullYear();
+
+const faqItems = [
+  { q: '¿Cómo son las sesiones 1 a 1?', a: 'Son encuentros semanales por Zoom de 60 minutos, solo vos y Ana. Cada sesión se adapta 100% a tu situación, tus tiempos y tu proceso.' },
+  { q: '¿Qué diferencia tiene con el programa grupal?', a: 'El grupal son 4 semanas con 8 mujeres. El 1 a 1 son 3 meses de acompañamiento completamente personalizado: plan alimentario a medida, sesiones privadas, WhatsApp directo con Ana y flexibilidad total.' },
+  { q: '¿Puedo pagar en cuotas?', a: 'Sí. Con Mercado Pago podés pagar en cuotas con tarjeta de crédito. También aceptamos PayPal para pagos internacionales. Consultá con Ana las opciones.' },
+  { q: '¿Qué pasa si tengo que cancelar una sesión?', a: 'Podés reprogramar con 24 horas de anticipación sin problema. Tu proceso no se detiene.' },
+  { q: '¿Necesito experiencia previa en nutrición o bienestar?', a: 'No. El programa parte de donde estés hoy. Ana adapta todo a tu nivel, tu historia y tus necesidades.' },
+  { q: '¿Tiene garantía?', a: 'Sí. Si después de las primeras 2 semanas sentís que no es para vos, te devolvemos el 100% sin preguntas.' },
+];
+---
+
+<Layout>
+  <!-- NAVBAR -->
+  <nav id="navbar" class="ind-navbar">
+    <div class="ind-navbar__inner">
+      <a href="/" class="ind-navbar__logo">LIVIANAS</a>
+      <div class="ind-navbar__links">
+        <a href="#metodo" class="ind-navbar__link">Método</a>
+        <a href="#incluye" class="ind-navbar__link">Qué incluye</a>
+        <a href="#precio" class="ind-navbar__link">Inversión</a>
+        <span class="ind-navbar__divider"></span>
+        <span class="ind-navbar__badge">1 A 1</span>
+      </div>
+      <a href={whatsappLink} target="_blank" rel="noopener noreferrer" class="ind-navbar__cta">Agendar llamada</a>
+      <button class="ind-navbar__hamburger" aria-label="Abrir menu" aria-expanded="false" type="button">
+        <span class="ind-navbar__hamburger-line"></span>
+        <span class="ind-navbar__hamburger-line"></span>
+        <span class="ind-navbar__hamburger-line"></span>
+      </button>
+    </div>
+    <div id="ind-mobile-menu" class="ind-navbar__mobile" aria-hidden="true">
+      <a href="#metodo" class="ind-navbar__mobile-link">Método</a>
+      <a href="#incluye" class="ind-navbar__mobile-link">Qué incluye</a>
+      <a href="#precio" class="ind-navbar__mobile-link">Inversión</a>
+      <div class="ind-navbar__mobile-divider"></div>
+      <a href={whatsappLink} target="_blank" rel="noopener noreferrer" class="ind-navbar__mobile-cta">Agendar llamada</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero" class="ind-hero">
+    <div class="ind-hero__overlay"></div>
+    <div class="ind-hero__content">
+      <span class="ind-hero__badge">ACOMPAÑAMIENTO INDIVIDUAL · 3 MESES</span>
+      <h1 class="ind-hero__title">
+        <span class="ind-hero__title-sans">Tu proceso,</span>
+        <span class="ind-hero__title-serif">a tu ritmo.</span>
+      </h1>
+      <p class="ind-hero__sub">3 meses de transformación personalizada con Ana. Sin grupos, sin esperas. Solo vos y tu proceso.</p>
+      <div class="ind-hero__ctas">
+        <a href={whatsappLink} target="_blank" rel="noopener noreferrer" class="ind-btn ind-btn--primary">Quiero mi lugar</a>
+        <a href="#metodo" class="ind-btn ind-btn--ghost">Conocer más</a>
+      </div>
+    </div>
+    <div class="ind-hero__scroll" aria-hidden="true">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+  </section>
+
+  <!-- MÉTODO -->
+  <section id="metodo" class="ind-section">
+    <div class="ind-container">
+      <span class="ind-label">EL MÉTODO</span>
+      <h2 class="ind-section__title">
+        <span class="ind-section__title-serif">Profundo.</span>
+        <span class="ind-section__title-sans">Personal. A tu medida.</span>
+      </h2>
+      <p class="ind-section__desc">El programa 1 a 1 toma la esencia de LIVIANAS — conducta, emoción y espiritualidad — y la adapta completamente a tu historia, tus tiempos y tus necesidades. No seguís un programa genérico: construimos juntas el tuyo.</p>
+
+      <div class="ind-pillars">
+        <div class="ind-pillar">
+          <div class="ind-pillar__icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+          </div>
+          <h3 class="ind-pillar__title">Mes 1 — Consciencia</h3>
+          <p class="ind-pillar__text">Identificamos tus patrones, sabotajes y creencias limitantes. Armamos tu mapa emocional con la comida.</p>
+        </div>
+        <div class="ind-pillar">
+          <div class="ind-pillar__icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3 class="ind-pillar__title">Mes 2 — Transformación</h3>
+          <p class="ind-pillar__text">Plan alimentario personalizado, herramientas emocionales y práctica espiritual diseñada para vos.</p>
+        </div>
+        <div class="ind-pillar">
+          <div class="ind-pillar__icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </div>
+          <h3 class="ind-pillar__title">Mes 3 — Integración</h3>
+          <p class="ind-pillar__text">Consolidás tu nueva identidad. Dejás de ser "la que hace dieta" y te convertís en la mujer que elegís ser.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUÉ INCLUYE -->
+  <section id="incluye" class="ind-section ind-section--warm">
+    <div class="ind-container">
+      <span class="ind-label">QUÉ INCLUYE</span>
+      <h2 class="ind-section__title">
+        <span class="ind-section__title-serif">Todo lo que necesitás,</span>
+        <span class="ind-section__title-sans">nada que te sobre.</span>
+      </h2>
+
+      <div class="ind-includes">
+        <div class="ind-include">
+          <div class="ind-include__number">12</div>
+          <h3 class="ind-include__title">Sesiones privadas por Zoom</h3>
+          <p class="ind-include__text">60 minutos semanales con Ana. Coaching profundo, revisión de avances y ajustes en tiempo real.</p>
+        </div>
+        <div class="ind-include">
+          <div class="ind-include__number">1</div>
+          <h3 class="ind-include__title">Plan alimentario a tu medida</h3>
+          <p class="ind-include__text">Diseñado para vos. Sin fórmulas genéricas. Se ajusta cada semana según tu cuerpo y tu vida real.</p>
+        </div>
+        <div class="ind-include">
+          <div class="ind-include__number">&infin;</div>
+          <h3 class="ind-include__title">WhatsApp directo con Ana</h3>
+          <p class="ind-include__text">Acceso directo durante los 3 meses. Consultas, dudas, momentos difíciles — Ana está ahí.</p>
+        </div>
+        <div class="ind-include">
+          <div class="ind-include__number">+</div>
+          <h3 class="ind-include__title">Guía de movimiento consciente</h3>
+          <p class="ind-include__text">Rutinas adaptadas a tu nivel. Sin presión, sin obligación. Movimiento que se siente bien.</p>
+        </div>
+        <div class="ind-include">
+          <div class="ind-include__number">+</div>
+          <h3 class="ind-include__title">Trabajo espiritual guiado</h3>
+          <p class="ind-include__text">Meditaciones, journaling y ejercicios de conexión interior para sostener tu transformación.</p>
+        </div>
+        <div class="ind-include">
+          <div class="ind-include__number">+</div>
+          <h3 class="ind-include__title">Grabación de cada sesión</h3>
+          <p class="ind-include__text">Cada encuentro queda grabado para que puedas revisarlo cuando quieras.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE ANA (inline) -->
+  <section class="ind-section">
+    <div class="ind-container">
+      <div class="ind-about">
+        <div class="ind-about__image">
+          <img src="/images/ana-foto.webp" alt="Ana, creadora de LIVIANAS" width="400" height="500" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+          <div class="ind-about__placeholder">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span>Foto de Ana</span>
+          </div>
+        </div>
+        <div class="ind-about__text">
+          <span class="ind-label">TU GUÍA</span>
+          <blockquote class="ind-about__quote">&ldquo;En el 1 a 1 puedo ver lo que otros formatos no permiten. Cada mujer tiene una historia única — y merece un proceso único.&rdquo;</blockquote>
+          <p class="ind-about__bio">Ana es coach de bienestar y creadora del Método Livianas. Acompaña a mujeres a transformar su relación con la comida y el cuerpo desde conducta, emoción y espiritualidad.</p>
+          <div class="ind-about__detail">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span>Cupos limitados — Ana trabaja con pocas mujeres a la vez</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARACIÓN -->
+  <section class="ind-section ind-section--warm">
+    <div class="ind-container ind-container--narrow">
+      <span class="ind-label">COMPARACIÓN</span>
+      <h2 class="ind-section__title">
+        <span class="ind-section__title-serif">¿Grupal o individual?</span>
+      </h2>
+      <div class="ind-compare">
+        <div class="ind-compare__col">
+          <h3 class="ind-compare__heading">Círculo Grupal</h3>
+          <ul class="ind-compare__list">
+            <li>4 semanas</li>
+            <li>8 mujeres por grupo</li>
+            <li>Sesiones grupales por Zoom</li>
+            <li>Comunidad de WhatsApp grupal</li>
+            <li>Contenido estructurado</li>
+            <li class="ind-compare__price">USD 297</li>
+          </ul>
+          <a href="/" class="ind-btn ind-btn--outline-sm">Ver programa grupal</a>
+        </div>
+        <div class="ind-compare__col ind-compare__col--highlight">
+          <span class="ind-compare__tag">RECOMENDADO</span>
+          <h3 class="ind-compare__heading ind-compare__heading--light">1 a 1 con Ana</h3>
+          <ul class="ind-compare__list ind-compare__list--light">
+            <li>3 meses completos</li>
+            <li>Solo vos y Ana</li>
+            <li>12 sesiones privadas de 60 min</li>
+            <li>WhatsApp directo con Ana</li>
+            <li>Plan 100% personalizado</li>
+            <li class="ind-compare__price ind-compare__price--light">USD 1.200</li>
+          </ul>
+          <a href={whatsappLink} target="_blank" rel="noopener noreferrer" class="ind-btn ind-btn--white-sm">Quiero mi lugar</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="precio" class="ind-section">
+    <div class="ind-container ind-container--narrow">
+      <div class="ind-pricing">
+        <span class="ind-pricing__badge">PROGRAMA 1 A 1 · 3 MESES</span>
+        <div class="ind-pricing__amount">
+          <span class="ind-pricing__currency">USD</span>
+          <span class="ind-pricing__number">1.200</span>
+        </div>
+        <p class="ind-pricing__detail">Pago único · Cuotas disponibles con tarjeta</p>
+        <div class="ind-pricing__divider"></div>
+        <ul class="ind-pricing__features">
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 12 sesiones privadas con Ana</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Plan alimentario personalizado</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> WhatsApp directo con Ana</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Guía de movimiento + espiritualidad</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Grabación de cada sesión</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Garantía 100% — 2 semanas</li>
+        </ul>
+        <div class="ind-pricing__ctas">
+          <a href={whatsappLink} target="_blank" rel="noopener noreferrer" class="ind-btn ind-btn--clay">Reservar mi lugar</a>
+          <a href={whatsappLink} target="_blank" rel="noopener noreferrer" class="ind-btn ind-btn--ghost-card">Hablar con Ana primero</a>
+        </div>
+        <p class="ind-pricing__trust">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Pago seguro · Mercado Pago · PayPal
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="ind-section ind-section--warm">
+    <div class="ind-container ind-container--narrow">
+      <h2 class="ind-section__title" style="text-align:center;">
+        <span class="ind-section__title-serif">Preguntas</span>
+        <span class="ind-section__title-sans">frecuentes</span>
+      </h2>
+      <div class="ind-faq-list">
+        {faqItems.map((item, i) => (
+          <div class="ind-faq" data-ind-faq={i}>
+            <button class="ind-faq__trigger" aria-expanded="false" aria-controls={`ind-faq-panel-${i}`}>
+              <span class="ind-faq__question">{item.q}</span>
+              <span class="ind-faq__icon"><span class="ind-faq__bar ind-faq__bar--h"></span><span class="ind-faq__bar ind-faq__bar--v"></span></span>
+            </button>
+            <div class="ind-faq__panel" id={`ind-faq-panel-${i}`} hidden>
+              <p class="ind-faq__answer">{item.a}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="ind-final">
+    <div class="ind-final__bg"></div>
+    <div class="ind-container" style="position:relative;z-index:1;text-align:center;">
+      <p class="ind-final__line1">Este es tu momento de</p>
+      <p class="ind-final__line2">elegirte.</p>
+      <p class="ind-final__line3">3 meses que cambian todo.</p>
+      <p class="ind-final__copy">No es otra dieta. No es otro intento. Es el proceso que te debés, con alguien que te acompaña de verdad.</p>
+      <div class="ind-hero__ctas" style="justify-content:center;">
+        <a href={whatsappLink} target="_blank" rel="noopener noreferrer" class="ind-btn ind-btn--white">Quiero empezar</a>
+        <a href="/" class="ind-btn ind-btn--ghost-light">Ver programa grupal</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="ind-footer">
+    <div class="ind-container">
+      <div class="ind-footer__top">
+        <a href="/" class="ind-footer__logo">LIVIANAS</a>
+        <span class="ind-footer__badge-1a1">Programa 1 a 1</span>
+      </div>
+      <div class="ind-footer__divider"></div>
+      <div class="ind-footer__bottom">
+        <p class="ind-footer__copy">&copy; {year} LIVIANAS — Todos los derechos reservados</p>
+        <div class="ind-footer__links">
+          <a href="/terminos">Términos</a>
+          <a href="/privacidad">Privacidad</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <WhatsAppButton />
+  <ChatWidget />
+</Layout>
+
+<style>
+  /* ========== GLOBAL UTILS ========== */
+  .ind-container { max-width: 1080px; margin: 0 auto; padding: 0 var(--space-6); }
+  .ind-container--narrow { max-width: 800px; }
+  .ind-label { display: block; font-family: var(--font-sans); font-size: var(--text-xs); font-weight: 600; color: var(--color-sage); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: var(--space-4); }
+  .ind-section { padding: var(--space-20) 0; background: var(--color-cream); }
+  .ind-section--warm { background: var(--color-cream-warm); }
+
+  .ind-section__title { display: flex; flex-direction: column; gap: 0; line-height: 1.15; margin-bottom: var(--space-6); }
+  .ind-section__title-serif { font-family: var(--font-display); font-style: italic; font-weight: 400; font-size: clamp(2rem, 5vw, 3.25rem); color: var(--color-carbon); }
+  .ind-section__title-sans { font-family: var(--font-sans); font-weight: 700; font-size: clamp(1.25rem, 3vw, 1.75rem); color: var(--color-carbon); margin-top: var(--space-1); }
+  .ind-section__desc { font-family: var(--font-sans); font-size: var(--text-lg); color: var(--color-text-muted); line-height: 1.7; max-width: 640px; margin-bottom: var(--space-12); }
+
+  /* ========== BUTTONS ========== */
+  .ind-btn { display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-sans); font-weight: 600; font-size: var(--text-sm); border-radius: var(--radius-full); text-decoration: none; padding: var(--space-4) var(--space-8); transition: all 0.3s ease; cursor: pointer; border: none; }
+  .ind-btn--primary { background: var(--color-blush); color: white; box-shadow: 0 4px 20px rgba(212,145,126,0.3); }
+  .ind-btn--primary:hover { background: var(--color-blush-dark); transform: translateY(-2px); box-shadow: 0 6px 28px rgba(212,145,126,0.4); }
+  .ind-btn--ghost { background: transparent; color: white; border: 1px solid rgba(255,255,255,0.5); }
+  .ind-btn--ghost:hover { background: rgba(255,255,255,0.1); border-color: white; }
+  .ind-btn--ghost-light { background: transparent; color: rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.25); }
+  .ind-btn--ghost-light:hover { color: white; border-color: rgba(255,255,255,0.5); }
+  .ind-btn--clay { background: var(--color-blush); color: white; width: 100%; padding: var(--space-5) var(--space-8); font-size: var(--text-base); box-shadow: 0 4px 20px rgba(212,145,126,0.3); }
+  .ind-btn--clay:hover { background: var(--color-blush-dark); transform: translateY(-2px); }
+  .ind-btn--ghost-card { background: rgba(255,255,255,0.08); color: white; border: 1px solid rgba(255,255,255,0.2); width: 100%; backdrop-filter: blur(8px); }
+  .ind-btn--ghost-card:hover { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.4); }
+  .ind-btn--white { background: white; color: var(--color-sage-dark); box-shadow: 0 4px 20px rgba(255,255,255,0.2); }
+  .ind-btn--white:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(255,255,255,0.3); }
+  .ind-btn--outline-sm { background: transparent; color: var(--color-sage); border: 1px solid var(--color-sage); padding: var(--space-3) var(--space-6); font-size: var(--text-xs); }
+  .ind-btn--outline-sm:hover { background: var(--color-sage); color: white; }
+  .ind-btn--white-sm { background: white; color: var(--color-sage-dark); padding: var(--space-3) var(--space-6); font-size: var(--text-xs); }
+  .ind-btn--white-sm:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(255,255,255,0.2); }
+
+  /* ========== NAVBAR ========== */
+  .ind-navbar { position: fixed; top: var(--space-4); left: 50%; transform: translateX(-50%); z-index: 1000; width: calc(100% - var(--space-8)); max-width: 960px; border-radius: var(--radius-full); padding: var(--space-2) var(--space-3); background: rgba(255,255,255,0.3); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.4); transition: all 0.4s ease; }
+  .ind-navbar.scrolled { background: rgba(255,255,255,0.85); backdrop-filter: blur(24px) saturate(180%); border-color: rgba(123,143,107,0.1); box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
+  .ind-navbar__inner { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); min-height: 44px; }
+  .ind-navbar__logo { font-family: var(--font-sans); font-weight: 700; font-size: var(--text-sm); letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-carbon); text-decoration: none; padding-left: var(--space-3); }
+  .ind-navbar__links { display: none; align-items: center; gap: var(--space-5); }
+  @media (min-width: 768px) { .ind-navbar__links { display: flex; } }
+  .ind-navbar__link { font-family: var(--font-sans); font-size: 0.8125rem; font-weight: 500; color: var(--color-text-muted); text-decoration: none; transition: color 0.2s; }
+  .ind-navbar__link:hover { color: var(--color-carbon); }
+  .ind-navbar__divider { width: 1px; height: 16px; background: var(--color-border); }
+  .ind-navbar__badge { font-family: var(--font-sans); font-size: 0.6875rem; font-weight: 700; color: var(--color-blush); letter-spacing: 0.08em; }
+  .ind-navbar__cta { display: none; font-family: var(--font-sans); font-size: 0.8125rem; font-weight: 600; padding: var(--space-2) var(--space-5); border-radius: var(--radius-full); text-decoration: none; background: var(--color-sage); color: white; transition: all 0.2s; }
+  .ind-navbar__cta:hover { background: var(--color-sage-dark); transform: translateY(-1px); }
+  @media (min-width: 768px) { .ind-navbar__cta { display: inline-flex; } }
+  .ind-navbar__hamburger { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px; width: 40px; height: 40px; background: none; border: none; cursor: pointer; padding: var(--space-2); }
+  @media (min-width: 768px) { .ind-navbar__hamburger { display: none; } }
+  .ind-navbar__hamburger-line { width: 20px; height: 1.5px; border-radius: 1px; background: var(--color-carbon); transition: all 0.3s; transform-origin: center; }
+  .ind-navbar__hamburger.is-active .ind-navbar__hamburger-line:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .ind-navbar__hamburger.is-active .ind-navbar__hamburger-line:nth-child(2) { opacity: 0; }
+  .ind-navbar__hamburger.is-active .ind-navbar__hamburger-line:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+  .ind-navbar__mobile { display: flex; flex-direction: column; align-items: center; gap: var(--space-4); padding: 0; max-height: 0; overflow: hidden; opacity: 0; transition: all 0.4s ease; }
+  .ind-navbar.mobile-open .ind-navbar__mobile { max-height: 300px; opacity: 1; padding: var(--space-4) var(--space-4) var(--space-5); }
+  .ind-navbar.mobile-open { background: rgba(255,255,255,0.92); backdrop-filter: blur(24px); border-radius: var(--radius-2xl); box-shadow: 0 8px 30px rgba(0,0,0,0.1); }
+  .ind-navbar__mobile-link { font-family: var(--font-sans); font-size: var(--text-base); font-weight: 500; color: var(--color-sage-dark); text-decoration: none; padding: var(--space-2) 0; }
+  .ind-navbar__mobile-divider { width: 40px; height: 1px; background: var(--color-border); }
+  .ind-navbar__mobile-cta { font-family: var(--font-sans); font-size: var(--text-sm); font-weight: 600; background: var(--color-sage); color: white; padding: var(--space-3) var(--space-6); border-radius: var(--radius-full); text-decoration: none; width: 100%; text-align: center; }
+
+  /* ========== HERO ========== */
+  .ind-hero { position: relative; min-height: 100dvh; display: flex; flex-direction: column; justify-content: flex-end; padding: var(--space-32) var(--space-6) var(--space-16); background: linear-gradient(135deg, var(--color-sage-dark) 0%, var(--color-carbon) 100%); overflow: hidden; }
+  .ind-hero__overlay { position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 70%, rgba(123,143,107,0.3) 0%, transparent 70%), radial-gradient(ellipse at 80% 20%, rgba(212,145,126,0.15) 0%, transparent 60%); }
+  .ind-hero__content { position: relative; z-index: 1; max-width: 680px; }
+  .ind-hero__badge { display: inline-block; font-family: var(--font-sans); font-size: var(--text-xs); font-weight: 600; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.15em; padding: var(--space-2) var(--space-4); background: rgba(255,255,255,0.1); backdrop-filter: blur(8px); border-radius: var(--radius-full); border: 1px solid rgba(255,255,255,0.15); margin-bottom: var(--space-6); }
+  .ind-hero__title { margin-bottom: var(--space-5); }
+  .ind-hero__title-sans { display: block; font-family: var(--font-sans); font-weight: 700; font-size: clamp(1.75rem, 5vw, 3rem); color: white; line-height: 1.2; }
+  .ind-hero__title-serif { display: block; font-family: var(--font-display); font-style: italic; font-weight: 700; font-size: clamp(4rem, 13vw, 9rem); color: white; line-height: 0.85; }
+  .ind-hero__sub { font-family: var(--font-sans); font-size: var(--text-lg); color: rgba(255,255,255,0.75); line-height: 1.6; max-width: 480px; margin-bottom: var(--space-8); }
+  .ind-hero__ctas { display: flex; flex-direction: column; gap: var(--space-3); }
+  @media (min-width: 480px) { .ind-hero__ctas { flex-direction: row; gap: var(--space-4); } }
+  .ind-hero__scroll { position: absolute; bottom: var(--space-6); left: 50%; transform: translateX(-50%); color: rgba(255,255,255,0.4); animation: ind-bounce 2.4s ease-in-out infinite; }
+  @keyframes ind-bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+
+  /* ========== PILLARS ========== */
+  .ind-pillars { display: grid; grid-template-columns: 1fr; gap: var(--space-6); }
+  @media (min-width: 768px) { .ind-pillars { grid-template-columns: repeat(3, 1fr); gap: var(--space-8); } }
+  .ind-pillar { background: white; border-radius: var(--radius-xl); padding: var(--space-8); box-shadow: var(--shadow-sm); transition: all 0.3s; }
+  .ind-pillar:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+  .ind-pillar__icon { width: 56px; height: 56px; border-radius: var(--radius-lg); background: var(--color-sage-wash); color: var(--color-sage); display: flex; align-items: center; justify-content: center; margin-bottom: var(--space-5); }
+  .ind-pillar__title { font-family: var(--font-sans); font-weight: 700; font-size: var(--text-base); color: var(--color-carbon); margin-bottom: var(--space-3); }
+  .ind-pillar__text { font-family: var(--font-sans); font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.7; }
+
+  /* ========== INCLUDES ========== */
+  .ind-includes { display: grid; grid-template-columns: 1fr; gap: var(--space-5); }
+  @media (min-width: 480px) { .ind-includes { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 768px) { .ind-includes { grid-template-columns: repeat(3, 1fr); gap: var(--space-6); } }
+  .ind-include { background: white; border-radius: var(--radius-xl); padding: var(--space-6); }
+  .ind-include__number { font-family: var(--font-display); font-weight: 700; font-size: var(--text-4xl); color: var(--color-sage); line-height: 1; margin-bottom: var(--space-3); }
+  .ind-include__title { font-family: var(--font-sans); font-weight: 700; font-size: var(--text-sm); color: var(--color-carbon); margin-bottom: var(--space-2); }
+  .ind-include__text { font-family: var(--font-sans); font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.6; }
+
+  /* ========== ABOUT ========== */
+  .ind-about { display: flex; flex-direction: column; gap: var(--space-8); background: white; border-radius: var(--radius-3xl); padding: var(--space-6); box-shadow: var(--shadow-md); }
+  @media (min-width: 768px) { .ind-about { display: grid; grid-template-columns: 5fr 7fr; gap: var(--space-10); padding: var(--space-10); align-items: center; } }
+  .ind-about__image { width: 100%; max-width: 380px; aspect-ratio: 4/5; border-radius: var(--radius-2xl); overflow: hidden; border: 3px solid var(--color-sage); background: linear-gradient(135deg, var(--color-cream), var(--color-cream-warm)); margin: 0 auto; position: relative; }
+  .ind-about__image img { width: 100%; height: 100%; object-fit: cover; }
+  .ind-about__placeholder { display: none; width: 100%; height: 100%; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-3); color: var(--color-sage); font-size: var(--text-sm); position: absolute; inset: 0; }
+  .ind-about__quote { font-family: var(--font-display); font-style: italic; font-weight: 700; font-size: var(--text-2xl); color: var(--color-carbon); line-height: 1.35; margin: 0 0 var(--space-6); padding: 0; border: none; }
+  @media (min-width: 768px) { .ind-about__quote { font-size: var(--text-3xl); } }
+  .ind-about__bio { font-family: var(--font-sans); font-size: var(--text-base); color: var(--color-text-muted); line-height: 1.7; margin-bottom: var(--space-6); }
+  .ind-about__detail { display: inline-flex; align-items: center; gap: var(--space-2); font-family: var(--font-sans); font-size: var(--text-sm); color: var(--color-sage); font-weight: 500; background: var(--color-cream); padding: var(--space-3) var(--space-4); border-radius: var(--radius-full); width: fit-content; }
+
+  /* ========== COMPARE ========== */
+  .ind-compare { display: grid; grid-template-columns: 1fr; gap: var(--space-5); margin-top: var(--space-8); }
+  @media (min-width: 600px) { .ind-compare { grid-template-columns: 1fr 1fr; } }
+  .ind-compare__col { background: white; border-radius: var(--radius-xl); padding: var(--space-8); text-align: center; position: relative; }
+  .ind-compare__col--highlight { background: var(--color-sage); color: white; }
+  .ind-compare__tag { position: absolute; top: calc(-1 * var(--space-3)); left: 50%; transform: translateX(-50%); font-family: var(--font-sans); font-size: var(--text-xs); font-weight: 700; color: white; background: var(--color-blush); padding: var(--space-1) var(--space-4); border-radius: var(--radius-full); letter-spacing: 0.05em; white-space: nowrap; }
+  .ind-compare__heading { font-family: var(--font-sans); font-weight: 700; font-size: var(--text-lg); color: var(--color-carbon); margin-bottom: var(--space-6); }
+  .ind-compare__heading--light { color: white; }
+  .ind-compare__list { list-style: none; padding: 0; margin: 0 0 var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); text-align: left; font-family: var(--font-sans); font-size: var(--text-sm); color: var(--color-text-muted); }
+  .ind-compare__list--light { color: rgba(255,255,255,0.85); }
+  .ind-compare__price { font-weight: 700; font-size: var(--text-2xl); color: var(--color-carbon); margin-top: var(--space-3); }
+  .ind-compare__price--light { color: white; }
+
+  /* ========== PRICING ========== */
+  .ind-pricing { background: var(--color-sage); border-radius: var(--radius-3xl); padding: var(--space-10) var(--space-8); text-align: center; color: white; position: relative; overflow: hidden; }
+  .ind-pricing::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.06), transparent 70%); pointer-events: none; }
+  .ind-pricing__badge { display: inline-block; font-family: var(--font-sans); font-size: var(--text-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; background: var(--color-blush); color: white; padding: var(--space-2) var(--space-5); border-radius: var(--radius-full); margin-bottom: var(--space-6); }
+  .ind-pricing__amount { display: flex; align-items: baseline; justify-content: center; gap: var(--space-2); margin-bottom: var(--space-3); }
+  .ind-pricing__currency { font-family: var(--font-sans); font-size: var(--text-xl); font-weight: 600; opacity: 0.6; }
+  .ind-pricing__number { font-family: var(--font-display); font-weight: 700; font-size: var(--text-7xl); line-height: 1; }
+  @media (min-width: 768px) { .ind-pricing__number { font-size: var(--text-8xl); } }
+  .ind-pricing__detail { font-family: var(--font-sans); font-size: var(--text-sm); opacity: 0.7; margin-bottom: var(--space-6); }
+  .ind-pricing__divider { height: 1px; background: rgba(255,255,255,0.15); margin: 0 auto var(--space-6); max-width: 400px; }
+  .ind-pricing__features { list-style: none; padding: 0; margin: 0 auto var(--space-8); max-width: 360px; display: flex; flex-direction: column; gap: var(--space-3); text-align: left; }
+  .ind-pricing__features li { display: flex; align-items: center; gap: var(--space-3); font-family: var(--font-sans); font-size: var(--text-sm); }
+  .ind-pricing__features svg { flex-shrink: 0; opacity: 0.8; }
+  .ind-pricing__ctas { display: flex; flex-direction: column; gap: var(--space-3); max-width: 360px; margin: 0 auto var(--space-6); }
+  .ind-pricing__trust { display: flex; align-items: center; justify-content: center; gap: var(--space-2); font-family: var(--font-sans); font-size: var(--text-xs); opacity: 0.5; }
+
+  /* ========== FAQ ========== */
+  .ind-faq-list { display: flex; flex-direction: column; gap: var(--space-3); }
+  .ind-faq { background: white; border-radius: var(--radius-xl); overflow: hidden; transition: box-shadow 0.3s; }
+  .ind-faq:hover { box-shadow: var(--shadow-sm); }
+  .ind-faq[data-open="true"] { box-shadow: var(--shadow-md); }
+  .ind-faq__trigger { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); padding: var(--space-5) var(--space-6); background: none; border: none; cursor: pointer; text-align: left; font-family: inherit; }
+  .ind-faq__question { font-family: var(--font-sans); font-weight: 600; font-size: var(--text-base); color: var(--color-carbon); line-height: 1.4; }
+  .ind-faq__icon { position: relative; width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: var(--color-sage); transition: all 0.3s; }
+  .ind-faq__bar { position: absolute; top: 50%; left: 50%; background: white; border-radius: 2px; transition: all 0.3s; }
+  .ind-faq__bar--h { width: 12px; height: 2px; transform: translate(-50%,-50%); }
+  .ind-faq__bar--v { width: 2px; height: 12px; transform: translate(-50%,-50%); }
+  .ind-faq[data-open="true"] .ind-faq__icon { background: var(--color-blush); transform: rotate(90deg); }
+  .ind-faq[data-open="true"] .ind-faq__bar--v { opacity: 0; transform: translate(-50%,-50%) scaleY(0); }
+  .ind-faq__panel { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1); }
+  .ind-faq__panel[hidden] { display: block; max-height: 0; }
+  .ind-faq__panel.is-open { max-height: 400px; }
+  .ind-faq__answer { padding: 0 var(--space-6) var(--space-6); font-family: var(--font-sans); font-size: var(--text-base); line-height: 1.7; color: var(--color-text-muted); }
+
+  /* ========== FINAL CTA ========== */
+  .ind-final { position: relative; padding: var(--space-32) var(--space-6); background: var(--color-sage-dark); overflow: hidden; }
+  .ind-final__bg { position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 50%, rgba(123,143,107,0.5) 0%, transparent 70%), radial-gradient(ellipse at 80% 30%, rgba(212,145,126,0.15) 0%, transparent 60%); filter: blur(60px); }
+  .ind-final__line1 { font-family: var(--font-sans); font-weight: 400; font-size: clamp(1rem, 2.5vw, 1.375rem); color: rgba(255,255,255,0.7); margin-bottom: var(--space-2); }
+  .ind-final__line2 { font-family: var(--font-display); font-style: italic; font-weight: 700; font-size: clamp(3.5rem, 10vw, 7rem); color: white; line-height: 0.9; margin-bottom: var(--space-4); }
+  .ind-final__line3 { font-family: var(--font-sans); font-weight: 500; font-size: clamp(1rem, 2vw, 1.25rem); color: var(--color-blush-light); margin-bottom: var(--space-6); }
+  .ind-final__copy { font-family: var(--font-sans); font-size: var(--text-lg); color: rgba(255,255,255,0.6); max-width: 540px; margin: 0 auto var(--space-8); line-height: 1.6; text-wrap: balance; }
+
+  /* ========== FOOTER ========== */
+  .ind-footer { background: var(--color-carbon); border-radius: var(--radius-3xl) var(--radius-3xl) 0 0; padding: var(--space-10) 0 var(--space-8); }
+  .ind-footer__top { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-6); }
+  .ind-footer__logo { font-family: var(--font-display); font-style: italic; font-weight: 700; font-size: var(--text-3xl); color: white; text-decoration: none; letter-spacing: 0.04em; }
+  .ind-footer__badge-1a1 { font-family: var(--font-sans); font-size: var(--text-xs); font-weight: 600; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.08em; }
+  .ind-footer__divider { height: 1px; background: rgba(255,255,255,0.08); margin-bottom: var(--space-6); }
+  .ind-footer__bottom { display: flex; flex-direction: column; align-items: center; gap: var(--space-3); text-align: center; }
+  @media (min-width: 768px) { .ind-footer__bottom { flex-direction: row; justify-content: space-between; text-align: left; } }
+  .ind-footer__copy { font-family: var(--font-sans); font-size: var(--text-xs); color: rgba(255,255,255,0.3); }
+  .ind-footer__links { display: flex; gap: var(--space-4); }
+  .ind-footer__links a { font-family: var(--font-sans); font-size: var(--text-xs); color: rgba(255,255,255,0.3); text-decoration: none; transition: color 0.2s; }
+  .ind-footer__links a:hover { color: rgba(255,255,255,0.7); }
+</style>
+
+<script>
+  // Navbar scroll
+  const navbar = document.getElementById('navbar');
+  const hero = document.getElementById('hero');
+  if (navbar && hero) {
+    const obs = new IntersectionObserver(([e]) => {
+      navbar.classList.toggle('scrolled', !e.isIntersecting);
+    }, { rootMargin: '-80px 0px 0px 0px' });
+    obs.observe(hero);
+  }
+
+  // Mobile menu
+  const hamburger = document.querySelector('.ind-navbar__hamburger') as HTMLButtonElement;
+  const mobileMenu = document.getElementById('ind-mobile-menu');
+  if (hamburger && mobileMenu && navbar) {
+    hamburger.addEventListener('click', () => {
+      const isOpen = hamburger.classList.contains('is-active');
+      hamburger.classList.toggle('is-active', !isOpen);
+      navbar.classList.toggle('mobile-open', !isOpen);
+      hamburger.setAttribute('aria-expanded', String(!isOpen));
+      mobileMenu.setAttribute('aria-hidden', String(isOpen));
+    });
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('is-active');
+        navbar.classList.remove('mobile-open');
+        hamburger.setAttribute('aria-expanded', 'false');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+      });
+    });
+  }
+
+  // FAQ accordion
+  document.querySelectorAll('[data-ind-faq]').forEach(item => {
+    const trigger = item.querySelector('.ind-faq__trigger') as HTMLButtonElement;
+    const panel = item.querySelector('.ind-faq__panel') as HTMLElement;
+    if (!trigger || !panel) return;
+    trigger.addEventListener('click', () => {
+      const isOpen = item.getAttribute('data-open') === 'true';
+      // Close others
+      document.querySelectorAll('[data-ind-faq]').forEach(other => {
+        if (other !== item && other.getAttribute('data-open') === 'true') {
+          other.setAttribute('data-open', 'false');
+          (other.querySelector('.ind-faq__trigger') as HTMLButtonElement)?.setAttribute('aria-expanded', 'false');
+          other.querySelector('.ind-faq__panel')?.classList.remove('is-open');
+          setTimeout(() => { if (other.getAttribute('data-open') !== 'true') other.querySelector('.ind-faq__panel')?.setAttribute('hidden', ''); }, 500);
+        }
+      });
+      if (isOpen) {
+        item.setAttribute('data-open', 'false');
+        trigger.setAttribute('aria-expanded', 'false');
+        panel.classList.remove('is-open');
+        setTimeout(() => { if (item.getAttribute('data-open') !== 'true') panel.setAttribute('hidden', ''); }, 500);
+      } else {
+        item.setAttribute('data-open', 'true');
+        trigger.setAttribute('aria-expanded', 'true');
+        panel.removeAttribute('hidden');
+        panel.offsetHeight;
+        panel.classList.add('is-open');
+      }
+    });
+  });
+</script>
