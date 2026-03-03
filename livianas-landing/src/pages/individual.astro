@@ -434,15 +434,11 @@ const iconColors = [
           <span class="pricing-badge">Programa Exclusivo 1:1</span>
         </div>
         <p class="pricing-program-name">LIVIANAS &mdash; 3 Meses Personalizado</p>
-        <div class="pricing-prices">
-          <span class="pricing-old-price">USD {site1a1Config.valorTotal}</span>
-          <div class="pricing-main-price">
-            <span class="pricing-currency">USD</span>
-            <span class="pricing-amount">{site1a1Config.precioUSD}</span>
-          </div>
-          <p class="pricing-weekly">USD {site1a1Config.precioMensual} por mes &middot; 3 meses</p>
-          <p class="pricing-installments">Cuotas disponibles con tarjeta de cr&eacute;dito</p>
-        </div>
+
+        <p class="pricing-private-note">
+          Este es un programa premium y personalizado. La inversi&oacute;n se conversa directamente con Ana para adaptarla a tu situaci&oacute;n y necesidades.
+        </p>
+
         <div class="pricing-divider"></div>
         <ul class="pricing-features" role="list">
           {pricingFeatures1a1.map((feature) => (
@@ -457,34 +453,29 @@ const iconColors = [
           ))}
         </ul>
         <div class="pricing-ctas">
-          <a href={whatsappPricing} target="_blank" rel="noopener noreferrer" class="btn btn--ghost-card" data-utm="pricing-secondary-1a1">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-            {site1a1Config.ctaMessages.secondary}
+          <a href={whatsappPricing} target="_blank" rel="noopener noreferrer" class="btn btn--whatsapp-premium" data-utm="pricing-talk-ana-1a1">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+            Habl&aacute; con Ana
           </a>
-          <a href={whatsappPricing} target="_blank" rel="noopener noreferrer" class="btn btn--clay" data-utm="pricing-primary-1a1">
-            {site1a1Config.ctaMessages.primary}
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </a>
-          <div class="pricing-mp-badge">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-            Pag&aacute; con Mercado Pago &middot; Cuotas disponibles
-          </div>
+          <p class="pricing-private-sub">Conversemos sobre tu proceso y armemos un plan a tu medida.</p>
         </div>
       </div>
 
       <p class="pricing-below-note" data-gsap="pricing-note">
-        Son USD {site1a1Config.precioMensual} por mes de coaching individual, acompa&ntilde;amiento ilimitado y un plan 100% hecho a tu medida.
+        3 meses de coaching individual, acompa&ntilde;amiento ilimitado y un plan 100% hecho a tu medida. Todo se coordina directamente con Ana.
       </p>
 
       <div class="pricing-trust" data-gsap="pricing-trust">
         <span class="pricing-trust-item">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-          Pago seguro
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Atenci&oacute;n personalizada
         </span>
         <span class="pricing-trust-dot">&bull;</span>
-        <span class="pricing-trust-item">Mercado Pago</span>
+        <span class="pricing-trust-item">Solo {site1a1Config.cuposDisponibles} cupos</span>
         <span class="pricing-trust-dot">&bull;</span>
-        <span class="pricing-trust-item">PayPal</span>
+        <span class="pricing-trust-item">Respuesta directa de Ana</span>
       </div>
     </div>
   </section>
@@ -893,29 +884,18 @@ const iconColors = [
 .pricing-badge-wrap{text-align:center;margin-bottom:var(--space-4);position:relative}
 .pricing-badge{display:inline-block;background:var(--color-blush);color:#fff;font-family:var(--font-outfit);font-weight:700;font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.1em;padding:var(--space-2) var(--space-5);border-radius:var(--radius-full)}
 .pricing-program-name{text-align:center;font-family:var(--font-outfit);font-weight:600;font-size:var(--text-lg);color:rgba(255,255,255,.85);margin-bottom:var(--space-6);position:relative}
-.pricing-prices{text-align:center;margin-bottom:var(--space-6);position:relative}
-.pricing-old-price{font-family:var(--font-sans);font-size:var(--text-xl);font-weight:600;color:var(--color-blush-light);text-decoration:line-through;text-decoration-thickness:2px;display:block;margin-bottom:var(--space-1)}
-.pricing-main-price{display:flex;align-items:baseline;justify-content:center;gap:var(--space-2);margin-bottom:var(--space-2)}
-.pricing-currency{font-family:var(--font-sans);font-size:var(--text-xl);font-weight:500;color:rgba(255,255,255,.7)}
-.pricing-amount{font-family:var(--font-display);font-weight:700;font-size:var(--text-7xl);color:#fff;line-height:1;letter-spacing:-.02em}
-@media(min-width:768px){.pricing-amount{font-size:var(--text-8xl)}}
-.pricing-weekly{font-family:var(--font-outfit);font-weight:600;font-size:var(--text-base);color:rgba(255,255,255,.9);margin-bottom:var(--space-1)}
-.pricing-installments{font-size:var(--text-sm);color:rgba(255,255,255,.55)}
+/* pricing-prices styles removed — premium 1:1 pricing is private */
 .pricing-divider{height:1px;background:rgba(255,255,255,.15);margin:var(--space-6) 0;position:relative}
 .pricing-features{list-style:none;padding:0;margin:0 0 var(--space-8) 0;display:flex;flex-direction:column;gap:var(--space-3);position:relative}
 .pricing-feature-item{display:flex;align-items:flex-start;gap:var(--space-3);font-size:var(--text-sm);color:rgba(255,255,255,.9);line-height:1.5}
 @media(min-width:768px){.pricing-feature-item{font-size:var(--text-base)}}
 .pricing-check{flex-shrink:0;width:22px;height:22px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.15);border-radius:var(--radius-sm);margin-top:1px}
-.pricing-ctas{display:flex;flex-direction:column;gap:var(--space-3);margin-bottom:var(--space-4);position:relative}
-.btn--clay{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2);background:var(--color-blush);color:#fff;font-family:var(--font-outfit);font-weight:700;font-size:var(--text-lg);padding:var(--space-4) var(--space-8);border-radius:var(--radius-full);border:none;cursor:pointer;text-decoration:none;transition:all var(--transition-base);box-shadow:0 4px 20px rgba(212,145,126,.4);position:relative;overflow:hidden}
-.btn--clay::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);transition:left var(--transition-slow)}
-.btn--clay:hover::before{left:100%}
-.btn--clay:hover{background:var(--color-blush-light);transform:translateY(-2px) scale(1.02);box-shadow:0 6px 30px rgba(212,145,126,.5)}
-.btn--clay:active{transform:translateY(0) scale(.98)}
-.btn--ghost-card{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2);background:rgba(255,255,255,.08);color:rgba(255,255,255,.85);font-family:var(--font-outfit);font-weight:600;font-size:var(--text-sm);padding:var(--space-3) var(--space-6);border-radius:var(--radius-full);border:1.5px solid rgba(255,255,255,.18);cursor:pointer;text-decoration:none;transition:all var(--transition-base);backdrop-filter:blur(8px)}
-.btn--ghost-card:hover{background:rgba(255,255,255,.18);color:#fff;transform:translateY(-1px)}
-.pricing-mp-badge{display:flex;align-items:center;justify-content:center;gap:var(--space-2);font-family:var(--font-sans);font-size:var(--text-xs);font-weight:500;color:rgba(255,255,255,.55);letter-spacing:.02em;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius-full);padding:var(--space-2) var(--space-4)}
-.pricing-mp-badge svg{opacity:.6}
+.pricing-ctas{display:flex;flex-direction:column;align-items:center;gap:var(--space-3);margin-bottom:var(--space-4);position:relative}
+.pricing-private-note{font-family:var(--font-sans);font-size:var(--text-base);color:rgba(255,255,255,.7);line-height:1.7;text-align:center;max-width:400px;margin:var(--space-2) auto var(--space-4);font-style:italic}
+.btn--whatsapp-premium{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-3);background:#128C7E;color:#fff;font-family:var(--font-sans);font-weight:700;font-size:var(--text-lg);padding:var(--space-4) var(--space-10);border-radius:var(--radius-full);border:none;cursor:pointer;text-decoration:none;transition:all var(--transition-base);box-shadow:0 4px 24px rgba(18,140,126,.4);width:100%;max-width:320px;margin:0 auto}
+.btn--whatsapp-premium:hover{background:#0e7a6e;transform:translateY(-2px) scale(1.02);box-shadow:0 6px 32px rgba(18,140,126,.55)}
+.btn--whatsapp-premium:active{transform:translateY(0) scale(.98)}
+.pricing-private-sub{font-family:var(--font-sans);font-size:var(--text-xs);color:rgba(255,255,255,.5);text-align:center;margin-top:var(--space-3);letter-spacing:.02em}
 .pricing-below-note{text-align:center;font-size:var(--text-sm);color:var(--color-text-muted);max-width:440px;margin:var(--space-8) auto 0;text-wrap:balance}
 .pricing-trust{display:flex;align-items:center;justify-content:center;gap:var(--space-3);margin-top:var(--space-5);font-size:var(--text-sm);color:var(--color-text-muted)}
 .pricing-trust-item{display:inline-flex;align-items:center;gap:var(--space-1)}
