@@ -46,7 +46,11 @@
   <div id="chat-messages" class="chat-messages">
     <!-- Welcome message -->
     <div class="chat-msg chat-msg-bot">
-      <div class="chat-msg-bubble">Hola, soy Livia, la asistente virtual de LIVIANAS 🌿 ¿En qué puedo ayudarte?</div>
+      <div class="chat-msg-avatar" aria-hidden="true">L</div>
+      <div class="chat-msg-content">
+        <span class="chat-msg-name">Livia</span>
+        <div class="chat-msg-bubble">Hola, soy Livia, la asistente virtual de LIVIANAS 🌿 ¿En qué puedo ayudarte?</div>
+      </div>
     </div>
     <!-- Quick suggestions -->
     <div id="chat-suggestions" class="chat-suggestions">
@@ -188,41 +192,102 @@
     padding: var(--space-4) var(--space-4) var(--space-2);
     display: flex;
     flex-direction: column;
-    gap: var(--space-3);
+    gap: var(--space-4);
   }
 
   .chat-msg {
     display: flex;
-    max-width: 85%;
+    max-width: 88%;
+    gap: var(--space-2);
+    align-items: flex-start;
   }
 
   .chat-msg-bot {
     align-self: flex-start;
+    flex-direction: row;
   }
 
   .chat-msg-user {
     align-self: flex-end;
+    flex-direction: row-reverse;
   }
 
+  /* Mini avatar next to bot messages */
+  .chat-msg-avatar {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    border-radius: 50%;
+    background: var(--color-sage);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.75rem;
+    margin-top: 18px; /* align with bubble top (below name) */
+  }
+
+  /* Content wrapper for name + bubble */
+  .chat-msg-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .chat-msg-user .chat-msg-content {
+    align-items: flex-end;
+  }
+
+  /* Name label */
+  .chat-msg-name {
+    font-family: var(--font-sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0 var(--space-2);
+  }
+
+  .chat-msg-bot .chat-msg-name {
+    color: var(--color-sage);
+  }
+
+  .chat-msg-user .chat-msg-name {
+    color: var(--color-text-muted);
+  }
+
+  /* Bubble */
   .chat-msg-bubble {
     padding: var(--space-3) var(--space-4);
-    border-radius: var(--radius-lg);
+    border-radius: 16px;
     font-size: 0.875rem;
-    line-height: 1.5;
+    line-height: 1.55;
     font-family: var(--font-sans);
     word-break: break-word;
+    position: relative;
   }
 
+  /* Bot bubble — light sage with left tail */
   .chat-msg-bot .chat-msg-bubble {
     background: var(--color-sage-wash);
     color: var(--color-text);
-    border-bottom-left-radius: var(--radius-sm);
+    border-top-left-radius: 4px;
+    border: 1px solid rgba(123, 143, 107, 0.12);
   }
 
+  /* User bubble — sage green with right tail */
   .chat-msg-user .chat-msg-bubble {
-    background: var(--color-blush-wash);
-    color: var(--color-text);
-    border-bottom-right-radius: var(--radius-sm);
+    background: var(--color-sage);
+    color: white;
+    border-top-right-radius: 4px;
+  }
+
+  /* Links inside user (dark) bubbles */
+  .chat-msg-user .chat-msg-bubble a {
+    color: rgba(255, 255, 255, 0.9) !important;
   }
 
   /* Typing indicator */
@@ -231,10 +296,12 @@
     gap: 4px;
     padding: var(--space-3) var(--space-4);
     background: var(--color-sage-wash);
-    border-radius: var(--radius-lg);
-    border-bottom-left-radius: var(--radius-sm);
+    border-radius: 16px;
+    border-top-left-radius: 4px;
+    border: 1px solid rgba(123, 143, 107, 0.12);
     align-self: flex-start;
     max-width: 85%;
+    margin-left: 36px; /* align with bot bubbles (avatar + gap) */
   }
 
   .chat-typing-dot {
@@ -432,6 +499,27 @@
   function addMessage(role: 'user' | 'bot', text: string) {
     const wrapper = document.createElement('div');
     wrapper.className = `chat-msg chat-msg-${role}`;
+
+    if (role === 'bot') {
+      // Avatar
+      const avatar = document.createElement('div');
+      avatar.className = 'chat-msg-avatar';
+      avatar.setAttribute('aria-hidden', 'true');
+      avatar.textContent = 'L';
+      wrapper.appendChild(avatar);
+    }
+
+    // Content wrapper (name + bubble)
+    const content = document.createElement('div');
+    content.className = 'chat-msg-content';
+
+    // Name label
+    const name = document.createElement('span');
+    name.className = 'chat-msg-name';
+    name.textContent = role === 'bot' ? 'Livia' : 'Vos';
+    content.appendChild(name);
+
+    // Bubble
     const bubble = document.createElement('div');
     bubble.className = 'chat-msg-bubble';
 
@@ -445,7 +533,8 @@
       bubble.textContent = text;
     }
 
-    wrapper.appendChild(bubble);
+    content.appendChild(bubble);
+    wrapper.appendChild(content);
     messagesContainer.appendChild(wrapper);
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
   }
