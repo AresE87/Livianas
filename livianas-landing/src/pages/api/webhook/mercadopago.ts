@@ -53,8 +53,8 @@ export const POST: APIRoute = async ({ request }) => {
 
     if (!paymentRes.ok) {
       console.error(`[webhook/mp] MP API error: ${paymentRes.status}`);
-      return new Response(JSON.stringify({ error: 'MP API error' }), {
-        status: 500,
+      return new Response(JSON.stringify({ error: 'MP API error', mp_status: paymentRes.status }), {
+        status: 200,
         headers: { 'Content-Type': 'application/json' },
       });
     }
