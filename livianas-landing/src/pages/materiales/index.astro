@@ -1,8 +1,11 @@
 ---
-import '../styles/global.css';
+import '../../styles/global.css';
+import { siteConfig } from '../../lib/config';
 
 const mpLink = 'https://www.mercadopago.com.uy/payment-link/v1/redirect?link-id=26893d4c-517b-4eb8-b692-f9829fbf1560&source=link';
 const whatsappLink = `https://wa.me/59891086674?text=${encodeURIComponent('Hola, quiero info sobre el Pack de Materiales LIVIANAS 🌿')}`;
+const metaPixelId = siteConfig.metaPixelId;
+const ga4Id = siteConfig.ga4Id;
 
 const items = [
   {
@@ -53,6 +56,46 @@ const faqItems = [
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400;1,700&family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    {metaPixelId && (
+      <script set:html={`
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '${metaPixelId}');
+        fbq('track', 'PageView');
+        fbq('track', 'ViewContent', {
+          content_name: 'Pack Materiales LIVIANAS',
+          content_type: 'product',
+          content_ids: ['pack-materiales'],
+          value: 15,
+          currency: 'USD'
+        });
+      `} />
+      <noscript>
+        <img height="1" width="1" style="display:none" src={`https://www.facebook.com/tr?id=${metaPixelId}&ev=PageView&noscript=1`} />
+      </noscript>
+    )}
+
+    {ga4Id && (
+      <script async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`} />
+      <script set:html={`
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '${ga4Id}');
+        gtag('event', 'view_item', {
+          currency: 'USD',
+          value: 15,
+          items: [{ item_id: 'pack-materiales', item_name: 'Pack Materiales LIVIANAS', price: 15 }]
+        });
+      `} />
+    )}
   </head>
   <body>
     <main class="mat">
@@ -70,6 +113,16 @@ const faqItems = [
             Recursos prácticos para que arranques tu camino hacia el bienestar.<br />
             Descarga inmediata. Sin esperas. A tu ritmo.
           </p>
+          <!-- Social proof -->
+          <div class="mat__social-proof">
+            <div class="mat__social-proof-avatars">
+              <span class="mat__avatar">M</span>
+              <span class="mat__avatar">L</span>
+              <span class="mat__avatar">C</span>
+              <span class="mat__avatar">V</span>
+            </div>
+            <p class="mat__social-proof-text">+200 mujeres ya descargaron el pack</p>
+          </div>
         </header>
 
         <!-- Product Card -->
@@ -120,6 +173,37 @@ const faqItems = [
                 <img src="/images/mercadopago-logo.png" alt="Mercado Pago" width="20" height="20" />
                 Tarjeta, débito o transferencia
               </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Content Preview -->
+        <section class="mat__preview">
+          <h3 class="mat__preview-title">Mirá lo que vas a encontrar adentro</h3>
+          <div class="mat__preview-grid">
+            <div class="mat__preview-card">
+              <span class="mat__preview-icon">📖</span>
+              <strong>Guía Livianas</strong>
+              <ul>
+                <li>Qué es la alimentación antiinflamatoria</li>
+                <li>Alimentos que suman vs. que inflaman</li>
+                <li>Guía de porciones con tu mano</li>
+                <li>Planificación semanal paso a paso</li>
+                <li>Lista de compras descargable</li>
+                <li>Cómo empezar sin estrés</li>
+              </ul>
+            </div>
+            <div class="mat__preview-card">
+              <span class="mat__preview-icon">🍳</span>
+              <strong>Recetario Livianas</strong>
+              <ul>
+                <li>+30 recetas antiinflamatorias</li>
+                <li>Desayunos energizantes</li>
+                <li>Almuerzos y cenas completas</li>
+                <li>Snacks saludables</li>
+                <li>Ingredientes accesibles</li>
+                <li>Preparaciones de 20 min o menos</li>
+              </ul>
             </div>
           </div>
         </section>
@@ -196,6 +280,31 @@ const faqItems = [
 
       </div>
     </main>
+
+    <!-- CTA Tracking -->
+    <script>
+      document.querySelectorAll('[data-utm]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const source = (btn as HTMLElement).dataset.utm;
+          if (typeof (window as any).fbq !== 'undefined') {
+            (window as any).fbq('track', 'InitiateCheckout', {
+              content_name: 'Pack Materiales LIVIANAS',
+              content_ids: ['pack-materiales'],
+              value: 15,
+              currency: 'USD',
+              content_category: source,
+            });
+          }
+          if (typeof (window as any).gtag !== 'undefined') {
+            (window as any).gtag('event', 'begin_checkout', {
+              currency: 'USD',
+              value: 15,
+              items: [{ item_id: 'pack-materiales', item_name: 'Pack Materiales LIVIANAS', price: 15 }],
+            });
+          }
+        });
+      });
+    </script>
 
     <style>
       /* ======= BASE ======= */
@@ -659,6 +768,124 @@ const faqItems = [
 
       .mat__help-btn:hover {
         opacity: 0.8;
+      }
+
+      /* ======= SOCIAL PROOF ======= */
+      .mat__social-proof {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-3);
+        margin-top: var(--space-6);
+      }
+
+      .mat__social-proof-avatars {
+        display: flex;
+      }
+
+      .mat__avatar {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-sans);
+        font-size: 11px;
+        font-weight: 700;
+        color: white;
+        margin-left: -6px;
+        border: 2px solid var(--color-cream);
+      }
+
+      .mat__avatar:first-child {
+        margin-left: 0;
+      }
+
+      .mat__avatar:nth-child(1) { background: var(--color-sage); }
+      .mat__avatar:nth-child(2) { background: var(--color-blush); }
+      .mat__avatar:nth-child(3) { background: var(--color-lavender); }
+      .mat__avatar:nth-child(4) { background: var(--color-gold); }
+
+      .mat__social-proof-text {
+        font-family: var(--font-sans);
+        font-size: var(--text-sm);
+        color: var(--color-text-muted);
+        font-weight: 500;
+      }
+
+      /* ======= CONTENT PREVIEW ======= */
+      .mat__preview {
+        margin-bottom: var(--space-10);
+      }
+
+      .mat__preview-title {
+        font-family: var(--font-sans);
+        font-size: var(--text-lg);
+        font-weight: 700;
+        color: var(--color-carbon);
+        text-align: center;
+        margin-bottom: var(--space-6);
+      }
+
+      .mat__preview-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+      }
+
+      @media (min-width: 640px) {
+        .mat__preview-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      .mat__preview-card {
+        background: var(--color-white);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-xl);
+        padding: var(--space-5);
+      }
+
+      .mat__preview-icon {
+        font-size: var(--text-2xl);
+        display: block;
+        margin-bottom: var(--space-2);
+      }
+
+      .mat__preview-card strong {
+        font-family: var(--font-sans);
+        font-size: var(--text-base);
+        font-weight: 700;
+        color: var(--color-carbon);
+        display: block;
+        margin-bottom: var(--space-3);
+      }
+
+      .mat__preview-card ul {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+      }
+
+      .mat__preview-card li {
+        font-family: var(--font-sans);
+        font-size: var(--text-sm);
+        color: var(--color-text-muted);
+        padding-left: var(--space-5);
+        position: relative;
+        line-height: 1.5;
+      }
+
+      .mat__preview-card li::before {
+        content: '✓';
+        position: absolute;
+        left: 0;
+        color: var(--color-sage);
+        font-weight: 700;
+        font-size: var(--text-xs);
       }
 
       /* ======= FOOTER (minimal, no method links) ======= */
