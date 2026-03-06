@@ -6,14 +6,13 @@
 const MP_PUBLIC_KEY = import.meta.env.PUBLIC_MP_PUBLIC_KEY;
 ---
 
-<!-- BOTÓN TRIGGER (reemplaza el botón actual de /materiales) -->
-<!-- Usarlo así en index.astro: <BuyButton /> -->
+<!-- BOTÓN TRIGGER -->
 <button
   id="btn-comprar"
-  class="btn-comprar w-full py-4 px-8 rounded-2xl font-bold text-lg text-white transition-all duration-200"
-  style="background: linear-gradient(135deg, #2d6a4f 0%, #40916c 100%); box-shadow: 0 4px 20px rgba(45,106,79,0.35);"
+  class="btn-comprar"
 >
-  Comprar Pack — USD 15
+  <span class="btn-comprar__text">Comprar Pack</span>
+  <span class="btn-comprar__price">USD 15</span>
 </button>
 
 <!-- ══════════════════════════════════════════
@@ -21,126 +20,622 @@ const MP_PUBLIC_KEY = import.meta.env.PUBLIC_MP_PUBLIC_KEY;
 ═══════════════════════════════════════════ -->
 <div
   id="checkout-modal"
-  class="fixed inset-0 z-50 flex items-center justify-center p-4"
-  style="display:none !important; background: rgba(0,0,0,0.55); backdrop-filter: blur(6px);"
+  class="modal-overlay"
+  style="display:none !important;"
   role="dialog"
   aria-modal="true"
   aria-labelledby="modal-title"
 >
-  <div
-    id="modal-card"
-    class="relative w-full max-w-md rounded-3xl overflow-hidden"
-    style="background: #fff; box-shadow: 0 25px 60px rgba(0,0,0,0.25); max-height: 92vh; overflow-y: auto;"
-  >
+  <div id="modal-card" class="modal-card">
+
+    <!-- Close button -->
+    <button
+      id="btn-modal-close"
+      class="modal-close"
+      aria-label="Cerrar"
+    >
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M12 4L4 12M4 4l8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
 
     <!-- Header -->
-    <div class="px-6 pt-6 pb-4 flex items-start justify-between" style="border-bottom: 1px solid #f0f0f0;">
-      <div>
-        <p class="text-xs font-semibold uppercase tracking-widest mb-1" style="color:#40916c;">LIVIANAS</p>
-        <h2 id="modal-title" class="text-xl font-bold" style="color:#1a1a1a;">Pack Guía + Recetario</h2>
-        <p class="text-sm mt-1" style="color:#666;">Descarga inmediata · Pago seguro</p>
-      </div>
-      <div class="text-right">
-        <p class="text-2xl font-bold" style="color:#2d6a4f;">USD 15</p>
-        <p class="text-xs line-through" style="color:#999;">USD 24</p>
+    <div class="modal-header">
+      <div class="modal-header__brand">LIVIANAS</div>
+      <h2 id="modal-title" class="modal-header__title">Pack Guía + Recetario</h2>
+      <div class="modal-header__meta">
+        <span class="modal-header__badge">Descarga inmediata</span>
+        <span class="modal-header__sep">&middot;</span>
+        <span class="modal-header__badge">Pago seguro</span>
       </div>
     </div>
 
-    <!-- Contenido del modal según estado -->
+    <!-- Price strip -->
+    <div class="modal-price">
+      <span class="modal-price__old">USD 24</span>
+      <span class="modal-price__current">USD 15</span>
+      <span class="modal-price__save">Ahorrás 38%</span>
+    </div>
 
     <!-- PASO 1: Email -->
-    <div id="step-email" class="px-6 py-5">
-      <p class="text-sm mb-4" style="color:#555;">Ingresá tu email para recibir los materiales después de pagar.</p>
-      <label class="block text-sm font-medium mb-1" style="color:#333;" for="modal-email">Email</label>
-      <input
-        id="modal-email"
-        type="email"
-        placeholder="tu@email.com"
-        autocomplete="email"
-        class="w-full px-4 py-3 rounded-xl border text-sm outline-none transition-all"
-        style="border-color:#ddd; font-size:16px;"
-      />
-      <p id="email-error" class="text-xs mt-1 hidden" style="color:#e63946;">Ingresá un email válido.</p>
-      <button
-        id="btn-continuar"
-        class="w-full mt-4 py-3 rounded-xl font-semibold text-white text-sm transition-all"
-        style="background:#2d6a4f;"
-      >
+    <div id="step-email" class="modal-step">
+      <p class="modal-step__hint">Ingresá tu email para recibir los materiales después de pagar.</p>
+      <div class="modal-input-group">
+        <label class="modal-input-group__label" for="modal-email">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          Email
+        </label>
+        <input
+          id="modal-email"
+          type="email"
+          placeholder="tu@email.com"
+          autocomplete="email"
+          class="modal-input"
+        />
+        <p id="email-error" class="modal-input-error hidden">Ingresá un email válido.</p>
+      </div>
+      <button id="btn-continuar" class="modal-btn-primary">
         Continuar al pago
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
       </button>
     </div>
 
-    <!-- PASO 2: Bricks (se oculta en paso 1 y paso 3) -->
-    <div id="step-bricks" class="px-6 py-5 hidden">
-      <!-- Loader mientras carga el Brick -->
-      <div id="bricks-loader" class="flex flex-col items-center py-8 gap-3">
-        <div class="w-8 h-8 rounded-full border-2 border-t-transparent animate-spin" style="border-color:#2d6a4f; border-top-color:transparent;"></div>
-        <p class="text-sm" style="color:#666;">Cargando checkout seguro…</p>
+    <!-- PASO 2: Bricks -->
+    <div id="step-bricks" class="modal-step hidden">
+      <div id="bricks-loader" class="modal-loader">
+        <div class="modal-loader__spinner"></div>
+        <p class="modal-loader__text">Preparando tu checkout seguro...</p>
       </div>
-      <!-- Aquí monta MP Checkout Bricks -->
       <div id="paymentBrick_container"></div>
     </div>
 
     <!-- PASO 3: Éxito -->
-    <div id="step-success" class="px-6 py-8 text-center hidden">
-      <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style="background:#d8f3dc;">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-          <path d="M20 6L9 17l-5-5" stroke="#2d6a4f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+    <div id="step-success" class="modal-step hidden">
+      <div class="modal-result">
+        <div class="modal-result__icon modal-result__icon--success">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+            <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3 class="modal-result__title">¡Pago confirmado!</h3>
+        <p class="modal-result__text">Te enviamos los materiales a</p>
+        <p id="success-email" class="modal-result__email"></p>
+        <p class="modal-result__note">Revisá tu bandeja de entrada (y spam).<br/>Si en 5 minutos no llega, escribinos por WhatsApp.</p>
+        <button id="btn-close-success" class="modal-btn-secondary">Cerrar</button>
       </div>
-      <h3 class="text-xl font-bold mb-2" style="color:#1a1a1a;">¡Pago confirmado!</h3>
-      <p class="text-sm mb-1" style="color:#555;">Te enviamos los materiales a</p>
-      <p id="success-email" class="font-semibold text-sm mb-5" style="color:#2d6a4f;"></p>
-      <p class="text-xs" style="color:#999;">Revisá tu bandeja de entrada (y spam). Si en 5 minutos no llega, escribinos por WhatsApp.</p>
-      <button
-        id="btn-close-success"
-        class="mt-5 text-sm underline"
-        style="color:#666;"
-      >
-        Cerrar
-      </button>
     </div>
 
-    <!-- PASO 4: Error de pago -->
-    <div id="step-error" class="px-6 py-8 text-center hidden">
-      <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style="background:#fde8ea;">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-          <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#e63946" stroke-width="2" stroke-linecap="round"/>
-        </svg>
+    <!-- PASO 4: Error -->
+    <div id="step-error" class="modal-step hidden">
+      <div class="modal-result">
+        <div class="modal-result__icon modal-result__icon--error">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M12 8v4m0 4h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3 class="modal-result__title">Algo salió mal</h3>
+        <p id="error-message" class="modal-result__text">Hubo un error al procesar tu pago. Podés intentarlo de nuevo.</p>
+        <button id="btn-retry" class="modal-btn-primary">Intentar de nuevo</button>
       </div>
-      <h3 class="text-xl font-bold mb-2" style="color:#1a1a1a;">Algo salió mal</h3>
-      <p id="error-message" class="text-sm mb-5" style="color:#555;">Hubo un error al procesar tu pago. Podés intentarlo de nuevo.</p>
-      <button
-        id="btn-retry"
-        class="px-6 py-3 rounded-xl font-semibold text-white text-sm"
-        style="background:#2d6a4f;"
-      >
-        Intentar de nuevo
-      </button>
     </div>
 
-    <!-- Botón X cerrar (siempre visible excepto en success) -->
-    <button
-      id="btn-modal-close"
-      class="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center transition-colors"
-      style="background:#f5f5f5; color:#666;"
-      aria-label="Cerrar"
-    >
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-        <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <!-- Security badge -->
+    <div class="modal-security" id="security-badge">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
       </svg>
-    </button>
-
-    <!-- Sello de seguridad -->
-    <div class="px-6 pb-5 flex items-center justify-center gap-2" id="security-badge">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="color:#999;">
-        <path d="M12 2l7 4v6c0 5-3.5 9.74-7 11-3.5-1.26-7-6-7-11V6l7-4z" stroke="currentColor" stroke-width="1.5"/>
-      </svg>
-      <p class="text-xs" style="color:#999;">Pago seguro con Mercado Pago · SSL</p>
+      <span>Pago seguro con Mercado Pago &middot; SSL</span>
     </div>
 
   </div>
 </div>
+
+<style>
+  /* ═══════════════════════════════════════════
+     CHECKOUT MODAL — LIVIANAS DESIGN SYSTEM
+  ═══════════════════════════════════════════ */
+
+  /* ── Trigger Button ── */
+  .btn-comprar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    padding: var(--space-4) var(--space-8);
+    border: none;
+    border-radius: var(--radius-full);
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: var(--text-base);
+    color: white;
+    background: var(--color-sage);
+    box-shadow: var(--shadow-md), var(--shadow-glow-sage);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-comprar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    transition: left var(--transition-slow);
+  }
+
+  .btn-comprar:hover::before {
+    left: 100%;
+  }
+
+  .btn-comprar:hover {
+    background: var(--color-sage-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg), var(--shadow-glow-sage);
+  }
+
+  .btn-comprar:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  .btn-comprar__text {
+    font-weight: 600;
+  }
+
+  .btn-comprar__price {
+    background: rgba(255,255,255,0.2);
+    padding: 2px 10px;
+    border-radius: var(--radius-full);
+    font-size: var(--text-sm);
+    font-weight: 700;
+  }
+
+  /* ── Modal Overlay ── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-4);
+    background: rgba(44, 40, 37, 0.5);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  /* ── Modal Card ── */
+  .modal-card {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    max-height: 92vh;
+    overflow-y: auto;
+    background: var(--color-cream);
+    border: 1px solid rgba(123, 143, 107, 0.15);
+    border-radius: var(--radius-2xl);
+    box-shadow:
+      0 25px 80px rgba(44, 40, 37, 0.2),
+      0 8px 24px rgba(44, 40, 37, 0.08);
+    animation: modal-enter 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes modal-enter {
+    from {
+      opacity: 0;
+      transform: translateY(16px) scale(0.97);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  /* ── Close Button ── */
+  .modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 10;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(44, 40, 37, 0.06);
+    border: none;
+    border-radius: var(--radius-full);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .modal-close:hover {
+    background: rgba(44, 40, 37, 0.12);
+    color: var(--color-carbon);
+  }
+
+  /* ── Header ── */
+  .modal-header {
+    text-align: center;
+    padding: var(--space-8) var(--space-6) var(--space-5);
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-white);
+    border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+  }
+
+  .modal-header__brand {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--color-sage);
+    text-transform: uppercase;
+    margin-bottom: var(--space-2);
+  }
+
+  .modal-header__title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.4rem, 5vw, 1.65rem);
+    color: var(--color-carbon);
+    line-height: 1.2;
+    margin-bottom: var(--space-3);
+  }
+
+  .modal-header__meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .modal-header__badge {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    letter-spacing: 0.02em;
+  }
+
+  .modal-header__sep {
+    color: var(--color-text-light);
+    font-size: 11px;
+  }
+
+  /* ── Price Strip ── */
+  .modal-price {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-6);
+    background: var(--color-sage-wash);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .modal-price__old {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    color: var(--color-text-light);
+    text-decoration: line-through;
+  }
+
+  .modal-price__current {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--text-2xl);
+    color: var(--color-sage-dark);
+    line-height: 1;
+  }
+
+  .modal-price__save {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--color-blush-dark);
+    background: var(--color-blush-wash);
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+  }
+
+  /* ── Step containers ── */
+  .modal-step {
+    padding: var(--space-6);
+  }
+
+  .modal-step__hint {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    margin-bottom: var(--space-5);
+    text-align: center;
+  }
+
+  /* ── Input Group ── */
+  .modal-input-group {
+    margin-bottom: var(--space-5);
+  }
+
+  .modal-input-group__label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-carbon);
+    margin-bottom: var(--space-2);
+  }
+
+  .modal-input-group__label svg {
+    color: var(--color-sage);
+  }
+
+  .modal-input {
+    width: 100%;
+    padding: 14px var(--space-4);
+    border: 1.5px solid rgba(123, 143, 107, 0.2);
+    border-radius: var(--radius-lg);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    color: var(--color-carbon);
+    background: var(--color-white);
+    outline: none;
+    transition: all var(--transition-fast);
+  }
+
+  .modal-input::placeholder {
+    color: var(--color-text-light);
+  }
+
+  .modal-input:focus {
+    border-color: var(--color-sage);
+    box-shadow: 0 0 0 3px rgba(123, 143, 107, 0.12);
+  }
+
+  .modal-input--error {
+    border-color: var(--color-blush-dark) !important;
+    box-shadow: 0 0 0 3px rgba(212, 145, 126, 0.15) !important;
+  }
+
+  .modal-input-error {
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    color: var(--color-blush-dark);
+    margin-top: var(--space-2);
+  }
+
+  /* ── Buttons ── */
+  .modal-btn-primary {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: 14px var(--space-6);
+    border: none;
+    border-radius: var(--radius-full);
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: var(--text-sm);
+    color: white;
+    background: var(--color-sage);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .modal-btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    transition: left var(--transition-slow);
+  }
+
+  .modal-btn-primary:hover::before {
+    left: 100%;
+  }
+
+  .modal-btn-primary:hover {
+    background: var(--color-sage-dark);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md), var(--shadow-glow-sage);
+  }
+
+  .modal-btn-primary:active {
+    transform: translateY(0);
+  }
+
+  .modal-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-6);
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-full);
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    background: transparent;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .modal-btn-secondary:hover {
+    border-color: var(--color-sage);
+    color: var(--color-sage);
+    background: var(--color-sage-wash);
+  }
+
+  /* ── Loader ── */
+  .modal-loader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-8) 0;
+  }
+
+  .modal-loader__spinner {
+    width: 32px;
+    height: 32px;
+    border: 2px solid var(--color-sage-wash);
+    border-top-color: var(--color-sage);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .modal-loader__text {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  /* ── Result (Success/Error) ── */
+  .modal-result {
+    text-align: center;
+    padding: var(--space-4) 0;
+  }
+
+  .modal-result__icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto var(--space-5);
+  }
+
+  .modal-result__icon--success {
+    background: var(--color-sage-wash);
+    color: var(--color-sage-dark);
+  }
+
+  .modal-result__icon--error {
+    background: var(--color-blush-wash);
+    color: var(--color-blush-dark);
+  }
+
+  .modal-result__title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--text-xl);
+    color: var(--color-carbon);
+    margin-bottom: var(--space-2);
+  }
+
+  .modal-result__text {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    margin-bottom: var(--space-1);
+  }
+
+  .modal-result__email {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: var(--text-sm);
+    color: var(--color-sage-dark);
+    margin-bottom: var(--space-5);
+  }
+
+  .modal-result__note {
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    color: var(--color-text-light);
+    line-height: 1.6;
+    margin-bottom: var(--space-5);
+  }
+
+  /* ── Security Badge ── */
+  .modal-security {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-6) var(--space-5);
+  }
+
+  .modal-security svg {
+    color: var(--color-text-light);
+    flex-shrink: 0;
+  }
+
+  .modal-security span {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    color: var(--color-text-light);
+    letter-spacing: 0.01em;
+  }
+
+  /* ── Scrollbar ── */
+  .modal-card::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .modal-card::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .modal-card::-webkit-scrollbar-thumb {
+    background: var(--color-sand);
+    border-radius: 2px;
+  }
+
+  /* ── Mobile tweaks ── */
+  @media (max-width: 480px) {
+    .modal-overlay {
+      align-items: flex-end;
+      padding: 0;
+    }
+
+    .modal-card {
+      max-height: 95vh;
+      border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+      animation: modal-enter-mobile 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes modal-enter-mobile {
+      from {
+        opacity: 0;
+        transform: translateY(100%);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .modal-header {
+      border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+    }
+  }
+
+  /* ── Hidden utility ── */
+  .hidden {
+    display: none !important;
+  }
+</style>
 
 <!-- ══════════════════════════════════════════
      SDK DE MERCADO PAGO
@@ -168,6 +663,7 @@ const MP_PUBLIC_KEY = import.meta.env.PUBLIC_MP_PUBLIC_KEY;
   const errorMsg       = document.getElementById('error-message');
   const bricksLoader   = document.getElementById('bricks-loader');
   const securityBadge  = document.getElementById('security-badge');
+  const priceStrip     = document.querySelector('.modal-price');
 
   let currentEmail = '';
   let brickController = null;
@@ -179,13 +675,15 @@ const MP_PUBLIC_KEY = import.meta.env.PUBLIC_MP_PUBLIC_KEY;
   function showStep(step) {
     [stepEmail, stepBricks, stepSuccess, stepError].forEach(s => s.classList.add('hidden'));
     step.classList.remove('hidden');
-    // Ocultar badge de seguridad en success/error para no distraer
+    // Ocultar badge y price en success/error
     if (step === stepSuccess || step === stepError) {
       securityBadge.style.display = 'none';
       btnModalClose.style.display = 'none';
+      if (priceStrip) priceStrip.style.display = 'none';
     } else {
       securityBadge.style.display = 'flex';
       btnModalClose.style.display = 'flex';
+      if (priceStrip) priceStrip.style.display = 'flex';
     }
   }
 
@@ -196,7 +694,6 @@ const MP_PUBLIC_KEY = import.meta.env.PUBLIC_MP_PUBLIC_KEY;
 
   // ── Abrir modal ───────────────────────────────────
   btnComprar?.addEventListener('click', () => {
-    // Pre-fill email si existe en el campo de la landing
     const landingEmail = document.getElementById('email-input')?.value || '';
     if (landingEmail && isValidEmail(landingEmail)) {
       emailInput.value = landingEmail;
@@ -209,16 +706,15 @@ const MP_PUBLIC_KEY = import.meta.env.PUBLIC_MP_PUBLIC_KEY;
   // ── Cerrar modal ──────────────────────────────────
   function closeModal() {
     hideModal();
-    // Destruir brick si existe para liberar recursos
     if (brickController) {
       brickController.unmount();
       brickController = null;
     }
-    // Reset UI
     setTimeout(() => {
       showStep(stepEmail);
       securityBadge.style.display = 'flex';
       btnModalClose.style.display = 'flex';
+      if (priceStrip) priceStrip.style.display = 'flex';
     }, 300);
   }
 
@@ -240,11 +736,11 @@ const MP_PUBLIC_KEY = import.meta.env.PUBLIC_MP_PUBLIC_KEY;
     const email = emailInput.value.trim();
     if (!isValidEmail(email)) {
       emailError.classList.remove('hidden');
-      emailInput.style.borderColor = '#e63946';
+      emailInput.classList.add('modal-input--error');
       return;
     }
     emailError.classList.add('hidden');
-    emailInput.style.borderColor = '#ddd';
+    emailInput.classList.remove('modal-input--error');
     currentEmail = email;
 
     showStep(stepBricks);
@@ -252,7 +748,6 @@ const MP_PUBLIC_KEY = import.meta.env.PUBLIC_MP_PUBLIC_KEY;
     document.getElementById('paymentBrick_container').innerHTML = '';
 
     try {
-      // 1. Crear preferencia en backend
       const res = await fetch('/api/create-preference', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -262,7 +757,6 @@ const MP_PUBLIC_KEY = import.meta.env.PUBLIC_MP_PUBLIC_KEY;
       if (!res.ok) throw new Error('Error al crear preferencia');
       const { preference_id } = await res.json();
 
-      // 2. Inicializar Checkout Bricks
       await initBricks(preference_id);
 
     } catch (err) {
@@ -279,7 +773,7 @@ const MP_PUBLIC_KEY = import.meta.env.PUBLIC_MP_PUBLIC_KEY;
 
     brickController = await bricksBuilder.create('payment', 'paymentBrick_container', {
       initialization: {
-        amount: 650,          // UYU 650 ≈ USD 15 — cuenta MP de Ana en pesos uruguayos
+        amount: 650,
         preferenceId: preferenceId,
       },
       customization: {
@@ -294,11 +788,11 @@ const MP_PUBLIC_KEY = import.meta.env.PUBLIC_MP_PUBLIC_KEY;
           style: {
             theme: 'default',
             customVariables: {
-              baseColor: '#2d6a4f',
-              baseColorFirstVariant: '#40916c',
-              baseColorSecondVariant: '#1b4332',
+              baseColor: '#7B8F6B',
+              baseColorFirstVariant: '#94A785',
+              baseColorSecondVariant: '#5E7252',
               fontSizeSmall: '13px',
-              formBackgroundColor: '#ffffff',
+              formBackgroundColor: '#FBF9F5',
             },
           },
           hideFormTitle: true,
@@ -307,11 +801,9 @@ const MP_PUBLIC_KEY = import.meta.env.PUBLIC_MP_PUBLIC_KEY;
       },
       callbacks: {
         onReady: () => {
-          // Ocultar loader cuando el Brick termina de renderizar
           bricksLoader.style.display = 'none';
         },
         onSubmit: async ({ selectedPaymentMethod, formData }) => {
-          // 3. Procesar pago en nuestro backend
           try {
             const res = await fetch('/api/process-payment', {
               method: 'POST',
@@ -324,13 +816,12 @@ const MP_PUBLIC_KEY = import.meta.env.PUBLIC_MP_PUBLIC_KEY;
             if (result.status === 'approved') {
               successEmail.textContent = currentEmail;
               showStep(stepSuccess);
-              // Destruir brick
               if (brickController) { brickController.unmount(); brickController = null; }
               return { status: 'approved' };
             } else if (result.status === 'in_process' || result.status === 'pending') {
               successEmail.textContent = currentEmail;
               stepSuccess.querySelector('h3').textContent = '¡Pago en proceso!';
-              stepSuccess.querySelector('p').textContent = 'Tu pago está siendo procesado. Te avisamos por email cuando se confirme.';
+              stepSuccess.querySelector('.modal-result__text').textContent = 'Tu pago está siendo procesado. Te avisamos por email cuando se confirme.';
               showStep(stepSuccess);
               return { status: 'pending' };
             } else {
@@ -376,19 +867,15 @@ const MP_PUBLIC_KEY = import.meta.env.PUBLIC_MP_PUBLIC_KEY;
       await initBricks(preference_id);
     } catch(err) {
       errorMsg.textContent = 'No pudimos reiniciar el checkout.';
-      // Volvemos a mostrar error
     }
   });
 
-  // ── Focus styles ──────────────────────────────────
-  emailInput?.addEventListener('focus', () => {
-    emailInput.style.borderColor = '#2d6a4f';
-    emailInput.style.boxShadow = '0 0 0 3px rgba(45,106,79,0.12)';
+  // ── Input interactions ──────────────────────────
+  emailInput?.addEventListener('input', () => {
+    emailError.classList.add('hidden');
+    emailInput.classList.remove('modal-input--error');
   });
-  emailInput?.addEventListener('blur', () => {
-    emailInput.style.borderColor = '#ddd';
-    emailInput.style.boxShadow = 'none';
-  });
+
   emailInput?.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') btnContinuar.click();
   });
