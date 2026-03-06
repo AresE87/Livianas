@@ -1,191 +1,319 @@
-# Bitácora de Cambios — LIVIANAS
+# Bitacora de Cambios — LIVIANAS
+
+> Ultima actualizacion: 2026-03-06
+> Branch activo: `main` (merge de `redesign-v2` completado)
+> Deploy: https://livianas.com (Vercel)
+> Repo: https://github.com/AresE87/Livianas
 
 ---
 
-## CC-001-PAYMENTS
+## ESTADO ACTUAL DEL PROYECTO
 
-| Campo | Detalle |
-|---|---|
-| **Fecha** | 2026-02-22 |
-| **ID de Cambio** | CC-001-PAYMENTS |
-| **Descripción** | Actualización de pasarelas de pago para soporte multiregional (UY/LATAM/INT). Se reemplazó la referencia a "MercadoPago/Stripe" por tres pasarelas validadas: Mercado Pago (Uruguay), dLocal Go (LATAM) y PayPal (Internacional). Se agregó fila en la tabla de Stack con detalle de integración vía SDK/Webhooks. |
-| **Archivos afectados** | `arquitectura_tecnica_livianas.md` (secciones 1.1 y 8.4) |
-| **Impacto** | Alta viabilidad de cobro en Uruguay y resto de Latinoamérica sin depender de Stripe Atlas. Cobertura internacional via PayPal. |
-| **Estado** | Aplicado |
-
----
-
-## CC-002-LANDING-OPTIMIZATION
-
-| Campo | Detalle |
-|---|---|
-| **Fecha** | 2026-03-01 |
-| **ID de Cambio** | CC-002-LANDING-OPTIMIZATION |
-| **Descripción** | Optimización completa de conversión de la landing page. Incluye: reorden del flujo de 14 secciones, dual CTAs (pago directo + WhatsApp bot), charm pricing (USD 297 vs USD 450 tachado), countdown timers reutilizables, value stack simplificado, MiniPricing en posición 6, StickyMobileCTA para mobile, ParaQuienEs reemplazando testimonios vacíos. |
-| **Archivos afectados** | 5 componentes nuevos (`CountdownTimer`, `PaymentButtons`, `MiniPricing`, `StickyMobileCTA`, `ParaQuienEs`), 10 componentes actualizados, `config.ts`, `global.css`, `index.astro` |
-| **Commits** | `544841c`, `0531dd0`, `95309cf`, `cb80930` |
-| **Impacto** | Landing optimizada para conversión con múltiples puntos de captura, urgencia y anclaje de precio. |
-| **Estado** | Aplicado |
-
----
-
-## CC-003-CONTENT-FEEDBACK
-
-| Campo | Detalle |
-|---|---|
-| **Fecha** | 2026-03-01 |
-| **ID de Cambio** | CC-003-CONTENT-FEEDBACK |
-| **Descripción** | Correcciones por feedback directo de Ana: (1) Desenfatizar ejercicio y agregar espiritualidad como pilar central en semanas 2-3, includes y pricing. (2) Value stack: eliminar desglose itemizado de USD 1050, mostrar USD 450 tachado rojo → USD 297. (3) Eliminar "personalizable" (es grupal). (4) Botón oculto de WhatsApp directo a Ana en última FAQ para prospectos de alto valor. (5) Emojis de PainPoints reemplazados por SVG icons elegantes. (6) CTAs cambiados de "Hablar con Ana" a "Quiero saber más" (van al bot). (7) Placeholder visual de video con ícono de play en VideoAna. |
-| **Archivos afectados** | `config.ts`, `Pricing.astro`, `FAQ.astro`, `PainPoints.astro`, `MiniPricing.astro`, `FinalCTA.astro`, `VideoAna.astro` |
-| **Commits** | `355efe8` |
-| **Impacto** | Contenido alineado con la visión de Ana. Espiritualidad como pilar central. Pricing menos intimidante. Estrategia de bot vs contacto directo con Ana bien diferenciada. |
-| **Estado** | Aplicado |
-
----
-
-## CC-004-REDESIGN-V2
-
-| Campo | Detalle |
-|---|---|
-| **Fecha** | 2026-03-01 |
-| **ID de Cambio** | CC-004-REDESIGN-V2 |
-| **Descripción** | Rediseño completo visual en rama `redesign-v2`. Paleta femenina sage/blush/lavender. Nuevo sistema de diseño con CSS custom properties. Tipografías Cormorant Garamond + Plus Jakarta Sans. Componentes cinematográficos: `CinematicHero`, `Features`, `Manifesto`, `ProgramArchive`, `PremiumAboutAna`, `PremiumPricing`, `PremiumFAQ`, `PremiumFinalCTA`, `PremiumFooter`. Animaciones GSAP en hero. |
-| **Archivos afectados** | `global.css` (design system v3), 10+ componentes nuevos/actualizados, `Layout.astro`, `index.astro` |
-| **Commits** | `cf93e0f`, `bca9720` |
-| **Impacto** | Identidad visual profesional y femenina. Diseño orgánico y cálido alineado con el público objetivo. |
-| **Estado** | Aplicado |
-
----
-
-## CC-005-PAGO-PAGE-NAV-FIXES
-
-| Campo | Detalle |
-|---|---|
-| **Fecha** | 2026-03-02 |
-| **ID de Cambio** | CC-005-PAGO-PAGE-NAV-FIXES |
-| **Descripción** | (1) Página `/pago` — checkout dedicado con selector MercadoPago/PayPal, garantía, WhatsApp de ayuda. (2) Fix de anchors del navbar: `#metodo` → VideoAna, `#programa` → ProgramArchive, `#precio` → PremiumPricing. (3) Botón WhatsApp prominente en `/pago` (verde, con ícono WP). (4) Texto de ayuda: "¿Tenés dudas o complicaciones con el pago?". (5) Eliminado botón secundario "Quiero saber más" del hero (mandaba a WP antes de ver la landing). |
-| **Archivos afectados** | `pago.astro`, `VideoAna.astro` (id→metodo), `ProgramArchive.astro` (id→programa), `CinematicHero.astro` |
-| **Commits** | `dcae50d`, `6e9a87a` |
-| **Impacto** | Flujo de pago separado. Navegación interna funcional. UX mejorada para no perder visitantes antes de ver el contenido. |
-| **Estado** | Aplicado |
-
----
-
-## CC-006-DOMAIN-CONFIG
-
-| Campo | Detalle |
-|---|---|
-| **Fecha** | 2026-03-02 |
-| **ID de Cambio** | CC-006-DOMAIN-CONFIG |
-| **Descripción** | Dominio `livianas.com` comprado y configurado en Vercel. Rama `redesign-v2` desplegada a producción. Número de WhatsApp real (59891086674) configurado tanto en `.env` como variable de entorno en Vercel. Fecha de lanzamiento actualizada al 11 de abril de 2026 (cierre de inscripciones: 8 de abril). |
-| **Archivos afectados** | `.env`, `config.ts` (fechas + WP fallback), Vercel env vars |
-| **Commits** | `3a67ef7` |
-| **Impacto** | Sitio en producción en livianas.com. Datos reales de contacto y fechas. |
-| **Estado** | Aplicado |
-
----
-
-## CC-007-CHATBOT-IA
-
-| Campo | Detalle |
-|---|---|
-| **Fecha** | 2026-03-02 |
-| **ID de Cambio** | CC-007-CHATBOT-IA |
-| **Descripción** | Chatbot IA conversacional "Livia" para web y WhatsApp. Arquitectura completa: (1) **Backend IA** — 6 módulos en `src/lib/chatbot/`: system-prompt (construye contexto desde config.ts con FAQ, precios, programa), ai-client (Claude Sonnet, max 500 tokens), sessions (memoria en RAM, TTL 30min, max 20 msgs), rate-limiter (sliding window 20/min web, 10/min WP), escalation (detección de keywords clínicos, pagos, pedidos explícitos de Ana), whatsapp-api (Cloud API helpers). (2) **API Routes** — `POST /api/chat` (widget web, CORS, rate limiting), `GET/POST /api/whatsapp` (webhook Meta, verificación + mensajes entrantes). (3) **ChatWidget.astro** — burbuja flotante sage al lado del botón WP, panel de chat 380x520px (fullscreen mobile), header con avatar "L", mensaje de bienvenida, 3 sugerencias rápidas (Programa, Precio, Fechas), indicador "escribiendo..." animado, URLs clickeables en respuestas, cierre con X o Escape. (4) **Infraestructura** — Astro adapter Vercel para server functions, `@anthropic-ai/sdk` como dependencia. |
-| **Archivos nuevos** | `src/lib/chatbot/system-prompt.ts`, `src/lib/chatbot/ai-client.ts`, `src/lib/chatbot/sessions.ts`, `src/lib/chatbot/rate-limiter.ts`, `src/lib/chatbot/escalation.ts`, `src/lib/chatbot/whatsapp-api.ts`, `src/pages/api/chat.ts`, `src/pages/api/whatsapp.ts`, `src/components/ChatWidget.astro` |
-| **Archivos modificados** | `astro.config.mjs` (adapter Vercel), `package.json` (+2 deps), `index.astro` (+ChatWidget), `.env` (+4 vars chatbot) |
-| **Impacto** | Atención 24/7 automatizada. Livia responde preguntas sobre el programa, precios, fechas usando IA. Escala a Ana automáticamente para temas clínicos, de pago o por pedido explícito. Reduce carga de Ana para consultas repetitivas. |
-| **Estado** | Implementado — Pendiente: configurar ANTHROPIC_API_KEY en Vercel para activar IA |
-
----
-
-## CC-008-MATERIALES-AUTOMATED-DELIVERY
-
-| Campo | Detalle |
-|---|---|
-| **Fecha** | 2026-03-05 |
-| **ID de Cambio** | CC-008-MATERIALES-AUTOMATED-DELIVERY |
-| **Descripción** | Pipeline automatizado completo de venta digital: pago → email con materiales PDF. Incluye: (1) **DNS + Resend verificado** — 4 registros DNS (DKIM, SPF, MX, DMARC) en Vercel para `livianas.com`, dominio verificado en Resend. (2) **Supabase Storage** — PDFs alojados en bucket público `materiales` (guia + recetario). (3) **Mercado Pago webhook** — `POST /api/webhook/mercadopago` recibe IPN, verifica pago vía API de MP, envía email si `approved`. (4) **Flujo de email collection** — Campo de email obligatorio en `/materiales` ANTES de redirigir a MP (soluciona que MP payment links no exponen email del comprador). Email guardado en localStorage. (5) **Auto-envío en /gracias** — Al volver de la pestaña de MP, `visibilitychange` dispara automáticamente el envío via `/api/send-materiales`. Fallback: formulario manual si no hay email en localStorage. (6) **Email branded** — Template HTML con botones de descarga para Guía y Recetario, next steps, link a WhatsApp. |
-| **Archivos nuevos** | `src/pages/api/send-materiales.ts`, `src/lib/email/send-materiales.ts` |
-| **Archivos modificados** | `astro.config.mjs` (`output: 'server'`), `src/pages/api/webhook/mercadopago.ts` (200 en errores, fallback email desde `external_reference`), `src/pages/materiales/index.astro` (email input + localStorage + MP en nueva pestaña), `src/pages/materiales/gracias.astro` (auto-send + visibilitychange + manual fallback) |
-| **Commits** | `64ab17d`, `fe781a4`, `f691afc`, `1d472e7`, `8f0d612`, `ad37856` |
-| **Variables de entorno (Vercel)** | `RESEND_API_KEY`, `MATERIALES_FROM_EMAIL`, `MERCADOPAGO_ACCESS_TOKEN`, `PUBLIC_GUIA_DOWNLOAD_URL`, `PUBLIC_RECETARIO_DOWNLOAD_URL` |
-| **Impacto** | Venta 100% automatizada: usuario paga → recibe materiales por email sin intervención manual. |
-| **Estado** | Desplegado en producción — Pendiente: test end-to-end con pago real + swap link test por link prod |
-
-### Estado actual del flujo `/materiales` (2026-03-05)
+### Arquitectura General
 
 ```
-USUARIO                          SISTEMA
-  │                                 │
-  ├─ Entra a /materiales            │
-  │  Ve producto + precio           │
-  │                                 │
-  ├─ Ingresa email ──────────────── localStorage.setItem('livianas_email')
-  ├─ Click "Comprar Pack"           │
-  │                                 │
-  ├─ MP se abre en NUEVA PESTAÑA    │
-  ├─ /materiales/gracias se carga ──│── Muestra "Completá tu pago en MP..."
-  │  en pestaña actual              │   (estado: waiting)
-  │                                 │
-  ├─ Paga en MP ────────────────── MP envía webhook POST
-  │                                 │── /api/webhook/mercadopago verifica pago
-  │                                 │── Si approved + tiene email → envía email (backup)
-  │                                 │
-  ├─ Vuelve a pestaña /gracias ──── visibilitychange event
-  │                                 │── /api/send-materiales envía email (primario)
-  │                                 │── Muestra "Materiales enviados a tu@email.com"
-  │                                 │
-  └─ Recibe email con PDFs          │
+livianas.com (Vercel + Astro 5 SSR)
+├── /                       → Landing principal del programa (Circulo LIVIANAS)
+├── /materiales             → Tienda digital: Pack Guia + Recetario (USD 15 / UYU 650)
+├── /materiales/gracias     → Thank you page (fallback redirect de MP)
+├── /pago                   → Checkout del programa principal (MP/PayPal links)
+├── /api/create-preference  → Crea preferencia de MP para Checkout Bricks
+├── /api/process-payment    → Procesa pago del Brick, guarda en Supabase, envia email
+├── /api/webhook/mercadopago→ Webhook IPN de MP (backup de envio de email)
+├── /api/send-materiales    → Endpoint legacy de envio de email
+├── /api/chat               → Chatbot IA "Livia" (web widget)
+├── /api/whatsapp           → Chatbot IA "Livia" (WhatsApp Cloud API)
+└── /terminos, /privacidad  → Paginas legales (pendientes de contenido)
 ```
 
-### Cosas pendientes para esta feature
+### Stack Tecnologico
 
-| # | Pendiente | Prioridad |
-|---|---|---|
-| 1 | **Swap link test → producción**: Cambiar `https://mpago.la/2v6mMqJ` (10 pesos test) por el link real de USD 15 en `src/pages/materiales/index.astro` línea 7 | **ALTA — antes de lanzar** |
-| 2 | **Test end-to-end con pago real**: Hacer una compra completa y verificar que el email llega con los links de descarga | Alta |
-| 3 | **Verificar PDFs en Supabase**: Confirmar que ambos links de descarga funcionan (guía + recetario) | Alta |
-| 4 | **Checkout Pro 403**: El token de MP da error 403 (PA_UNAUTHORIZED) al crear preferencias de Checkout Pro. Por ahora se usa payment link estático. Investigar si se necesita activar Checkout Pro en el dashboard de MP o si el token necesita más permisos | Media |
-| 5 | **Doble envío**: Si el webhook Y la página gracias envían, el usuario recibe 2 emails. Considerar deduplicación (ej: flag en Supabase o Vercel KV) | Baja |
-| 6 | **Pop-up blocker**: `window.open()` puede ser bloqueado por el navegador. Si eso pasa, el link de MP no se abre. Considerar fallback con `<a target="_blank">` | Media |
+| Capa | Tecnologia | Notas |
+|------|-----------|-------|
+| Framework | Astro 5 | `output: 'server'`, SSR en Vercel |
+| Hosting | Vercel | Auto-deploy desde `main`, dominio `livianas.com` |
+| Pagos | Mercado Pago Checkout Bricks | Modal embebido, sin salir del sitio |
+| Base de datos | Supabase (PostgreSQL) | Tabla `purchases` para deduplicacion |
+| Email transaccional | Resend | Dominio `livianas.com` verificado (DKIM/SPF/DMARC) |
+| Chatbot IA | Claude Sonnet (Anthropic) | Widget web + WhatsApp |
+| Animaciones | GSAP + ScrollTrigger | Hero cinematografico |
+| CSS | Custom properties (design system v3) | Paleta sage/blush/lavender |
+| Tipografia | Cormorant Garamond + Plus Jakarta Sans | Google Fonts |
 
 ---
 
-## DECISIONES ARQUITECTÓNICAS
+## FLUJO DE VENTA AUTOMATIZADA `/materiales`
 
-| Decisión | Contexto | Resolución |
-|---|---|---|
-| **Astro output: 'server'** | API routes (webhook, email, chat) necesitan server-side rendering. | Se cambió a `output: 'server'` con `@astrojs/vercel` adapter. Todas las páginas se renderizan en el server salvo las que tengan `prerender = true`. |
-| **Claude Sonnet (no Opus)** | Control de costos del chatbot. | Sonnet es rápido y económico (~$5-20/mes para 50 conv/día). Max 500 tokens por respuesta. Ventana de 10 mensajes. |
-| **Sesiones en memoria (no DB)** | Simplicidad para MVP. | `Map<string, Session>` con TTL 30min. Suficiente para Vercel serverless (se pierde entre cold starts, aceptable para chat). |
-| **Escalación por keywords** | Proteger usuarios vulnerables. | Lista de keywords clínicos (anorexia, depresión, autolesión) + pagos + pedidos explícitos. Respuesta empática + link directo a Ana. |
-| **Widget flotante vs página dedicada** | UX accesible sin interrumpir flujo. | Burbuja flotante (sage) al lado del botón WP (verde). Panel overlay. No hay página /chat separada. |
-| **WhatsApp Cloud API (no ManyChat)** | Control total, sin vendor lock-in. | API directa de Meta. Mismo backend IA que el widget web. Requiere verificación de Meta Business. |
+```
+USUARIO                              SISTEMA
+  │                                     │
+  ├─ Entra a /materiales                │
+  │  Ve producto, precio, FAQ           │
+  │                                     │
+  ├─ Click "Comprar Pack — USD 15"      │
+  │  → Se abre modal de checkout        │
+  │                                     │
+  ├─ PASO 1: Ingresa email ─────────── Se guarda email en variable JS
+  │  Click "Continuar al pago"          │
+  │                                     │
+  │                                  ── POST /api/create-preference { email }
+  │                                     │── Crea preferencia en MP API
+  │                                     │── external_reference = email
+  │                                     │── notification_url = /api/webhook/mercadopago
+  │                                     │── Retorna preference_id
+  │                                     │
+  ├─ PASO 2: Checkout Bricks ──────── MP SDK carga formulario de pago
+  │  (tarjeta, debito, transferencia)   │── Brick renderiza dentro del modal
+  │  Usuario completa y paga            │
+  │                                     │
+  │  onSubmit del Brick ────────────── POST /api/process-payment
+  │                                     │── Crea pago en MP API (PRICE_UYU=650 server-side)
+  │                                     │── Upsert en Supabase (purchases)
+  │                                     │── Si approved:
+  │                                     │   ├─ UPDATE atomico email_sent=true WHERE false
+  │                                     │   ├─ Si claimed → sendMateriales(email) via Resend
+  │                                     │   └─ Si ya claimed → skip (dedup)
+  │                                     │── Retorna { status: 'approved'|'pending'|'rejected' }
+  │                                     │
+  ├─ PASO 3: Exito ─────────────────── Modal muestra "Pago confirmado!"
+  │  "Te enviamos los materiales a       │── email mostrado en pantalla
+  │   tu@email.com"                      │
+  │                                     │
+  │  [EN PARALELO — BACKUP]             │
+  │  MP envia webhook POST ──────────── POST /api/webhook/mercadopago
+  │                                     │── Verifica pago via MP API
+  │                                     │── Upsert en Supabase
+  │                                     │── Dedup atomico (misma logica)
+  │                                     │── Si no se envio aun → sendMateriales()
+  │                                     │
+  └─ Recibe email con PDFs              │
+     (Guia + Recetario con botones)     │
+```
+
+### Seguridad del flujo
+
+| Proteccion | Implementacion |
+|-----------|----------------|
+| **Precio server-side** | `process-payment.ts` ignora `transaction_amount` del cliente, siempre usa `PRICE_UYU = 650` |
+| **Deduplicacion atomica** | `UPDATE purchases SET email_sent=true WHERE payment_id=X AND email_sent=false` — imposible envio doble |
+| **Doble canal** | `process-payment` (primario) + `webhook` (backup) — el email siempre llega |
+| **Idempotency key** | `X-Idempotency-Key` en MP API evita cobros duplicados |
+| **RLS en Supabase** | Tabla `purchases` solo accesible con `service_role` key, no desde frontend |
+
+---
+
+## VARIABLES DE ENTORNO (Vercel)
+
+### Configuradas ✅
+
+| Variable | Entornos | Descripcion |
+|----------|----------|-------------|
+| `MERCADOPAGO_ACCESS_TOKEN` | All | Access Token de MP (APP_USR-...) |
+| `RESEND_API_KEY` | All | API key de Resend para emails transaccionales |
+| `MATERIALES_FROM_EMAIL` | All | Email remitente (ej: hola@livianas.com) |
+| `PUBLIC_GUIA_DOWNLOAD_URL` | All | URL publica del PDF de la Guia (Supabase Storage) |
+| `PUBLIC_RECETARIO_DOWNLOAD_URL` | All | URL publica del PDF del Recetario |
+| `PUBLIC_SUPABASE_URL` | Production | https://rnbyxwcrtulxctplerqs.supabase.co |
+| `SUPABASE_SERVICE_ROLE_KEY` | Production | Service role key de Supabase (sb_secret_...) |
+| `PUBLIC_SITE_URL` | Production | https://livianas.com |
+| `PUBLIC_WHATSAPP_NUMBER` | Production | 59891086674 (Ana) |
+| `ANTHROPIC_API_KEY` | Production | API key de Anthropic para chatbot Livia |
+
+### Pendientes ⏳
+
+| Variable | Descripcion | Como obtenerla |
+|----------|-------------|----------------|
+| **`PUBLIC_MP_PUBLIC_KEY`** | Public Key de MP para Checkout Bricks (frontend) | MP Dashboard → Credenciales → Public Key (APP_USR-...) |
+| `PUBLIC_META_PIXEL_ID` | Meta Pixel para tracking de conversiones | Meta Business Manager → Events Manager |
+| `PUBLIC_GA4_ID` | Google Analytics 4 Measurement ID | Google Analytics → Admin → Data Streams |
+
+---
+
+## BASE DE DATOS (Supabase)
+
+### Proyecto: `anabienestar`
+- URL: https://rnbyxwcrtulxctplerqs.supabase.co
+- Tabla: `purchases` ✅ Creada
+
+### Esquema `purchases`
+
+| Columna | Tipo | Descripcion |
+|---------|------|-------------|
+| `id` | UUID (PK) | Auto-generado |
+| `payment_id` | TEXT UNIQUE | ID del pago en Mercado Pago |
+| `email` | TEXT | Email del comprador |
+| `status` | TEXT | approved / pending / rejected / in_process |
+| `amount` | NUMERIC(10,2) | Monto cobrado |
+| `currency` | TEXT | UYU (default) |
+| `payment_method` | TEXT | visa, master, account_money, etc. |
+| `email_sent` | BOOLEAN | Flag de deduplicacion (clave) |
+| `email_sent_at` | TIMESTAMPTZ | Cuando se envio el email |
+| `created_at` | TIMESTAMPTZ | Cuando se creo el registro |
+| `updated_at` | TIMESTAMPTZ | Auto-update via trigger |
+
+### Vista `sales_summary`
+Dashboard de ventas por dia: total pagos, aprobados, pendientes, rechazados, revenue, emails enviados.
+
+### RLS
+- `anon` → sin acceso
+- `service_role` → acceso completo
+
+---
+
+## ARCHIVOS CLAVE DEL MODULO MATERIALES
+
+| Archivo | Funcion |
+|---------|---------|
+| `src/pages/materiales/index.astro` | Pagina de venta con producto, pricing, FAQ, social proof |
+| `src/components/CheckoutModal.astro` | Modal de checkout: 4 pasos (email → bricks → exito → error) |
+| `src/pages/api/create-preference.ts` | Crea preferencia MP con email como external_reference |
+| `src/pages/api/process-payment.ts` | Procesa pago Bricks → Supabase → email (canal primario) |
+| `src/pages/api/webhook/mercadopago.ts` | Webhook IPN de MP (canal backup) |
+| `src/lib/email/send-materiales.ts` | Template HTML + envio via Resend |
+| `src/pages/materiales/gracias.astro` | Thank you page (fallback para redirect de MP) |
+| `supabase/migrations/create_purchases_table.sql` | DDL de la tabla purchases + indices + RLS + vista |
+| `src/lib/config.ts` | Configuracion central (precios, tracking, WhatsApp, etc.) |
+
+---
+
+## HISTORIAL DE CAMBIOS
+
+### CC-009-CHECKOUT-BRICKS (2026-03-06) — ACTUAL
+
+| Campo | Detalle |
+|-------|---------|
+| **Fecha** | 2026-03-06 |
+| **ID** | CC-009-CHECKOUT-BRICKS |
+| **Descripcion** | Reemplazo completo del flujo de pago: de `window.open()` con payment link a Checkout Bricks embebido en modal. Integracion con Supabase para deduplicacion. Security hardening. Merge de redesign-v2 a main. |
+| **Cambios principales** | (1) CheckoutModal.astro con 4 pasos UI. (2) API create-preference para MP Checkout Bricks. (3) API process-payment con precio server-side y dedup atomica. (4) Webhook MP actualizado con dedup atomica. (5) Supabase purchases table con RLS. (6) sendMateriales() alias para compatibilidad. (7) Eliminado materiales.astro duplicado. (8) Security: precio forzado server-side, dedup atomica UPDATE WHERE false. |
+| **Archivos nuevos** | `CheckoutModal.astro`, `create-preference.ts`, `process-payment.ts`, `create_purchases_table.sql`, `.gitignore` |
+| **Archivos modificados** | `webhook/mercadopago.ts`, `send-materiales.ts`, `materiales/index.astro`, `materiales/gracias.astro`, `package.json` |
+| **Archivos eliminados** | `src/pages/materiales.astro` (ruta duplicada vieja) |
+| **Commits** | `4b5bac9`, `9a6c600` (merge), `f78a128` (security fixes) |
+| **Env vars agregadas** | `PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `PUBLIC_SITE_URL` |
+| **Estado** | Deployado en produccion. Pendiente: `PUBLIC_MP_PUBLIC_KEY` para activar el formulario de pago |
+
+### CC-008-MATERIALES-AUTOMATED-DELIVERY (2026-03-05)
+
+| Campo | Detalle |
+|-------|---------|
+| **Descripcion** | Pipeline inicial de venta: email collection, MP payment link en nueva pestana, webhook, auto-envio via visibilitychange. SUPERADO por CC-009 (Checkout Bricks). |
+| **Estado** | Reemplazado por CC-009 |
+
+### CC-007-CHATBOT-IA (2026-03-02)
+
+| Campo | Detalle |
+|-------|---------|
+| **Descripcion** | Chatbot IA "Livia" para web y WhatsApp. 6 modulos backend, widget flotante, escalacion automatica a Ana. |
+| **Estado** | Implementado. ANTHROPIC_API_KEY configurada en Vercel. Pendiente: WhatsApp Cloud API (Meta Business verification). |
+
+### CC-006-DOMAIN-CONFIG (2026-03-02)
+
+| Campo | Detalle |
+|-------|---------|
+| **Descripcion** | Dominio livianas.com comprado y configurado en Vercel. WhatsApp real. Fechas de lanzamiento actualizadas. |
+| **Estado** | Completado |
+
+### CC-005-PAGO-PAGE-NAV-FIXES (2026-03-02)
+
+| Campo | Detalle |
+|-------|---------|
+| **Descripcion** | Pagina /pago dedicada, fix de anchors del navbar, boton WhatsApp prominente. |
+| **Estado** | Completado |
+
+### CC-004-REDESIGN-V2 (2026-03-01)
+
+| Campo | Detalle |
+|-------|---------|
+| **Descripcion** | Rediseno visual completo. Paleta sage/blush/lavender. Tipografias premium. Componentes cinematograficos. GSAP. |
+| **Estado** | Completado — mergeado a main |
+
+### CC-003-CONTENT-FEEDBACK (2026-03-01)
+
+| Campo | Detalle |
+|-------|---------|
+| **Descripcion** | Correcciones por feedback de Ana: espiritualidad como pilar, pricing simplificado, emojis→SVG, CTAs actualizados. |
+| **Estado** | Completado |
+
+### CC-002-LANDING-OPTIMIZATION (2026-03-01)
+
+| Campo | Detalle |
+|-------|---------|
+| **Descripcion** | Optimizacion de conversion: 14 secciones, dual CTAs, charm pricing, countdown, value stack, StickyMobileCTA. |
+| **Estado** | Completado |
+
+### CC-001-PAYMENTS (2026-02-22)
+
+| Campo | Detalle |
+|-------|---------|
+| **Descripcion** | Documentacion de pasarelas de pago multiregional. |
+| **Estado** | Completado |
 
 ---
 
 ## PENDIENTES
 
-| ID | Descripción | Prioridad | Dependencia |
-|---|---|---|---|
-| PEN-001 | Video de Ana presentando el método | Alta | Ana debe grabarlo |
-| PEN-002 | Foto profesional de Ana | Alta | Ana debe proveerla |
-| ~~PEN-003~~ | ~~Número de WhatsApp definitivo~~ | ~~Alta~~ | ~~Resuelto: 59891086674~~ |
-| ~~PEN-004~~ | ~~Links de pago~~ | ~~Alta~~ | ~~Resuelto: MercadoPago configurado~~ |
-| ~~PEN-005~~ | ~~Dominio propio~~ | ~~Media~~ | ~~Resuelto: livianas.com en Vercel~~ |
-| PEN-006 | Meta Pixel ID | Media | Crear cuenta Business Manager |
-| PEN-007 | GA4 Measurement ID | Media | Crear propiedad en Analytics |
-| ~~PEN-008~~ | ~~Bot de WhatsApp~~ | ~~Media~~ | ~~Resuelto: CC-007 chatbot IA propio~~ |
-| PEN-009 | Testimonios reales | Baja | Completar primer grupo |
-| PEN-010 | Supabase para contenido dinámico | Baja | Opcional, config estática funciona |
-| PEN-011 | Configurar ANTHROPIC_API_KEY en Vercel | Alta | Tener la key y hacer `npx vercel env add` |
-| PEN-012 | Configurar Meta Business + WhatsApp Cloud API | Media | Verificar negocio en Meta, obtener Phone Number ID + Access Token |
-| PEN-013 | Configurar webhook de WhatsApp en Meta | Media | Depende de PEN-012. URL: `https://livianas.com/api/whatsapp` |
-| PEN-014 | Deploy a producción con chatbot | Alta | Depende de PEN-011 |
-| ~~PEN-015~~ | ~~Configurar DNS para Resend (DKIM, SPF, MX, DMARC)~~ | ~~Alta~~ | ~~Resuelto: dominio verificado en Resend~~ |
-| ~~PEN-016~~ | ~~Hostear PDFs de materiales~~ | ~~Alta~~ | ~~Resuelto: Supabase Storage, bucket público~~ |
-| ~~PEN-017~~ | ~~Webhook de Mercado Pago~~ | ~~Alta~~ | ~~Resuelto: /api/webhook/mercadopago configurado y funcionando~~ |
-| PEN-018 | Swap link MP test → producción en /materiales | **ALTA** | Antes de lanzar. Línea 7 de `materiales/index.astro` |
-| PEN-019 | Test end-to-end compra real + email | Alta | Depende de PEN-018 |
-| PEN-020 | Investigar error 403 Checkout Pro (token MP) | Media | Opcional si payment links funcionan bien |
+### CRITICOS — Bloquean la venta
+
+| # | Pendiente | Como hacerlo |
+|---|-----------|-------------|
+| **PEN-021** | **Agregar `PUBLIC_MP_PUBLIC_KEY` en Vercel** | MP Dashboard → Credenciales → copiar Public Key → Vercel Settings → Env Vars → agregar → Redeploy |
+| **PEN-022** | **Registrar webhook en MP Dashboard** | MP Dashboard → Tu app → Webhooks → URL: `https://livianas.com/api/webhook/mercadopago` → Eventos: `payment` |
+
+### ALTOS — Necesarios para operacion completa
+
+| # | Pendiente | Notas |
+|---|-----------|-------|
+| PEN-023 | Test end-to-end con pago real | Despues de configurar PEN-021/022. Usar tarjeta test de MP. |
+| PEN-006 | Meta Pixel ID en Vercel | `PUBLIC_META_PIXEL_ID` — para tracking de conversiones en Meta Ads |
+| PEN-007 | GA4 ID en Vercel | `PUBLIC_GA4_ID` — para Google Analytics |
+
+### MEDIOS — Mejoras importantes
+
+| # | Pendiente | Notas |
+|---|-----------|-------|
+| PEN-001 | Video de Ana | Placeholder actual con icono de play |
+| PEN-002 | Foto profesional de Ana | Seccion About Ana |
+| PEN-012 | WhatsApp Cloud API (Meta Business) | Para que Livia responda por WhatsApp ademas de web |
+| PEN-024 | OG Image para social sharing | Falta `/images/og-image.jpg` (1200x630px) — afecta previews en redes |
+| PEN-025 | Paginas /terminos y /privacidad | Rutas existen en footer pero no tienen contenido |
+
+### BAJOS — Nice to have
+
+| # | Pendiente | Notas |
+|---|-----------|-------|
+| PEN-009 | Testimonios reales | Placeholders actuales. Necesita completar primer grupo |
+| PEN-026 | Centralizar precio en config.ts | UYU 650 hardcodeado en 3 archivos (modal, create-preference, process-payment) |
+
+### RESUELTOS ✅
+
+| # | Pendiente | Resolucion |
+|---|-----------|-----------|
+| ~~PEN-003~~ | Numero WhatsApp | 59891086674 |
+| ~~PEN-004~~ | Links de pago | Checkout Bricks embebido |
+| ~~PEN-005~~ | Dominio propio | livianas.com |
+| ~~PEN-008~~ | Bot de WhatsApp | Chatbot IA Livia (CC-007) |
+| ~~PEN-010~~ | Supabase | Tabla purchases configurada |
+| ~~PEN-011~~ | ANTHROPIC_API_KEY | Configurada en Vercel |
+| ~~PEN-015~~ | DNS Resend | DKIM/SPF/DMARC verificados |
+| ~~PEN-016~~ | PDFs hosteados | Supabase Storage bucket publico |
+| ~~PEN-017~~ | Webhook MP | /api/webhook/mercadopago con dedup |
+| ~~PEN-018~~ | Swap link test | Eliminado — ahora usa Checkout Bricks |
+| ~~PEN-020~~ | Error 403 Checkout Pro | Resuelto — migramos a Checkout Bricks |
+| ~~PEN-005b~~ | Doble envio de email | Resuelto con dedup atomica en Supabase |
+| ~~PEN-005c~~ | Pop-up blocker | Resuelto — checkout es modal, no nueva pestana |
+
+---
+
+## DECISIONES ARQUITECTONICAS
+
+| Decision | Contexto | Resolucion |
+|----------|----------|-----------|
+| **Checkout Bricks vs Payment Link** | Payment link abria nueva pestana, pop-up blockers, email perdido entre pestanas | Bricks embebido en modal. Email capturado ANTES de pagar. Sin salir del sitio. |
+| **Supabase para deduplicacion** | Webhook + process-payment podian enviar email doble | UPDATE atomico `WHERE email_sent=false`. Imposible race condition. |
+| **Precio server-side** | Client podia enviar transaction_amount manipulado | `process-payment.ts` siempre usa `PRICE_UYU=650`, ignora el valor del cliente |
+| **external_reference = email** | MP no expone email del comprador en webhooks | Email viaja como `external_reference` en la preferencia y el pago |
+| **Doble canal de envio** | Si process-payment falla, el email no llega | Webhook como backup. Ambos usan dedup atomica. |
+| **Astro output: 'server'** | API routes necesitan SSR | Vercel adapter. Todas las paginas son server-rendered. |
+| **Claude Sonnet para chatbot** | Control de costos | ~$5-20/mes. Max 500 tokens. Ventana 10 msgs. |
+| **UYU 650 (no USD 15)** | Cuenta MP de Ana esta en pesos uruguayos | Todos los montos en UYU. Frontend muestra USD 15 como referencia. |
