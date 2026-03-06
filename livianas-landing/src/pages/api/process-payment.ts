@@ -24,8 +24,9 @@ export const POST: APIRoute = async ({ request }) => {
     //    La cuenta MP de Ana está en UYU — USD 15 ≈ UYU 650
     const PRICE_UYU = 650;
 
+    // ⚠️ SIEMPRE usar precio del servidor — nunca confiar en el amount del cliente
     const paymentPayload = {
-      transaction_amount: paymentFormData.transaction_amount || PRICE_UYU,
+      transaction_amount: PRICE_UYU,
       token:              paymentFormData.token,
       description:        'Pack Livianas — Guía + Recetario',
       installments:       paymentFormData.installments || 1,
@@ -84,14 +85,21 @@ export const POST: APIRoute = async ({ request }) => {
     // ── 3. Solo enviar materiales si el pago fue APROBADO ─────────────────
     if (payment.status === 'approved') {
 
-      // Chequeo de deduplicación: ¿ya enviamos email para este pago?
-      const { data: existing } = await supabase
+      // Deduplicación atómica: marcar email_sent=true SOLO si aún es false.
+      // Esto evita race conditions entre process-payment y el webhook.
+      const { data: claimed, error: claimErr } = await supabase
         .from('purchases')
-        .select('email_sent')
+        .update({ email_sent: true, email_sent_at: new Date().toISOString() })
         .eq('payment_id', String(payment.id))
-        .single();
+        .eq('email_sent', false)
+        .select('payment_id');
 
-      if (existing?.email_sent) {
+      if (claimErr) {
+        console.error(`[process-payment] Error claiming pago ${payment.id}:`, claimErr);
+      }
+
+      if (!claimed || claimed.length === 0) {
+        // Otro proceso ya lo marcó — no enviamos duplicado
         console.log(`[process-payment] Email ya enviado para pago ${payment.id} — skip`);
         return jsonResponse({ status: 'approved' }, 200);
       }
@@ -99,12 +107,7 @@ export const POST: APIRoute = async ({ request }) => {
       // Enviar email con los materiales
       await sendMateriales(email);
 
-      // Marcar como enviado
-      await supabase
-        .from('purchases')
-        .update({ email_sent: true, email_sent_at: new Date().toISOString() })
-        .eq('payment_id', String(payment.id));
-
+      console.log(`[process-payment] ✅ Materiales enviados a ${email} (pago ${payment.id})`);
       return jsonResponse({ status: 'approved' }, 200);
     }
 

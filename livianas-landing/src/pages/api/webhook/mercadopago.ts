@@ -75,28 +75,23 @@ export const POST: APIRoute = async ({ request }) => {
       return new Response('ok - not approved', { status: 200 });
     }
 
-    // ── 4. Deduplicación: verificar si ya enviamos el email ──────────────
-    const { data: purchase } = await supabase
+    // ── 4. Deduplicación atómica: claim + envío ──────────────────────────
+    //    UPDATE ... WHERE email_sent = false previene que dos procesos
+    //    (process-payment + webhook) envíen el mismo email.
+    const { data: claimed } = await supabase
       .from('purchases')
-      .select('email_sent')
+      .update({ email_sent: true, email_sent_at: new Date().toISOString() })
       .eq('payment_id', paymentId)
-      .single();
+      .eq('email_sent', false)
+      .select('payment_id');
 
-    if (purchase?.email_sent) {
+    if (!claimed || claimed.length === 0) {
       console.log(`[webhook-mp] Email ya enviado para ${paymentId} — skip`);
       return new Response('ok - already sent', { status: 200 });
     }
 
     // ── 5. Enviar materiales ─────────────────────────────────────────────
     await sendMateriales(email);
-
-    await supabase
-      .from('purchases')
-      .update({
-        email_sent:    true,
-        email_sent_at: new Date().toISOString(),
-      })
-      .eq('payment_id', paymentId);
 
     console.log(`[webhook-mp] ✅ Materiales enviados a ${email} (pago ${paymentId})`);
     return new Response('ok', { status: 200 });

@@ -376,7 +376,7 @@ const MP_PUBLIC_KEY = import.meta.env.PUBLIC_MP_PUBLIC_KEY;
       await initBricks(preference_id);
     } catch(err) {
       errorMsg.textContent = 'No pudimos reiniciar el checkout.';
-      // Volvemos a mostrar error
+      showStep(stepError);
     }
   });
 
