@@ -766,82 +766,32 @@ const MP_PUBLIC_KEY = import.meta.env.PUBLIC_MP_PUBLIC_KEY;
     }
   });
 
-  // ── Inicializar Checkout Bricks ───────────────────
+  // ── Inicializar Wallet Brick ──────────────────────
+  // Wallet Brick: muestra botón "Pagar con Mercado Pago"
+  // El usuario paga en MP y vuelve via back_urls de la preferencia.
+  // El webhook se encarga de enviar los materiales por email.
   async function initBricks(preferenceId) {
     const mp = new MercadoPago(MP_PUBLIC_KEY, { locale: 'es-UY' });
     const bricksBuilder = mp.bricks();
 
-    brickController = await bricksBuilder.create('payment', 'paymentBrick_container', {
+    brickController = await bricksBuilder.create('wallet', 'paymentBrick_container', {
       initialization: {
-        amount: 650,
         preferenceId: preferenceId,
+        redirectMode: 'self',
       },
       customization: {
-        paymentMethods: {
-          creditCard: 'none',
-          debitCard: 'none',
-          ticket: 'none',
-          bankTransfer: 'none',
-          mercadoPago: 'all',
-        },
         visual: {
-          style: {
-            theme: 'default',
-            customVariables: {
-              baseColor: '#7B8F6B',
-              baseColorFirstVariant: '#94A785',
-              baseColorSecondVariant: '#5E7252',
-              fontSizeSmall: '13px',
-              formBackgroundColor: '#FBF9F5',
-            },
-          },
-          hideFormTitle: true,
-          hidePaymentButton: false,
+          buttonHeight: '48px',
         },
       },
       callbacks: {
         onReady: () => {
           bricksLoader.style.display = 'none';
         },
-        onSubmit: async ({ selectedPaymentMethod, formData }) => {
-          try {
-            const res = await fetch('/api/process-payment', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ ...formData, email: currentEmail }),
-            });
-
-            const result = await res.json();
-
-            if (result.status === 'approved') {
-              successEmail.textContent = currentEmail;
-              showStep(stepSuccess);
-              if (brickController) { brickController.unmount(); brickController = null; }
-              return { status: 'approved' };
-            } else if (result.status === 'in_process' || result.status === 'pending') {
-              successEmail.textContent = currentEmail;
-              stepSuccess.querySelector('h3').textContent = '¡Pago en proceso!';
-              stepSuccess.querySelector('.modal-result__text').textContent = 'Tu pago está siendo procesado. Te avisamos por email cuando se confirme.';
-              showStep(stepSuccess);
-              return { status: 'pending' };
-            } else {
-              errorMsg.textContent = result.message || 'El pago fue rechazado. Probá con otro medio de pago.';
-              showStep(stepError);
-              return { status: 'rejected' };
-            }
-          } catch (err) {
-            console.error('Error procesando pago:', err);
-            errorMsg.textContent = 'Error de conexión. Intentá de nuevo.';
-            showStep(stepError);
-            return { status: 'error' };
-          }
-        },
         onError: (error) => {
           console.error('Brick error:', error);
-          if (error.type !== 'non_critical') {
-            errorMsg.textContent = 'Error en el checkout. Intentá de nuevo.';
-            showStep(stepError);
-          }
+          errorMsg.textContent = 'Error en el checkout. Intentá de nuevo.';
+          showStep(stepError);
         },
       },
     });
