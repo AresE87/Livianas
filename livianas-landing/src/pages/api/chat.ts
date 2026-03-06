@@ -39,6 +39,7 @@ export const POST: APIRoute = async ({ request }) => {
 
     const sessionId = body.sessionId || crypto.randomUUID();
     const userMessage = body.message.trim().slice(0, 1000); // Max 1000 chars
+    const chatContext = body.context === 'materiales' ? 'materiales' as const : 'programa' as const;
 
     if (!userMessage) {
       return new Response(
@@ -93,7 +94,7 @@ export const POST: APIRoute = async ({ request }) => {
     const contextMessages = getContextMessages(sessionId);
 
     // Call Claude
-    const reply = await chat(contextMessages);
+    const reply = await chat(contextMessages, chatContext);
     addMessage(sessionId, 'assistant', reply);
 
     return new Response(

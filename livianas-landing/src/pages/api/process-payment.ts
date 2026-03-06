@@ -27,7 +27,7 @@ export const POST: APIRoute = async ({ request }) => {
     const paymentPayload = {
       transaction_amount: paymentFormData.transaction_amount || PRICE_UYU,
       token:              paymentFormData.token,
-      description:        'Pack Livianas — Guía + Recetario',
+      description:        'Pack Bienestar — Guía + Recetario Saludable',
       installments:       paymentFormData.installments || 1,
       payment_method_id:  paymentFormData.payment_method_id,
       issuer_id:          paymentFormData.issuer_id,

@@ -1,6 +1,6 @@
 // src/lib/chatbot/ai-client.ts — Wrapper de Claude API
 import Anthropic from '@anthropic-ai/sdk';
-import { buildSystemPrompt } from './system-prompt';
+import { getSystemPrompt, type ChatContext } from './system-prompt';
 
 let client: Anthropic | null = null;
 
@@ -20,9 +20,9 @@ interface Message {
   content: string;
 }
 
-export async function chat(messages: Message[]): Promise<string> {
+export async function chat(messages: Message[], context?: ChatContext): Promise<string> {
   const anthropic = getClient();
-  const systemPrompt = buildSystemPrompt();
+  const systemPrompt = getSystemPrompt(context);
 
   try {
     const response = await anthropic.messages.create({

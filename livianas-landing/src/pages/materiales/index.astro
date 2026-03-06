@@ -2,23 +2,23 @@
 import '../../styles/global.css';
 import { siteConfig } from '../../lib/config';
 import CheckoutModal from '../../components/CheckoutModal.astro';
+import ChatWidget from '../../components/ChatWidget.astro';
 
-const whatsappLink = `https://wa.me/59891086674?text=${encodeURIComponent('Hola, quiero info sobre el Pack de Materiales LIVIANAS 🌿')}`;
 const metaPixelId = siteConfig.metaPixelId;
 const ga4Id = siteConfig.ga4Id;
 
 const items = [
   {
     icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>`,
-    title: 'Guía Livianas',
-    format: 'PDF · 32 páginas',
-    desc: 'Los fundamentos del enfoque antiinflamatorio: qué comer, cómo combinar alimentos y cómo empezar sin estrés. Incluye planificación semanal y lista de compras.',
+    title: 'Guía de Bienestar Integral',
+    format: 'PDF · 47 páginas',
+    desc: 'Todo lo que necesitás saber para transformar tu alimentación y bienestar. Desde los fundamentos hasta un plan semanal concreto con lista de compras incluida.',
   },
   {
     icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>`,
-    title: 'Recetario Livianas',
-    format: 'PDF · 28 páginas',
-    desc: 'Recetas antiinflamatorias para el día a día. Desayunos, almuerzos, cenas y snacks con ingredientes accesibles y preparaciones simples.',
+    title: 'Recetario Saludable',
+    format: 'PDF · 36 páginas',
+    desc: '+30 recetas fáciles, ricas y nutritivas para el día a día. Desayunos, almuerzos, cenas y snacks con ingredientes accesibles.',
   },
 ];
 
@@ -29,7 +29,7 @@ const faqItems = [
   },
   {
     q: '¿Puedo pagar desde fuera de Uruguay?',
-    a: 'Sí. Mercado Pago acepta tarjetas de crédito y débito internacionales. Si tenés algún inconveniente, escribinos por WhatsApp y te ayudamos.',
+    a: 'Sí. Mercado Pago acepta tarjetas internacionales. Si tenés algún inconveniente, consultá con Livia, nuestra asistente virtual.',
   },
   {
     q: '¿Cómo recibo los materiales?',
@@ -39,6 +39,10 @@ const faqItems = [
     q: '¿El contenido se actualiza?',
     a: 'Sí. Cuando actualicemos los materiales, recibís la nueva versión sin costo adicional.',
   },
+  {
+    q: '¿Qué incluye la guía de 47 páginas?',
+    a: 'Incluye los fundamentos del bienestar integral, guía de alimentos, porciones con tu mano, planificación semanal completa y lista de compras descargable. Es todo lo que necesitás para arrancar.',
+  },
 ];
 ---
 
@@ -47,8 +51,8 @@ const faqItems = [
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pack de Materiales — LIVIANAS</title>
-    <meta name="description" content="Guía Livianas + Recetario Livianas. Tu primer paso hacia una alimentación consciente. Descarga inmediata." />
+    <title>Guía de Bienestar + Recetario Saludable — LIVIANAS</title>
+    <meta name="description" content="Guía de Bienestar Integral (47 pág) + Recetario con +30 recetas saludables (36 pág). Descarga inmediata en PDF. Plan semanal, lista de compras y recetas fáciles." />
     <meta name="robots" content="noindex, nofollow" />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -106,11 +110,11 @@ const faqItems = [
           <span class="mat__logo">LIVIANAS</span>
           <p class="mat__label">TIENDA LIVIANAS</p>
           <h1 class="mat__title">
-            <span class="mat__title-serif">Materiales</span>
-            <span class="mat__title-sans">digitales.</span>
+            <span class="mat__title-serif">Comé mejor,</span>
+            <span class="mat__title-sans">sentite bien.</span>
           </h1>
           <p class="mat__subtitle">
-            Recursos prácticos para que arranques tu camino hacia el bienestar.<br />
+            Una guía completa + un recetario con +30 recetas para transformar tu alimentación desde hoy.<br />
             Descarga inmediata. Sin esperas. A tu ritmo.
           </p>
           <!-- Social proof -->
@@ -134,10 +138,10 @@ const faqItems = [
 
           <div class="mat__product-content">
             <div class="mat__product-info">
-              <h2 class="mat__product-title">Pack Livianas</h2>
-              <p class="mat__product-tagline">Tu primer paso hacia una alimentación consciente</p>
+              <h2 class="mat__product-title">Pack Bienestar</h2>
+              <p class="mat__product-tagline">Guía + Recetario — todo para arrancar hoy</p>
               <p class="mat__product-desc">
-                Todo lo que necesitás para arrancar tu camino hacia el bienestar. Una guía práctica con los principios del método y un recetario con opciones reales, ricas y fáciles de hacer.
+                83 páginas con todo lo que necesitás: los fundamentos de una alimentación saludable, un plan semanal listo para usar, lista de compras y +30 recetas fáciles con ingredientes que encontrás en cualquier supermercado.
               </p>
 
               <!-- Items included -->
@@ -182,26 +186,26 @@ const faqItems = [
           <div class="mat__preview-grid">
             <div class="mat__preview-card">
               <span class="mat__preview-icon">📖</span>
-              <strong>Guía Livianas</strong>
+              <strong>Guía de Bienestar Integral — 47 pág.</strong>
               <ul>
-                <li>Qué es la alimentación antiinflamatoria</li>
-                <li>Alimentos que suman vs. que inflaman</li>
-                <li>Guía de porciones con tu mano</li>
-                <li>Planificación semanal paso a paso</li>
+                <li>Bases de una alimentación consciente y saludable</li>
+                <li>Alimentos que nutren vs. que inflaman</li>
+                <li>Guía visual de porciones con tu mano</li>
+                <li>Planificación semanal completa paso a paso</li>
                 <li>Lista de compras descargable</li>
-                <li>Cómo empezar sin estrés</li>
+                <li>Cómo empezar sin estrés ni restricciones</li>
               </ul>
             </div>
             <div class="mat__preview-card">
               <span class="mat__preview-icon">🍳</span>
-              <strong>Recetario Livianas</strong>
+              <strong>Recetario Saludable — 36 pág.</strong>
               <ul>
-                <li>+30 recetas antiinflamatorias</li>
-                <li>Desayunos energizantes</li>
+                <li>+30 recetas fáciles y nutritivas</li>
+                <li>Desayunos que te dan energía real</li>
                 <li>Almuerzos y cenas completas</li>
-                <li>Snacks saludables</li>
-                <li>Ingredientes accesibles</li>
-                <li>Preparaciones de 20 min o menos</li>
+                <li>Snacks saludables para toda la semana</li>
+                <li>Ingredientes que encontrás en cualquier super</li>
+                <li>Preparaciones de 20 minutos o menos</li>
               </ul>
             </div>
           </div>
@@ -256,15 +260,9 @@ const faqItems = [
           <span>Datos encriptados</span>
         </div>
 
-        <!-- Help -->
+        <!-- Help via Livia -->
         <div class="mat__help">
-          <p>¿Tenés dudas?</p>
-          <a href={whatsappLink} target="_blank" rel="noopener noreferrer" class="mat__help-btn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-            </svg>
-            Escribinos por WhatsApp
-          </a>
+          <p>¿Tenés dudas? Preguntale a Livia, nuestra asistente virtual.</p>
         </div>
 
         <!-- Minimal footer -->
@@ -279,6 +277,9 @@ const faqItems = [
 
       </div>
     </main>
+
+    <!-- Livia — Asistente virtual (contexto materiales) -->
+    <ChatWidget context="materiales" />
 
     <!-- Tracking events are now handled by the CheckoutModal component -->
 
@@ -705,23 +706,6 @@ const faqItems = [
         font-family: var(--font-sans);
         font-size: var(--text-sm);
         color: var(--color-text-muted);
-        margin-bottom: var(--space-2);
-      }
-
-      .mat__help-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: var(--space-2);
-        font-family: var(--font-sans);
-        font-size: var(--text-sm);
-        font-weight: 600;
-        color: var(--color-whatsapp);
-        text-decoration: none;
-        transition: opacity 0.3s ease;
-      }
-
-      .mat__help-btn:hover {
-        opacity: 0.8;
       }
 
       /* ======= SOCIAL PROOF ======= */

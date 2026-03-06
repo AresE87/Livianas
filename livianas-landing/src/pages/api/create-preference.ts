@@ -29,9 +29,9 @@ export const POST: APIRoute = async ({ request }) => {
     const preference = {
       items: [
         {
-          id: 'pack-livianas-v1',
-          title: 'Pack Livianas — Guía + Recetario Antiinflamatorio',
-          description: 'Guía Livianas (32 pág) + Recetario +30 recetas (28 pág). Descarga inmediata.',
+          id: 'pack-bienestar-v1',
+          title: 'Pack Bienestar — Guía + Recetario Saludable',
+          description: 'Guía de Bienestar Integral (47 pág) + Recetario Saludable +30 recetas (36 pág). Descarga inmediata.',
           quantity: 1,
           unit_price: PRICE_UYU,
           currency_id: 'UYU',

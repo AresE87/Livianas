@@ -1,5 +1,25 @@
 ---
 // ChatWidget.astro — Widget flotante de chat con IA (Livia)
+interface Props {
+  context?: 'programa' | 'materiales';
+}
+const { context = 'programa' } = Astro.props;
+
+const suggestions = context === 'materiales'
+  ? [
+      { label: '¿Qué incluye?', msg: '¿Qué incluye el pack?' },
+      { label: 'Precio', msg: '¿Cuánto cuesta?' },
+      { label: 'Soporte', msg: 'No me llegó el email' },
+    ]
+  : [
+      { label: 'Programa', msg: '¿Qué es LIVIANAS?' },
+      { label: 'Precio', msg: '¿Cuánto cuesta?' },
+      { label: 'Fechas', msg: '¿Cuándo empieza?' },
+    ];
+
+const welcomeMessage = context === 'materiales'
+  ? 'Hola, soy Livia 🌿 ¿Tenés alguna duda sobre el Pack Bienestar o necesitás ayuda con tu compra?'
+  : 'Hola, soy Livia, la asistente virtual de LIVIANAS 🌿 ¿En qué puedo ayudarte?';
 ---
 
 <!-- Chat Bubble Button -->
@@ -24,7 +44,7 @@
 </button>
 
 <!-- Chat Panel -->
-<div id="chat-panel" class="chat-panel" aria-hidden="true">
+<div id="chat-panel" class="chat-panel" aria-hidden="true" data-context={context}>
   <!-- Header -->
   <div class="chat-header">
     <div class="chat-header-info">
@@ -46,13 +66,13 @@
   <div id="chat-messages" class="chat-messages">
     <!-- Welcome message -->
     <div class="chat-msg chat-msg-bot">
-      <div class="chat-msg-bubble">Hola, soy Livia, la asistente virtual de LIVIANAS 🌿 ¿En qué puedo ayudarte?</div>
+      <div class="chat-msg-bubble">{welcomeMessage}</div>
     </div>
     <!-- Quick suggestions -->
     <div id="chat-suggestions" class="chat-suggestions">
-      <button class="chat-suggestion" data-msg="¿Qué es LIVIANAS?">Programa</button>
-      <button class="chat-suggestion" data-msg="¿Cuánto cuesta?">Precio</button>
-      <button class="chat-suggestion" data-msg="¿Cuándo empieza?">Fechas</button>
+      {suggestions.map((s) => (
+        <button class="chat-suggestion" data-msg={s.msg}>{s.label}</button>
+      ))}
     </div>
   </div>
 
@@ -371,6 +391,7 @@
 
   let sessionId: string | null = null;
   let isSending = false;
+  const chatContext = panel.getAttribute('data-context') || 'programa';
 
   // Toggle panel
   function openChat() {
@@ -478,7 +499,7 @@
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sessionId, message: text }),
+        body: JSON.stringify({ sessionId, message: text, context: chatContext }),
       });
 
       const data = await res.json();
