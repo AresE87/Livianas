@@ -99,7 +99,7 @@ const hasDownloads = downloads.some(d => d.link);
             <span class="ty__title-sans">por tu compra!</span>
           </h1>
           <p class="ty__subtitle">
-            Tu Pack de Materiales LIVIANAS está listo. Descargá tus guías ahora mismo o revisa tu email — te enviamos todo automáticamente.
+            Tu Pack de Materiales LIVIANAS está listo. Completá el pago en Mercado Pago y los materiales te llegan automáticamente por email.
           </p>
         </header>
 
@@ -124,9 +124,6 @@ const hasDownloads = downloads.some(d => d.link);
                 </div>
               </a>
             ))}
-            <p class="ty__download-note">
-              También te enviamos una copia por email como respaldo.
-            </p>
           </section>
         ) : (
           <section class="ty__downloads">
@@ -142,6 +139,57 @@ const hasDownloads = downloads.some(d => d.link);
             </div>
           </section>
         )}
+
+        <!-- Send materials status -->
+        <section id="send-section" class="ty__send-section">
+          <!-- State: waiting for payment -->
+          <div id="send-waiting" class="ty__send-waiting" style="display:none;">
+            <svg class="ty__spinner" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+            </svg>
+            <div>
+              <p><strong>Completá tu pago en Mercado Pago</strong></p>
+              <p class="ty__send-sub">Cuando termines, volvé a esta pestaña y te enviamos todo automáticamente a <strong id="email-preview"></strong></p>
+            </div>
+          </div>
+
+          <!-- State: sending -->
+          <div id="send-loading" class="ty__email-sending" style="display:none;">
+            <svg class="ty__spinner" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+            </svg>
+            <p>Enviando materiales a tu email...</p>
+          </div>
+
+          <!-- State: sent -->
+          <div id="send-done" class="ty__email-sent" style="display:none;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            <p>Materiales enviados a <strong id="email-display"></strong>. Revisá tu casilla (incluyendo spam).</p>
+          </div>
+
+          <!-- State: error -->
+          <div id="send-error" class="ty__email-error" style="display:none;">
+            <p>No pudimos enviar el email. Escribinos por WhatsApp y te lo enviamos.</p>
+          </div>
+
+          <!-- Fallback: no email stored, manual form -->
+          <div id="send-manual" class="ty__email-form-section" style="display:none;">
+            <p class="ty__send-info">Ingresá tu email para recibir los materiales</p>
+            <form id="manual-email-form" class="ty__manual-form">
+              <input
+                type="email"
+                id="manual-email"
+                required
+                placeholder="tu@email.com"
+                class="ty__manual-input"
+                autocomplete="email"
+              />
+              <button type="submit" class="ty__send-btn">Enviar materiales a mi email</button>
+            </form>
+          </div>
+        </section>
 
         <!-- Next Steps -->
         <section class="ty__next">
@@ -189,6 +237,88 @@ const hasDownloads = downloads.some(d => d.link);
 
       </div>
     </main>
+
+    <!-- Auto-send materials when user returns from MP tab -->
+    <script>
+      const sendWaiting = document.getElementById('send-waiting')!;
+      const sendLoading = document.getElementById('send-loading')!;
+      const sendDone = document.getElementById('send-done')!;
+      const sendError = document.getElementById('send-error')!;
+      const sendManual = document.getElementById('send-manual')!;
+      const emailPreview = document.getElementById('email-preview');
+      const emailDisplay = document.getElementById('email-display')!;
+
+      let hasSent = false;
+
+      async function sendMaterials(email: string) {
+        if (hasSent) return;
+        hasSent = true;
+
+        sendWaiting.style.display = 'none';
+        sendManual.style.display = 'none';
+        sendLoading.style.display = 'flex';
+
+        try {
+          const res = await fetch('/api/send-materiales', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email }),
+          });
+
+          if (!res.ok) throw new Error('Error al enviar');
+
+          sendLoading.style.display = 'none';
+          sendDone.style.display = 'flex';
+          emailDisplay.textContent = email;
+
+          localStorage.removeItem('livianas_email');
+          localStorage.removeItem('livianas_email_ts');
+        } catch {
+          hasSent = false;
+          sendLoading.style.display = 'none';
+          sendError.style.display = 'block';
+        }
+      }
+
+      // Check for stored email
+      const storedEmail = localStorage.getItem('livianas_email');
+      const storedTs = localStorage.getItem('livianas_email_ts');
+      const twoHours = 2 * 60 * 60 * 1000;
+
+      if (storedEmail && storedTs && (Date.now() - parseInt(storedTs) < twoHours)) {
+        // Show waiting state
+        if (emailPreview) emailPreview.textContent = storedEmail;
+        sendWaiting.style.display = 'flex';
+
+        // Auto-send when user comes back to this tab from MP
+        document.addEventListener('visibilitychange', () => {
+          if (document.visibilityState === 'visible' && !hasSent) {
+            sendMaterials(storedEmail);
+          }
+        });
+
+        // Also send if tab is already visible (user navigated here directly)
+        // Use a small delay to let them read the page first
+        if (document.visibilityState === 'visible') {
+          setTimeout(() => {
+            if (!hasSent) sendMaterials(storedEmail);
+          }, 3000);
+        }
+      } else {
+        // No email or expired — show manual form
+        sendManual.style.display = 'block';
+      }
+
+      // Manual form handler
+      const manualForm = document.getElementById('manual-email-form') as HTMLFormElement;
+      manualForm?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const input = document.getElementById('manual-email') as HTMLInputElement;
+        const email = input.value.trim();
+        if (!email) return;
+        await sendMaterials(email);
+      });
+    </script>
 
     <style>
       .ty {
@@ -484,6 +614,147 @@ const hasDownloads = downloads.some(d => d.link);
         font-family: var(--font-sans);
         font-size: var(--text-xs);
         color: var(--color-text-light);
+      }
+
+      /* ======= SEND SECTION ======= */
+      .ty__send-section {
+        margin-bottom: var(--space-8);
+        text-align: center;
+      }
+
+      .ty__send-waiting {
+        display: flex;
+        align-items: flex-start;
+        gap: var(--space-4);
+        background: var(--color-sage-wash);
+        border: 1px solid rgba(123, 143, 107, 0.2);
+        border-radius: var(--radius-xl);
+        padding: var(--space-5);
+        text-align: left;
+        font-family: var(--font-sans);
+        font-size: var(--text-sm);
+        color: var(--color-sage-dark);
+      }
+
+      .ty__send-waiting strong {
+        color: var(--color-carbon);
+      }
+
+      .ty__send-sub {
+        margin-top: var(--space-1);
+        color: var(--color-text-muted);
+        font-size: var(--text-xs);
+      }
+
+      .ty__send-info {
+        font-family: var(--font-sans);
+        font-size: var(--text-sm);
+        color: var(--color-text-muted);
+      }
+
+      .ty__send-info strong {
+        color: var(--color-carbon);
+      }
+
+      .ty__send-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-sans);
+        font-size: var(--text-base);
+        font-weight: 700;
+        color: white;
+        background: var(--color-sage);
+        border: none;
+        cursor: pointer;
+        padding: var(--space-4) var(--space-8);
+        border-radius: var(--radius-full);
+        box-shadow: 0 4px 16px rgba(123, 143, 107, 0.3);
+        transition: all 0.3s ease;
+      }
+
+      .ty__send-btn:hover {
+        background: var(--color-sage-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 24px rgba(123, 143, 107, 0.4);
+      }
+
+      .ty__email-sending,
+      .ty__email-sent,
+      .ty__email-error {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-2);
+        padding: var(--space-4);
+        border-radius: var(--radius-xl);
+        font-family: var(--font-sans);
+        font-size: var(--text-sm);
+      }
+
+      .ty__email-sending {
+        background: var(--color-sage-wash);
+        color: var(--color-sage-dark);
+      }
+
+      .ty__email-sent {
+        background: var(--color-sage-wash);
+        color: var(--color-sage-dark);
+      }
+
+      .ty__email-sent strong {
+        color: var(--color-carbon);
+      }
+
+      .ty__email-error {
+        background: var(--color-blush-wash);
+        color: var(--color-blush-dark);
+      }
+
+      .ty__spinner {
+        animation: spin 1s linear infinite;
+        flex-shrink: 0;
+      }
+
+      @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+
+      /* ======= MANUAL EMAIL FORM ======= */
+      .ty__email-form-section {
+        text-align: center;
+      }
+
+      .ty__manual-form {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+        max-width: 320px;
+        margin: var(--space-4) auto 0;
+      }
+
+      .ty__manual-input {
+        width: 100%;
+        font-family: var(--font-sans);
+        font-size: var(--text-sm);
+        color: var(--color-carbon);
+        background: var(--color-white);
+        border: 1.5px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-3) var(--space-4);
+        text-align: center;
+        outline: none;
+        transition: border-color 0.2s ease;
+      }
+
+      .ty__manual-input:focus {
+        border-color: var(--color-sage);
+      }
+
+      .ty__manual-input::placeholder {
+        color: var(--color-text-light);
+        opacity: 0.6;
       }
 
       /* ======= RESPONSIVE ======= */

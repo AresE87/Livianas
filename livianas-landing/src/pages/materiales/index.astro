@@ -2,7 +2,9 @@
 import '../../styles/global.css';
 import { siteConfig } from '../../lib/config';
 
-const mpLink = 'https://www.mercadopago.com.uy/payment-link/v1/redirect?link-id=26893d4c-517b-4eb8-b692-f9829fbf1560&source=link';
+// TEST: link de prueba (10 pesos) — volver a poner el de USD 15 después del test
+// PROD: const mpLink = 'https://www.mercadopago.com.uy/payment-link/v1/redirect?link-id=26893d4c-517b-4eb8-b692-f9829fbf1560&source=link';
+const mpLink = 'https://mpago.la/2v6mMqJ';
 const whatsappLink = `https://wa.me/59891086674?text=${encodeURIComponent('Hola, quiero info sobre el Pack de Materiales LIVIANAS 🌿')}`;
 const metaPixelId = siteConfig.metaPixelId;
 const ga4Id = siteConfig.ga4Id;
@@ -33,7 +35,7 @@ const faqItems = [
   },
   {
     q: '¿Cómo recibo los materiales?',
-    a: 'Inmediatamente después de pagar recibís el link de descarga. También te enviamos una copia por email como respaldo.',
+    a: 'Ingresás tu email antes de pagar. Una vez confirmado el pago, te enviamos los materiales automáticamente a tu casilla. También los podés descargar desde la pantalla de confirmación.',
   },
   {
     q: '¿El contenido se actualiza?',
@@ -165,9 +167,22 @@ const faqItems = [
                 <p class="mat__price-note">Pago único &middot; Descarga inmediata</p>
               </div>
 
-              <a href={mpLink} target="_blank" rel="noopener noreferrer" class="mat__cta" data-utm="materiales-pago">
-                Comprar Pack — USD 15
-              </a>
+              <form id="checkout-form" class="mat__form" data-mp-link={mpLink}>
+                <label for="email-input" class="mat__form-label">Tu email para recibir los materiales</label>
+                <input
+                  type="email"
+                  id="email-input"
+                  name="email"
+                  required
+                  placeholder="tu@email.com"
+                  class="mat__form-input"
+                  autocomplete="email"
+                />
+                <button type="submit" class="mat__cta" data-utm="materiales-pago">
+                  Comprar Pack — USD 15
+                </button>
+                <p id="form-error" class="mat__form-error" style="display:none;"></p>
+              </form>
 
               <p class="mat__payment-methods">
                 <img src="/images/mercadopago-logo.png" alt="Mercado Pago" width="20" height="20" />
@@ -215,8 +230,8 @@ const faqItems = [
             <li>
               <span class="mat__step-num">1</span>
               <div>
-                <strong>Elegí y revisá el contenido</strong>
-                <p>Mirá lo que incluye el pack y decidí si es para vos.</p>
+                <strong>Dejá tu email</strong>
+                <p>Ingresá tu email para que te enviemos los materiales automáticamente.</p>
               </div>
             </li>
             <li>
@@ -229,8 +244,8 @@ const faqItems = [
             <li>
               <span class="mat__step-num">3</span>
               <div>
-                <strong>Descargá al instante</strong>
-                <p>Recibís el link de descarga inmediatamente + copia por email.</p>
+                <strong>Recibí todo por email</strong>
+                <p>Te llegan los materiales a tu casilla automáticamente + descarga en pantalla.</p>
               </div>
             </li>
           </ol>
@@ -281,28 +296,41 @@ const faqItems = [
       </div>
     </main>
 
-    <!-- CTA Tracking -->
+    <!-- Checkout Form Handler -->
     <script>
-      document.querySelectorAll('[data-utm]').forEach((btn) => {
-        btn.addEventListener('click', () => {
-          const source = (btn as HTMLElement).dataset.utm;
-          if (typeof (window as any).fbq !== 'undefined') {
-            (window as any).fbq('track', 'InitiateCheckout', {
-              content_name: 'Pack Materiales LIVIANAS',
-              content_ids: ['pack-materiales'],
-              value: 15,
-              currency: 'USD',
-              content_category: source,
-            });
-          }
-          if (typeof (window as any).gtag !== 'undefined') {
-            (window as any).gtag('event', 'begin_checkout', {
-              currency: 'USD',
-              value: 15,
-              items: [{ item_id: 'pack-materiales', item_name: 'Pack Materiales LIVIANAS', price: 15 }],
-            });
-          }
-        });
+      const form = document.getElementById('checkout-form') as HTMLFormElement;
+      const emailInput = document.getElementById('email-input') as HTMLInputElement;
+      const mpUrl = (document.getElementById('checkout-form') as HTMLFormElement).dataset.mpLink!;
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = emailInput.value.trim();
+        if (!email) return;
+
+        // Guardar email en localStorage para la página de gracias
+        localStorage.setItem('livianas_email', email);
+        localStorage.setItem('livianas_email_ts', Date.now().toString());
+
+        // Tracking
+        if (typeof (window as any).fbq !== 'undefined') {
+          (window as any).fbq('track', 'InitiateCheckout', {
+            content_name: 'Pack Materiales LIVIANAS',
+            content_ids: ['pack-materiales'],
+            value: 15,
+            currency: 'USD',
+          });
+        }
+        if (typeof (window as any).gtag !== 'undefined') {
+          (window as any).gtag('event', 'begin_checkout', {
+            currency: 'USD',
+            value: 15,
+            items: [{ item_id: 'pack-materiales', item_name: 'Pack Materiales LIVIANAS', price: 15 }],
+          });
+        }
+
+        // Abrir Mercado Pago en nueva pestaña y redirigir a gracias
+        window.open(mpUrl, '_blank');
+        window.location.href = '/materiales/gracias';
       });
     </script>
 
@@ -560,12 +588,58 @@ const faqItems = [
         opacity: 0.7;
       }
 
+      .mat__form {
+        width: 100%;
+        max-width: 280px;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+      }
+
+      .mat__form-label {
+        font-family: var(--font-sans);
+        font-size: var(--text-xs);
+        font-weight: 600;
+        color: var(--color-text-muted);
+        text-align: center;
+      }
+
+      .mat__form-input {
+        width: 100%;
+        font-family: var(--font-sans);
+        font-size: var(--text-sm);
+        color: var(--color-carbon);
+        background: var(--color-white);
+        border: 1.5px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-3) var(--space-4);
+        text-align: center;
+        outline: none;
+        transition: border-color 0.2s ease;
+      }
+
+      .mat__form-input:focus {
+        border-color: var(--color-sage);
+      }
+
+      .mat__form-input::placeholder {
+        color: var(--color-text-light);
+        opacity: 0.6;
+      }
+
+      .mat__form-error {
+        font-family: var(--font-sans);
+        font-size: var(--text-xs);
+        color: var(--color-blush-dark);
+        text-align: center;
+        margin: 0;
+      }
+
       .mat__cta {
         display: inline-flex;
         align-items: center;
         justify-content: center;
         width: 100%;
-        max-width: 280px;
         font-family: var(--font-sans);
         font-size: var(--text-base);
         font-weight: 700;
@@ -574,14 +648,21 @@ const faqItems = [
         text-decoration: none;
         padding: var(--space-4) var(--space-6);
         border-radius: var(--radius-full);
+        border: none;
+        cursor: pointer;
         box-shadow: 0 4px 16px rgba(123, 143, 107, 0.3);
         transition: all 0.3s ease;
       }
 
-      .mat__cta:hover {
+      .mat__cta:hover:not(:disabled) {
         background: var(--color-sage-dark);
         transform: translateY(-2px);
         box-shadow: 0 6px 24px rgba(123, 143, 107, 0.4);
+      }
+
+      .mat__cta:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
       }
 
       .mat__payment-methods {

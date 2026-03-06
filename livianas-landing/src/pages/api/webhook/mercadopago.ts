@@ -73,7 +73,11 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     // Extraer datos del comprador
-    const payerEmail = payment.payer?.email;
+    // Email viene de la preferencia (payer.email) o del external_reference como fallback
+    const externalRefEmail = (payment.external_reference || '').startsWith('materiales_')
+      ? payment.external_reference.replace('materiales_', '')
+      : null;
+    const payerEmail = payment.payer?.email || externalRefEmail;
     const payerName = payment.payer?.first_name || payment.additional_info?.payer?.first_name || '';
 
     if (!payerEmail) {
@@ -85,15 +89,15 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     // Verificar que sea un pago del pack de materiales
-    // Los payment links de MP incluyen la descripción del producto
+    // Checkout Pro usa external_reference con formato "materiales_email@..."
     const description = (payment.description || '').toLowerCase();
-    const externalRef = (payment.external_reference || '').toLowerCase();
+    const extRef = (payment.external_reference || '').toLowerCase();
     const isMaterialesPurchase =
+      extRef.startsWith('materiales_') ||
       description.includes('material') ||
       description.includes('pack') ||
       description.includes('livianas') ||
-      externalRef.includes('material') ||
-      // Si no podemos determinar, enviamos igual (es el único link de pago activo para materiales)
+      // Fallback: si es el único producto activo, enviamos igual
       true;
 
     if (!isMaterialesPurchase) {
