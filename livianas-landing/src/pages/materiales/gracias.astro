@@ -1,0 +1,376 @@
+---
+// src/pages/materiales/gracias.astro
+// Página de fallback — el usuario llega aquí via back_urls de MP (Checkout Pro redirect)
+// En el flujo principal (Checkout Bricks modal), el éxito se muestra dentro del modal.
+// Esta página es un safety net para edge cases.
+
+import '../../styles/global.css';
+import { siteConfig } from '../../lib/config';
+
+const whatsappLink = `https://wa.me/59891086674?text=${encodeURIComponent('Hola Ana! Acabo de comprar el Pack de Materiales 🌿')}`;
+const metaPixelId = siteConfig.metaPixelId;
+const ga4Id = siteConfig.ga4Id;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>¡Gracias por tu compra! — LIVIANAS</title>
+    <meta name="description" content="Tu Pack de Materiales LIVIANAS está en camino." />
+    <meta name="robots" content="noindex, nofollow" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400;1,700&family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    {metaPixelId && (
+      <script set:html={`
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '${metaPixelId}');
+        fbq('track', 'PageView');
+        fbq('track', 'Purchase', {
+          content_name: 'Pack Materiales LIVIANAS',
+          content_type: 'product',
+          content_ids: ['pack-materiales'],
+          value: 15,
+          currency: 'USD'
+        });
+      `} />
+    )}
+
+    {ga4Id && (
+      <script async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`} />
+      <script set:html={`
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '${ga4Id}');
+        gtag('event', 'purchase', {
+          transaction_id: 'mat_' + Date.now(),
+          currency: 'USD',
+          value: 15,
+          items: [{ item_id: 'pack-materiales', item_name: 'Pack Materiales LIVIANAS', price: 15, quantity: 1 }]
+        });
+      `} />
+    )}
+  </head>
+  <body>
+    <main class="ty">
+      <div class="ty__container">
+
+        <!-- Header -->
+        <header class="ty__header">
+          <span class="ty__logo">LIVIANAS</span>
+          <div class="ty__check">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+          </div>
+          <h1 class="ty__title">
+            <span class="ty__title-serif">¡Gracias</span>
+            <span class="ty__title-sans">por tu compra!</span>
+          </h1>
+          <p class="ty__subtitle">
+            Tu pago fue procesado correctamente. En los próximos minutos vas a recibir un email con los links de descarga de tu Guía y Recetario.
+          </p>
+        </header>
+
+        <!-- Info card -->
+        <section class="ty__info">
+          <div class="ty__info-card">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            <div>
+              <strong>Revisá tu email</strong>
+              <p>Te enviamos los materiales automáticamente. Si no los ves en tu bandeja de entrada, revisá la carpeta de spam o promociones.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Next Steps -->
+        <section class="ty__next">
+          <h2 class="ty__section-title">¿Qué sigue?</h2>
+          <ol class="ty__next-list">
+            <li>
+              <span class="ty__next-num">1</span>
+              <div>
+                <strong>Descargá tus PDFs</strong>
+                <p>Guardalos en tu celular o computadora para tenerlos siempre a mano.</p>
+              </div>
+            </li>
+            <li>
+              <span class="ty__next-num">2</span>
+              <div>
+                <strong>Empezá por la Guía</strong>
+                <p>Leé los fundamentos y armá tu primera lista de compras con los alimentos antiinflamatorios.</p>
+              </div>
+            </li>
+            <li>
+              <span class="ty__next-num">3</span>
+              <div>
+                <strong>Cociná tu primera receta</strong>
+                <p>Elegí una receta del recetario que te llame la atención y preparala esta semana.</p>
+              </div>
+            </li>
+          </ol>
+        </section>
+
+        <!-- WhatsApp -->
+        <section class="ty__whatsapp">
+          <p>¿No recibiste el email o tenés dudas?</p>
+          <a href={whatsappLink} target="_blank" rel="noopener noreferrer" class="ty__wa-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+            Escribile a Ana por WhatsApp
+          </a>
+        </section>
+
+        <!-- Footer -->
+        <footer class="ty__footer">
+          <p>&copy; 2026 LIVIANAS. Todos los derechos reservados.</p>
+        </footer>
+
+      </div>
+    </main>
+
+    <style>
+      .ty {
+        min-height: 100dvh;
+        background: var(--color-cream);
+        padding: var(--space-8) var(--space-4) var(--space-4);
+      }
+
+      .ty__container {
+        max-width: 560px;
+        margin: 0 auto;
+      }
+
+      .ty__header {
+        text-align: center;
+        margin-bottom: var(--space-10);
+        padding-top: var(--space-4);
+      }
+
+      .ty__logo {
+        font-family: var(--font-sans);
+        font-weight: 700;
+        font-size: var(--text-sm);
+        letter-spacing: 0.25em;
+        color: var(--color-carbon);
+        display: block;
+        margin-bottom: var(--space-8);
+      }
+
+      .ty__check {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: var(--space-5);
+        color: var(--color-sage);
+      }
+
+      .ty__check svg {
+        animation: scaleIn 0.5s ease-out;
+      }
+
+      @keyframes scaleIn {
+        from { transform: scale(0); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+      }
+
+      .ty__title {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-1);
+        margin-bottom: var(--space-3);
+      }
+
+      .ty__title-serif {
+        font-family: var(--font-display);
+        font-style: italic;
+        font-weight: 700;
+        font-size: clamp(2rem, 5vw, 3rem);
+        color: var(--color-carbon);
+        line-height: 1.1;
+      }
+
+      .ty__title-sans {
+        font-family: var(--font-sans);
+        font-weight: 700;
+        font-size: clamp(1.2rem, 3vw, 1.5rem);
+        color: var(--color-sage-dark);
+        line-height: 1.2;
+      }
+
+      .ty__subtitle {
+        font-family: var(--font-sans);
+        font-size: var(--text-base);
+        color: var(--color-text-muted);
+        line-height: 1.6;
+        max-width: 400px;
+        margin: 0 auto;
+      }
+
+      .ty__info {
+        margin-bottom: var(--space-10);
+      }
+
+      .ty__info-card {
+        display: flex;
+        align-items: flex-start;
+        gap: var(--space-4);
+        background: var(--color-sage-wash);
+        border: 1px solid rgba(123, 143, 107, 0.2);
+        border-radius: var(--radius-xl);
+        padding: var(--space-5);
+      }
+
+      .ty__info-card svg {
+        flex-shrink: 0;
+        color: var(--color-sage);
+        margin-top: 2px;
+      }
+
+      .ty__info-card strong {
+        font-family: var(--font-sans);
+        font-size: var(--text-sm);
+        font-weight: 700;
+        color: var(--color-sage-dark);
+        display: block;
+        margin-bottom: var(--space-1);
+      }
+
+      .ty__info-card p {
+        font-family: var(--font-sans);
+        font-size: var(--text-sm);
+        color: var(--color-text-muted);
+        line-height: 1.6;
+      }
+
+      .ty__section-title {
+        font-family: var(--font-sans);
+        font-size: var(--text-lg);
+        font-weight: 700;
+        color: var(--color-carbon);
+        text-align: center;
+        margin-bottom: var(--space-5);
+      }
+
+      .ty__next {
+        margin-bottom: var(--space-10);
+      }
+
+      .ty__next-list {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-4);
+      }
+
+      .ty__next-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: var(--space-4);
+      }
+
+      .ty__next-num {
+        flex-shrink: 0;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--color-sage-wash);
+        color: var(--color-sage-dark);
+        font-family: var(--font-sans);
+        font-size: var(--text-sm);
+        font-weight: 700;
+        border-radius: 50%;
+      }
+
+      .ty__next-list strong {
+        font-family: var(--font-sans);
+        font-size: var(--text-sm);
+        font-weight: 700;
+        color: var(--color-carbon);
+        display: block;
+        margin-bottom: 2px;
+      }
+
+      .ty__next-list p {
+        font-family: var(--font-sans);
+        font-size: var(--text-sm);
+        color: var(--color-text-muted);
+        line-height: 1.5;
+      }
+
+      .ty__whatsapp {
+        text-align: center;
+        margin-bottom: var(--space-8);
+      }
+
+      .ty__whatsapp p {
+        font-family: var(--font-sans);
+        font-size: var(--text-sm);
+        color: var(--color-text-muted);
+        margin-bottom: var(--space-3);
+      }
+
+      .ty__wa-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-2);
+        font-family: var(--font-sans);
+        font-size: var(--text-sm);
+        font-weight: 700;
+        color: white;
+        background: var(--color-whatsapp);
+        text-decoration: none;
+        padding: var(--space-3) var(--space-6);
+        border-radius: var(--radius-full);
+        box-shadow: 0 2px 12px rgba(18, 140, 126, 0.3);
+        transition: all 0.3s ease;
+      }
+
+      .ty__wa-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 20px rgba(18, 140, 126, 0.4);
+      }
+
+      .ty__footer {
+        text-align: center;
+        padding: var(--space-6) 0;
+        border-top: 1px solid var(--color-border);
+      }
+
+      .ty__footer p {
+        font-family: var(--font-sans);
+        font-size: var(--text-xs);
+        color: var(--color-text-light);
+      }
+
+      @media (max-width: 480px) {
+        .ty {
+          padding: var(--space-6) var(--space-4) var(--space-4);
+        }
+      }
+    </style>
+  </body>
+</html>

@@ -1,0 +1,396 @@
+---
+// src/components/CheckoutModal.astro
+// Checkout Bricks embebido en modal — sin salir de livianas.com
+// Requiere: PUBLIC_MP_PUBLIC_KEY en variables de entorno
+
+const MP_PUBLIC_KEY = import.meta.env.PUBLIC_MP_PUBLIC_KEY;
+---
+
+<!-- BOTÓN TRIGGER (reemplaza el botón actual de /materiales) -->
+<!-- Usarlo así en index.astro: <BuyButton /> -->
+<button
+  id="btn-comprar"
+  class="btn-comprar w-full py-4 px-8 rounded-2xl font-bold text-lg text-white transition-all duration-200"
+  style="background: linear-gradient(135deg, #2d6a4f 0%, #40916c 100%); box-shadow: 0 4px 20px rgba(45,106,79,0.35);"
+>
+  Comprar Pack — USD 15
+</button>
+
+<!-- ══════════════════════════════════════════
+     MODAL OVERLAY
+═══════════════════════════════════════════ -->
+<div
+  id="checkout-modal"
+  class="fixed inset-0 z-50 flex items-center justify-center p-4"
+  style="display:none !important; background: rgba(0,0,0,0.55); backdrop-filter: blur(6px);"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modal-title"
+>
+  <div
+    id="modal-card"
+    class="relative w-full max-w-md rounded-3xl overflow-hidden"
+    style="background: #fff; box-shadow: 0 25px 60px rgba(0,0,0,0.25); max-height: 92vh; overflow-y: auto;"
+  >
+
+    <!-- Header -->
+    <div class="px-6 pt-6 pb-4 flex items-start justify-between" style="border-bottom: 1px solid #f0f0f0;">
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-widest mb-1" style="color:#40916c;">LIVIANAS</p>
+        <h2 id="modal-title" class="text-xl font-bold" style="color:#1a1a1a;">Pack Guía + Recetario</h2>
+        <p class="text-sm mt-1" style="color:#666;">Descarga inmediata · Pago seguro</p>
+      </div>
+      <div class="text-right">
+        <p class="text-2xl font-bold" style="color:#2d6a4f;">USD 15</p>
+        <p class="text-xs line-through" style="color:#999;">USD 24</p>
+      </div>
+    </div>
+
+    <!-- Contenido del modal según estado -->
+
+    <!-- PASO 1: Email -->
+    <div id="step-email" class="px-6 py-5">
+      <p class="text-sm mb-4" style="color:#555;">Ingresá tu email para recibir los materiales después de pagar.</p>
+      <label class="block text-sm font-medium mb-1" style="color:#333;" for="modal-email">Email</label>
+      <input
+        id="modal-email"
+        type="email"
+        placeholder="tu@email.com"
+        autocomplete="email"
+        class="w-full px-4 py-3 rounded-xl border text-sm outline-none transition-all"
+        style="border-color:#ddd; font-size:16px;"
+      />
+      <p id="email-error" class="text-xs mt-1 hidden" style="color:#e63946;">Ingresá un email válido.</p>
+      <button
+        id="btn-continuar"
+        class="w-full mt-4 py-3 rounded-xl font-semibold text-white text-sm transition-all"
+        style="background:#2d6a4f;"
+      >
+        Continuar al pago
+      </button>
+    </div>
+
+    <!-- PASO 2: Bricks (se oculta en paso 1 y paso 3) -->
+    <div id="step-bricks" class="px-6 py-5 hidden">
+      <!-- Loader mientras carga el Brick -->
+      <div id="bricks-loader" class="flex flex-col items-center py-8 gap-3">
+        <div class="w-8 h-8 rounded-full border-2 border-t-transparent animate-spin" style="border-color:#2d6a4f; border-top-color:transparent;"></div>
+        <p class="text-sm" style="color:#666;">Cargando checkout seguro…</p>
+      </div>
+      <!-- Aquí monta MP Checkout Bricks -->
+      <div id="paymentBrick_container"></div>
+    </div>
+
+    <!-- PASO 3: Éxito -->
+    <div id="step-success" class="px-6 py-8 text-center hidden">
+      <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style="background:#d8f3dc;">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+          <path d="M20 6L9 17l-5-5" stroke="#2d6a4f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h3 class="text-xl font-bold mb-2" style="color:#1a1a1a;">¡Pago confirmado!</h3>
+      <p class="text-sm mb-1" style="color:#555;">Te enviamos los materiales a</p>
+      <p id="success-email" class="font-semibold text-sm mb-5" style="color:#2d6a4f;"></p>
+      <p class="text-xs" style="color:#999;">Revisá tu bandeja de entrada (y spam). Si en 5 minutos no llega, escribinos por WhatsApp.</p>
+      <button
+        id="btn-close-success"
+        class="mt-5 text-sm underline"
+        style="color:#666;"
+      >
+        Cerrar
+      </button>
+    </div>
+
+    <!-- PASO 4: Error de pago -->
+    <div id="step-error" class="px-6 py-8 text-center hidden">
+      <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style="background:#fde8ea;">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+          <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#e63946" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h3 class="text-xl font-bold mb-2" style="color:#1a1a1a;">Algo salió mal</h3>
+      <p id="error-message" class="text-sm mb-5" style="color:#555;">Hubo un error al procesar tu pago. Podés intentarlo de nuevo.</p>
+      <button
+        id="btn-retry"
+        class="px-6 py-3 rounded-xl font-semibold text-white text-sm"
+        style="background:#2d6a4f;"
+      >
+        Intentar de nuevo
+      </button>
+    </div>
+
+    <!-- Botón X cerrar (siempre visible excepto en success) -->
+    <button
+      id="btn-modal-close"
+      class="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center transition-colors"
+      style="background:#f5f5f5; color:#666;"
+      aria-label="Cerrar"
+    >
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <!-- Sello de seguridad -->
+    <div class="px-6 pb-5 flex items-center justify-center gap-2" id="security-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="color:#999;">
+        <path d="M12 2l7 4v6c0 5-3.5 9.74-7 11-3.5-1.26-7-6-7-11V6l7-4z" stroke="currentColor" stroke-width="1.5"/>
+      </svg>
+      <p class="text-xs" style="color:#999;">Pago seguro con Mercado Pago · SSL</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SDK DE MERCADO PAGO
+═══════════════════════════════════════════ -->
+<script src="https://sdk.mercadopago.com/js/v2" is:inline></script>
+
+<script define:vars={{ MP_PUBLIC_KEY }}>
+
+  // ── Referencias DOM ──────────────────────────────
+  const modal          = document.getElementById('checkout-modal');
+  const btnComprar     = document.getElementById('btn-comprar');
+  const btnModalClose  = document.getElementById('btn-modal-close');
+  const btnContinuar   = document.getElementById('btn-continuar');
+  const btnRetry       = document.getElementById('btn-retry');
+  const btnCloseSuccess= document.getElementById('btn-close-success');
+
+  const stepEmail      = document.getElementById('step-email');
+  const stepBricks     = document.getElementById('step-bricks');
+  const stepSuccess    = document.getElementById('step-success');
+  const stepError      = document.getElementById('step-error');
+
+  const emailInput     = document.getElementById('modal-email');
+  const emailError     = document.getElementById('email-error');
+  const successEmail   = document.getElementById('success-email');
+  const errorMsg       = document.getElementById('error-message');
+  const bricksLoader   = document.getElementById('bricks-loader');
+  const securityBadge  = document.getElementById('security-badge');
+
+  let currentEmail = '';
+  let brickController = null;
+
+  // ── Helpers de UI ────────────────────────────────
+  function showModal()  { modal.style.setProperty('display', 'flex', 'important'); document.body.style.overflow = 'hidden'; }
+  function hideModal()  { modal.style.setProperty('display', 'none', 'important'); document.body.style.overflow = ''; }
+
+  function showStep(step) {
+    [stepEmail, stepBricks, stepSuccess, stepError].forEach(s => s.classList.add('hidden'));
+    step.classList.remove('hidden');
+    // Ocultar badge de seguridad en success/error para no distraer
+    if (step === stepSuccess || step === stepError) {
+      securityBadge.style.display = 'none';
+      btnModalClose.style.display = 'none';
+    } else {
+      securityBadge.style.display = 'flex';
+      btnModalClose.style.display = 'flex';
+    }
+  }
+
+  // ── Validación de email ───────────────────────────
+  function isValidEmail(v) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  }
+
+  // ── Abrir modal ───────────────────────────────────
+  btnComprar?.addEventListener('click', () => {
+    // Pre-fill email si existe en el campo de la landing
+    const landingEmail = document.getElementById('email-input')?.value || '';
+    if (landingEmail && isValidEmail(landingEmail)) {
+      emailInput.value = landingEmail;
+    }
+    showStep(stepEmail);
+    showModal();
+    setTimeout(() => emailInput.focus(), 100);
+  });
+
+  // ── Cerrar modal ──────────────────────────────────
+  function closeModal() {
+    hideModal();
+    // Destruir brick si existe para liberar recursos
+    if (brickController) {
+      brickController.unmount();
+      brickController = null;
+    }
+    // Reset UI
+    setTimeout(() => {
+      showStep(stepEmail);
+      securityBadge.style.display = 'flex';
+      btnModalClose.style.display = 'flex';
+    }, 300);
+  }
+
+  btnModalClose?.addEventListener('click', closeModal);
+  btnCloseSuccess?.addEventListener('click', closeModal);
+
+  // Click fuera del modal
+  modal?.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  // Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.style.display !== 'none') closeModal();
+  });
+
+  // ── Continuar al pago ─────────────────────────────
+  btnContinuar?.addEventListener('click', async () => {
+    const email = emailInput.value.trim();
+    if (!isValidEmail(email)) {
+      emailError.classList.remove('hidden');
+      emailInput.style.borderColor = '#e63946';
+      return;
+    }
+    emailError.classList.add('hidden');
+    emailInput.style.borderColor = '#ddd';
+    currentEmail = email;
+
+    showStep(stepBricks);
+    bricksLoader.style.display = 'flex';
+    document.getElementById('paymentBrick_container').innerHTML = '';
+
+    try {
+      // 1. Crear preferencia en backend
+      const res = await fetch('/api/create-preference', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!res.ok) throw new Error('Error al crear preferencia');
+      const { preference_id } = await res.json();
+
+      // 2. Inicializar Checkout Bricks
+      await initBricks(preference_id);
+
+    } catch (err) {
+      console.error(err);
+      errorMsg.textContent = 'No pudimos iniciar el checkout. Intentá de nuevo.';
+      showStep(stepError);
+    }
+  });
+
+  // ── Inicializar Checkout Bricks ───────────────────
+  async function initBricks(preferenceId) {
+    const mp = new MercadoPago(MP_PUBLIC_KEY, { locale: 'es-UY' });
+    const bricksBuilder = mp.bricks();
+
+    brickController = await bricksBuilder.create('payment', 'paymentBrick_container', {
+      initialization: {
+        amount: 650,          // UYU 650 ≈ USD 15 — cuenta MP de Ana en pesos uruguayos
+        preferenceId: preferenceId,
+      },
+      customization: {
+        paymentMethods: {
+          creditCard: 'all',
+          debitCard: 'all',
+          ticket: 'all',
+          bankTransfer: 'all',
+          mercadoPago: 'all',
+        },
+        visual: {
+          style: {
+            theme: 'default',
+            customVariables: {
+              baseColor: '#2d6a4f',
+              baseColorFirstVariant: '#40916c',
+              baseColorSecondVariant: '#1b4332',
+              fontSizeSmall: '13px',
+              formBackgroundColor: '#ffffff',
+            },
+          },
+          hideFormTitle: true,
+          hidePaymentButton: false,
+        },
+      },
+      callbacks: {
+        onReady: () => {
+          // Ocultar loader cuando el Brick termina de renderizar
+          bricksLoader.style.display = 'none';
+        },
+        onSubmit: async ({ selectedPaymentMethod, formData }) => {
+          // 3. Procesar pago en nuestro backend
+          try {
+            const res = await fetch('/api/process-payment', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ...formData, email: currentEmail }),
+            });
+
+            const result = await res.json();
+
+            if (result.status === 'approved') {
+              successEmail.textContent = currentEmail;
+              showStep(stepSuccess);
+              // Destruir brick
+              if (brickController) { brickController.unmount(); brickController = null; }
+              return { status: 'approved' };
+            } else if (result.status === 'in_process' || result.status === 'pending') {
+              successEmail.textContent = currentEmail;
+              stepSuccess.querySelector('h3').textContent = '¡Pago en proceso!';
+              stepSuccess.querySelector('p').textContent = 'Tu pago está siendo procesado. Te avisamos por email cuando se confirme.';
+              showStep(stepSuccess);
+              return { status: 'pending' };
+            } else {
+              errorMsg.textContent = result.message || 'El pago fue rechazado. Probá con otro medio de pago.';
+              showStep(stepError);
+              return { status: 'rejected' };
+            }
+          } catch (err) {
+            console.error('Error procesando pago:', err);
+            errorMsg.textContent = 'Error de conexión. Intentá de nuevo.';
+            showStep(stepError);
+            return { status: 'error' };
+          }
+        },
+        onError: (error) => {
+          console.error('Brick error:', error);
+          if (error.type !== 'non_critical') {
+            errorMsg.textContent = 'Error en el checkout. Intentá de nuevo.';
+            showStep(stepError);
+          }
+        },
+      },
+    });
+  }
+
+  // ── Reintentar ────────────────────────────────────
+  btnRetry?.addEventListener('click', async () => {
+    if (!currentEmail) {
+      showStep(stepEmail);
+      return;
+    }
+    showStep(stepBricks);
+    bricksLoader.style.display = 'flex';
+    document.getElementById('paymentBrick_container').innerHTML = '';
+
+    try {
+      const res = await fetch('/api/create-preference', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: currentEmail }),
+      });
+      const { preference_id } = await res.json();
+      await initBricks(preference_id);
+    } catch(err) {
+      errorMsg.textContent = 'No pudimos reiniciar el checkout.';
+      // Volvemos a mostrar error
+    }
+  });
+
+  // ── Focus styles ──────────────────────────────────
+  emailInput?.addEventListener('focus', () => {
+    emailInput.style.borderColor = '#2d6a4f';
+    emailInput.style.boxShadow = '0 0 0 3px rgba(45,106,79,0.12)';
+  });
+  emailInput?.addEventListener('blur', () => {
+    emailInput.style.borderColor = '#ddd';
+    emailInput.style.boxShadow = 'none';
+  });
+  emailInput?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') btnContinuar.click();
+  });
+
+</script>

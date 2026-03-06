@@ -99,11 +99,64 @@
 
 ---
 
+## CC-008-MATERIALES-AUTOMATED-DELIVERY
+
+| Campo | Detalle |
+|---|---|
+| **Fecha** | 2026-03-05 |
+| **ID de Cambio** | CC-008-MATERIALES-AUTOMATED-DELIVERY |
+| **Descripción** | Pipeline automatizado completo de venta digital: pago → email con materiales PDF. Incluye: (1) **DNS + Resend verificado** — 4 registros DNS (DKIM, SPF, MX, DMARC) en Vercel para `livianas.com`, dominio verificado en Resend. (2) **Supabase Storage** — PDFs alojados en bucket público `materiales` (guia + recetario). (3) **Mercado Pago webhook** — `POST /api/webhook/mercadopago` recibe IPN, verifica pago vía API de MP, envía email si `approved`. (4) **Flujo de email collection** — Campo de email obligatorio en `/materiales` ANTES de redirigir a MP (soluciona que MP payment links no exponen email del comprador). Email guardado en localStorage. (5) **Auto-envío en /gracias** — Al volver de la pestaña de MP, `visibilitychange` dispara automáticamente el envío via `/api/send-materiales`. Fallback: formulario manual si no hay email en localStorage. (6) **Email branded** — Template HTML con botones de descarga para Guía y Recetario, next steps, link a WhatsApp. |
+| **Archivos nuevos** | `src/pages/api/send-materiales.ts`, `src/lib/email/send-materiales.ts` |
+| **Archivos modificados** | `astro.config.mjs` (`output: 'server'`), `src/pages/api/webhook/mercadopago.ts` (200 en errores, fallback email desde `external_reference`), `src/pages/materiales/index.astro` (email input + localStorage + MP en nueva pestaña), `src/pages/materiales/gracias.astro` (auto-send + visibilitychange + manual fallback) |
+| **Commits** | `64ab17d`, `fe781a4`, `f691afc`, `1d472e7`, `8f0d612`, `ad37856` |
+| **Variables de entorno (Vercel)** | `RESEND_API_KEY`, `MATERIALES_FROM_EMAIL`, `MERCADOPAGO_ACCESS_TOKEN`, `PUBLIC_GUIA_DOWNLOAD_URL`, `PUBLIC_RECETARIO_DOWNLOAD_URL` |
+| **Impacto** | Venta 100% automatizada: usuario paga → recibe materiales por email sin intervención manual. |
+| **Estado** | Desplegado en producción — Pendiente: test end-to-end con pago real + swap link test por link prod |
+
+### Estado actual del flujo `/materiales` (2026-03-05)
+
+```
+USUARIO                          SISTEMA
+  │                                 │
+  ├─ Entra a /materiales            │
+  │  Ve producto + precio           │
+  │                                 │
+  ├─ Ingresa email ──────────────── localStorage.setItem('livianas_email')
+  ├─ Click "Comprar Pack"           │
+  │                                 │
+  ├─ MP se abre en NUEVA PESTAÑA    │
+  ├─ /materiales/gracias se carga ──│── Muestra "Completá tu pago en MP..."
+  │  en pestaña actual              │   (estado: waiting)
+  │                                 │
+  ├─ Paga en MP ────────────────── MP envía webhook POST
+  │                                 │── /api/webhook/mercadopago verifica pago
+  │                                 │── Si approved + tiene email → envía email (backup)
+  │                                 │
+  ├─ Vuelve a pestaña /gracias ──── visibilitychange event
+  │                                 │── /api/send-materiales envía email (primario)
+  │                                 │── Muestra "Materiales enviados a tu@email.com"
+  │                                 │
+  └─ Recibe email con PDFs          │
+```
+
+### Cosas pendientes para esta feature
+
+| # | Pendiente | Prioridad |
+|---|---|---|
+| 1 | **Swap link test → producción**: Cambiar `https://mpago.la/2v6mMqJ` (10 pesos test) por el link real de USD 15 en `src/pages/materiales/index.astro` línea 7 | **ALTA — antes de lanzar** |
+| 2 | **Test end-to-end con pago real**: Hacer una compra completa y verificar que el email llega con los links de descarga | Alta |
+| 3 | **Verificar PDFs en Supabase**: Confirmar que ambos links de descarga funcionan (guía + recetario) | Alta |
+| 4 | **Checkout Pro 403**: El token de MP da error 403 (PA_UNAUTHORIZED) al crear preferencias de Checkout Pro. Por ahora se usa payment link estático. Investigar si se necesita activar Checkout Pro en el dashboard de MP o si el token necesita más permisos | Media |
+| 5 | **Doble envío**: Si el webhook Y la página gracias envían, el usuario recibe 2 emails. Considerar deduplicación (ej: flag en Supabase o Vercel KV) | Baja |
+| 6 | **Pop-up blocker**: `window.open()` puede ser bloqueado por el navegador. Si eso pasa, el link de MP no se abre. Considerar fallback con `<a target="_blank">` | Media |
+
+---
+
 ## DECISIONES ARQUITECTÓNICAS
 
 | Decisión | Contexto | Resolución |
 |---|---|---|
-| **Astro hybrid → static con adapter** | Astro 5.x eliminó `output: 'hybrid'`. | Se usa `output: 'static'` (default) + `@astrojs/vercel` adapter. Páginas son estáticas, API routes usan `prerender = false` para server functions. |
+| **Astro output: 'server'** | API routes (webhook, email, chat) necesitan server-side rendering. | Se cambió a `output: 'server'` con `@astrojs/vercel` adapter. Todas las páginas se renderizan en el server salvo las que tengan `prerender = true`. |
 | **Claude Sonnet (no Opus)** | Control de costos del chatbot. | Sonnet es rápido y económico (~$5-20/mes para 50 conv/día). Max 500 tokens por respuesta. Ventana de 10 mensajes. |
 | **Sesiones en memoria (no DB)** | Simplicidad para MVP. | `Map<string, Session>` con TTL 30min. Suficiente para Vercel serverless (se pierde entre cold starts, aceptable para chat). |
 | **Escalación por keywords** | Proteger usuarios vulnerables. | Lista de keywords clínicos (anorexia, depresión, autolesión) + pagos + pedidos explícitos. Respuesta empática + link directo a Ana. |
@@ -130,3 +183,9 @@
 | PEN-012 | Configurar Meta Business + WhatsApp Cloud API | Media | Verificar negocio en Meta, obtener Phone Number ID + Access Token |
 | PEN-013 | Configurar webhook de WhatsApp en Meta | Media | Depende de PEN-012. URL: `https://livianas.com/api/whatsapp` |
 | PEN-014 | Deploy a producción con chatbot | Alta | Depende de PEN-011 |
+| ~~PEN-015~~ | ~~Configurar DNS para Resend (DKIM, SPF, MX, DMARC)~~ | ~~Alta~~ | ~~Resuelto: dominio verificado en Resend~~ |
+| ~~PEN-016~~ | ~~Hostear PDFs de materiales~~ | ~~Alta~~ | ~~Resuelto: Supabase Storage, bucket público~~ |
+| ~~PEN-017~~ | ~~Webhook de Mercado Pago~~ | ~~Alta~~ | ~~Resuelto: /api/webhook/mercadopago configurado y funcionando~~ |
+| PEN-018 | Swap link MP test → producción en /materiales | **ALTA** | Antes de lanzar. Línea 7 de `materiales/index.astro` |
+| PEN-019 | Test end-to-end compra real + email | Alta | Depende de PEN-018 |
+| PEN-020 | Investigar error 403 Checkout Pro (token MP) | Media | Opcional si payment links funcionan bien |
