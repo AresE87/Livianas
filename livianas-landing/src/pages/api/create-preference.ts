@@ -20,7 +20,8 @@ export const POST: APIRoute = async ({ request }) => {
 
     // La cuenta MP de Ana está en UYU (pesos uruguayos)
     // USD 15 ≈ UYU 650 — ajustar al tipo de cambio del momento
-    const PRICE_UYU = 650;
+    // TODO: volver a 650 después de testear
+    const PRICE_UYU = 10;
 
     // Normalizar SITE_URL (sin trailing slash)
     const siteUrl = SITE_URL.replace(/\/+$/, '');
