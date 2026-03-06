@@ -22,6 +22,9 @@ export const POST: APIRoute = async ({ request }) => {
     // USD 15 ≈ UYU 650 — ajustar al tipo de cambio del momento
     const PRICE_UYU = 650;
 
+    // Normalizar SITE_URL (sin trailing slash)
+    const siteUrl = SITE_URL.replace(/\/+$/, '');
+
     const preference = {
       items: [
         {
@@ -34,30 +37,21 @@ export const POST: APIRoute = async ({ request }) => {
         },
       ],
 
-      // El email viaja dentro del pago — resuelve el problema de localStorage
       external_reference: email,
 
-      // URL de tu webhook — MP envía notificación cuando se aprueba el pago
-      notification_url: `${SITE_URL}/api/webhook/mercadopago`,
+      notification_url: `${siteUrl}/api/webhook/mercadopago`,
 
-      // A dónde vuelve el usuario después de pagar (Checkout Bricks lo maneja internamente,
-      // pero es buena práctica configurarlo como fallback)
       back_urls: {
-        success: `${SITE_URL}/materiales/gracias`,
-        failure: `${SITE_URL}/materiales?status=failed`,
-        pending: `${SITE_URL}/materiales/gracias?status=pending`,
+        success: `${siteUrl}/materiales/gracias`,
+        failure: `${siteUrl}/materiales`,
+        pending: `${siteUrl}/materiales/gracias`,
       },
       auto_return: 'approved',
 
-      // Expiración de la preferencia: 30 minutos
-      expiration_date_to: new Date(Date.now() + 30 * 60 * 1000).toISOString(),
-
-      // Datos del pagador (pre-fill en el checkout)
       payer: {
         email: email,
       },
 
-      // Metadata adicional
       metadata: {
         product: 'pack-livianas',
         source: 'checkout-bricks',
