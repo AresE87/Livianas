@@ -31,7 +31,7 @@ export const POST: APIRoute = async ({ request }) => {
         {
           id: 'pack-bienestar-v1',
           title: 'Pack Bienestar — Guía + Recetario Saludable',
-          description: 'Guía de Bienestar Integral (47 pág) + Recetario Saludable +30 recetas (36 pág). Descarga inmediata.',
+          description: 'Guía de Bienestar Integral (47 pág) + Recetario Saludable +20 recetas (36 pág). Descarga inmediata.',
           quantity: 1,
           unit_price: PRICE_UYU,
           currency_id: 'UYU',

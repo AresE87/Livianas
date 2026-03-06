@@ -37,7 +37,7 @@ PRODUCTO — PACK BIENESTAR (USD 15):
   • Cómo empezar sin estrés ni restricciones
 
 - Recetario Saludable: PDF de 36 páginas
-  • +30 recetas fáciles, ricas y nutritivas
+  • +20 recetas fáciles, ricas y nutritivas
   • Desayunos, almuerzos, cenas y snacks
   • Ingredientes accesibles de supermercado
   • Preparaciones de 20 minutos o menos
