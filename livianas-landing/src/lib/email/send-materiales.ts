@@ -157,3 +157,8 @@ export async function sendMaterialesEmail({ to, nombre }: SendMaterialesOptions)
   console.log(`[email] Materiales email sent to ${to}, id: ${data?.id}`);
   return data;
 }
+
+// Alias simplificado — usado por process-payment.ts y webhook/mercadopago.ts
+export async function sendMateriales(email: string) {
+  return sendMaterialesEmail({ to: email });
+}

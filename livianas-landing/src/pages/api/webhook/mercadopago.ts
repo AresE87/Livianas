@@ -1,144 +1,115 @@
-// src/pages/api/webhook/mercadopago.ts — Webhook IPN de Mercado Pago
-// Recibe notificaciones de pago y envía email automático con materiales
+// src/pages/api/webhook/mercadopago.ts
+// Webhook IPN de Mercado Pago — recibe notificaciones de pago.
+// Actúa como canal principal para pagos pendientes (transferencias)
+// y como backup para casos donde process-payment falló.
+// Deduplicación vía Supabase: nunca envía el mismo email dos veces.
+
 import type { APIRoute } from 'astro';
-import { sendMaterialesEmail } from '../../../lib/email/send-materiales';
+import { createClient } from '@supabase/supabase-js';
+import { sendMateriales } from '../../../lib/email/send-materiales';
 
-export const prerender = false;
+const MP_ACCESS_TOKEN    = import.meta.env.MERCADOPAGO_ACCESS_TOKEN;
+const SUPABASE_URL       = import.meta.env.PUBLIC_SUPABASE_URL;
+const SUPABASE_KEY       = import.meta.env.SUPABASE_SERVICE_ROLE_KEY;
 
-const MP_ACCESS_TOKEN = import.meta.env.MERCADOPAGO_ACCESS_TOKEN || '';
-
-// Mercado Pago envía POST con el payment ID
 export const POST: APIRoute = async ({ request }) => {
   try {
     const body = await request.json();
+    console.log('[webhook-mp] Notificación recibida:', JSON.stringify(body));
 
-    console.log('[webhook/mp] Received:', JSON.stringify(body));
+    // MP puede enviar distintos tipos de notificaciones
+    const { type, data, action } = body;
 
-    // Mercado Pago IPN v2 — notificación de pago
-    // Tipos: "payment", "merchant_order", "chargebacks", etc.
-    const topic = body.type || body.topic;
-    const resourceId = body.data?.id || body.id;
+    // Solo procesamos notificaciones de pagos aprobados o actualizados
+    const isPaymentNotification =
+      type === 'payment' ||
+      action === 'payment.updated' ||
+      action === 'payment.created';
 
-    // Solo procesamos notificaciones de pago
-    if (topic !== 'payment' && topic !== 'payment.created' && topic !== 'payment.updated') {
-      console.log(`[webhook/mp] Ignoring topic: ${topic}`);
-      return new Response(JSON.stringify({ status: 'ignored', topic }), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' },
-      });
+    if (!isPaymentNotification || !data?.id) {
+      return new Response('ok', { status: 200 });
     }
 
-    if (!resourceId) {
-      console.log('[webhook/mp] No resource ID found');
-      return new Response(JSON.stringify({ error: 'No resource ID' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' },
-      });
-    }
+    const paymentId = String(data.id);
 
-    if (!MP_ACCESS_TOKEN) {
-      console.error('[webhook/mp] MERCADOPAGO_ACCESS_TOKEN not configured');
-      return new Response(JSON.stringify({ error: 'Server misconfigured' }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' },
-      });
-    }
-
-    // Verificar pago con la API de Mercado Pago
-    const paymentRes = await fetch(`https://api.mercadopago.com/v1/payments/${resourceId}`, {
-      headers: {
-        'Authorization': `Bearer ${MP_ACCESS_TOKEN}`,
-      },
+    // ── 1. Obtener detalles del pago desde MP API ────────────────────────
+    const mpRes = await fetch(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
+      headers: { Authorization: `Bearer ${MP_ACCESS_TOKEN}` },
     });
 
-    if (!paymentRes.ok) {
-      console.error(`[webhook/mp] MP API error: ${paymentRes.status}`);
-      return new Response(JSON.stringify({ error: 'MP API error', mp_status: paymentRes.status }), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' },
-      });
+    if (!mpRes.ok) {
+      console.error(`[webhook-mp] No se pudo obtener pago ${paymentId}`);
+      return new Response('error fetching payment', { status: 500 });
     }
 
-    const payment = await paymentRes.json();
+    const payment = await mpRes.json();
+    const { status, external_reference, transaction_amount, currency_id, payment_method_id } = payment;
 
-    console.log(`[webhook/mp] Payment ${resourceId}: status=${payment.status}, email=${payment.payer?.email}`);
+    console.log(`[webhook-mp] Pago ${paymentId}: ${status} — ${external_reference}`);
 
-    // Solo enviamos email si el pago fue aprobado
-    if (payment.status !== 'approved') {
-      console.log(`[webhook/mp] Payment not approved (status: ${payment.status}), skipping email`);
-      return new Response(JSON.stringify({ status: 'skipped', payment_status: payment.status }), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' },
-      });
+    const email = external_reference;
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      console.warn(`[webhook-mp] external_reference no es un email válido: "${email}"`);
+      return new Response('no valid email in external_reference', { status: 200 });
     }
 
-    // Extraer datos del comprador
-    // Email viene de la preferencia (payer.email) o del external_reference como fallback
-    const externalRefEmail = (payment.external_reference || '').startsWith('materiales_')
-      ? payment.external_reference.replace('materiales_', '')
-      : null;
-    const payerEmail = payment.payer?.email || externalRefEmail;
-    const payerName = payment.payer?.first_name || payment.additional_info?.payer?.first_name || '';
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    if (!payerEmail) {
-      console.error('[webhook/mp] No payer email found in payment data');
-      return new Response(JSON.stringify({ error: 'No payer email' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' },
-      });
-    }
-
-    // Verificar que sea un pago del pack de materiales
-    // Checkout Pro usa external_reference con formato "materiales_email@..."
-    const description = (payment.description || '').toLowerCase();
-    const extRef = (payment.external_reference || '').toLowerCase();
-    const isMaterialesPurchase =
-      extRef.startsWith('materiales_') ||
-      description.includes('material') ||
-      description.includes('pack') ||
-      description.includes('livianas') ||
-      // Fallback: si es el único producto activo, enviamos igual
-      true;
-
-    if (!isMaterialesPurchase) {
-      console.log('[webhook/mp] Payment not for materiales, skipping');
-      return new Response(JSON.stringify({ status: 'skipped', reason: 'not_materiales' }), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' },
-      });
-    }
-
-    // Enviar email con materiales
-    await sendMaterialesEmail({
-      to: payerEmail,
-      nombre: payerName,
+    // ── 2. Guardar/actualizar en Supabase ───────────────────────────────
+    await supabase.from('purchases').upsert({
+      payment_id:   paymentId,
+      email:        email,
+      status:       status,
+      amount:       transaction_amount,
+      currency:     currency_id,
+      payment_method: payment_method_id,
+      updated_at:   new Date().toISOString(),
+    }, {
+      onConflict: 'payment_id',
+      ignoreDuplicates: false,
     });
 
-    console.log(`[webhook/mp] ✅ Email sent to ${payerEmail} for payment ${resourceId}`);
+    // ── 3. Solo actuar si el pago está aprobado ─────────────────────────
+    if (status !== 'approved') {
+      return new Response('ok - not approved', { status: 200 });
+    }
 
-    return new Response(JSON.stringify({
-      status: 'success',
-      email_sent_to: payerEmail,
-      payment_id: resourceId,
-    }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    // ── 4. Deduplicación: verificar si ya enviamos el email ──────────────
+    const { data: purchase } = await supabase
+      .from('purchases')
+      .select('email_sent')
+      .eq('payment_id', paymentId)
+      .single();
+
+    if (purchase?.email_sent) {
+      console.log(`[webhook-mp] Email ya enviado para ${paymentId} — skip`);
+      return new Response('ok - already sent', { status: 200 });
+    }
+
+    // ── 5. Enviar materiales ─────────────────────────────────────────────
+    await sendMateriales(email);
+
+    await supabase
+      .from('purchases')
+      .update({
+        email_sent:    true,
+        email_sent_at: new Date().toISOString(),
+      })
+      .eq('payment_id', paymentId);
+
+    console.log(`[webhook-mp] ✅ Materiales enviados a ${email} (pago ${paymentId})`);
+    return new Response('ok', { status: 200 });
 
   } catch (err) {
-    console.error('[webhook/mp] Error:', err);
-    // Siempre devolver 200 a MP para evitar reintentos infinitos en caso de error nuestro
-    return new Response(JSON.stringify({ error: 'Internal error', message: String(err) }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    console.error('[webhook-mp] Error:', err);
+    // Siempre responder 200 a MP para que no reintente indefinidamente
+    // (si hay un error real, lo veremos en logs de Vercel)
+    return new Response('error handled', { status: 200 });
   }
 };
 
-// MP también envía GET para verificar que el endpoint existe
+// MP también puede enviar GET para verificar el endpoint
 export const GET: APIRoute = async () => {
-  return new Response(JSON.stringify({ status: 'ok', service: 'LIVIANAS materiales webhook' }), {
-    status: 200,
-    headers: { 'Content-Type': 'application/json' },
-  });
+  return new Response('Webhook activo', { status: 200 });
 };

@@ -1,28 +1,15 @@
 ---
+// src/pages/materiales/gracias.astro
+// Página de fallback — el usuario llega aquí via back_urls de MP (Checkout Pro redirect)
+// En el flujo principal (Checkout Bricks modal), el éxito se muestra dentro del modal.
+// Esta página es un safety net para edge cases.
+
 import '../../styles/global.css';
 import { siteConfig } from '../../lib/config';
 
 const whatsappLink = `https://wa.me/59891086674?text=${encodeURIComponent('Hola Ana! Acabo de comprar el Pack de Materiales 🌿')}`;
 const metaPixelId = siteConfig.metaPixelId;
 const ga4Id = siteConfig.ga4Id;
-
-// Download links — REEMPLAZAR con los links reales de descarga
-const downloads = [
-  {
-    title: 'Guía Livianas',
-    format: 'PDF · 32 páginas',
-    link: import.meta.env.PUBLIC_GUIA_DOWNLOAD_URL || '',
-    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>`,
-  },
-  {
-    title: 'Recetario Livianas',
-    format: 'PDF · 28 páginas',
-    link: import.meta.env.PUBLIC_RECETARIO_DOWNLOAD_URL || '',
-    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>`,
-  },
-];
-
-const hasDownloads = downloads.some(d => d.link);
 ---
 
 <!doctype html>
@@ -31,7 +18,7 @@ const hasDownloads = downloads.some(d => d.link);
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>¡Gracias por tu compra! — LIVIANAS</title>
-    <meta name="description" content="Tu Pack de Materiales LIVIANAS está listo para descargar." />
+    <meta name="description" content="Tu Pack de Materiales LIVIANAS está en camino." />
     <meta name="robots" content="noindex, nofollow" />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -60,9 +47,6 @@ const hasDownloads = downloads.some(d => d.link);
           currency: 'USD'
         });
       `} />
-      <noscript>
-        <img height="1" width="1" style="display:none" src={`https://www.facebook.com/tr?id=${metaPixelId}&ev=PageView&noscript=1`} />
-      </noscript>
     )}
 
     {ga4Id && (
@@ -99,95 +83,21 @@ const hasDownloads = downloads.some(d => d.link);
             <span class="ty__title-sans">por tu compra!</span>
           </h1>
           <p class="ty__subtitle">
-            Tu Pack de Materiales LIVIANAS está listo. Completá el pago en Mercado Pago y los materiales te llegan automáticamente por email.
+            Tu pago fue procesado correctamente. En los próximos minutos vas a recibir un email con los links de descarga de tu Guía y Recetario.
           </p>
         </header>
 
-        <!-- Download Section -->
-        {hasDownloads ? (
-          <section class="ty__downloads">
-            <h2 class="ty__section-title">Tus materiales</h2>
-            {downloads.map((item) => (
-              <a href={item.link} target="_blank" rel="noopener noreferrer" class="ty__download-card" download>
-                <div class="ty__download-icon" set:html={item.icon} />
-                <div class="ty__download-info">
-                  <strong>{item.title}</strong>
-                  <span>{item.format}</span>
-                </div>
-                <div class="ty__download-btn">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                    <polyline points="7 10 12 15 17 10"/>
-                    <line x1="12" y1="15" x2="12" y2="3"/>
-                  </svg>
-                  Descargar
-                </div>
-              </a>
-            ))}
-          </section>
-        ) : (
-          <section class="ty__downloads">
-            <div class="ty__pending-card">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"/>
-                <polyline points="12 6 12 12 16 14"/>
-              </svg>
-              <div>
-                <strong>Te enviamos todo por email</strong>
-                <p>En los próximos minutos vas a recibir un email automático con los links de descarga de tu Guía y Recetario. Si no lo ves, revisá tu carpeta de spam o promociones.</p>
-              </div>
-            </div>
-          </section>
-        )}
-
-        <!-- Send materials status -->
-        <section id="send-section" class="ty__send-section">
-          <!-- State: waiting for payment -->
-          <div id="send-waiting" class="ty__send-waiting" style="display:none;">
-            <svg class="ty__spinner" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+        <!-- Info card -->
+        <section class="ty__info">
+          <div class="ty__info-card">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
             </svg>
             <div>
-              <p><strong>Completá tu pago en Mercado Pago</strong></p>
-              <p class="ty__send-sub">Cuando termines, volvé a esta pestaña y te enviamos todo automáticamente a <strong id="email-preview"></strong></p>
+              <strong>Revisá tu email</strong>
+              <p>Te enviamos los materiales automáticamente. Si no los ves en tu bandeja de entrada, revisá la carpeta de spam o promociones.</p>
             </div>
-          </div>
-
-          <!-- State: sending -->
-          <div id="send-loading" class="ty__email-sending" style="display:none;">
-            <svg class="ty__spinner" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
-            </svg>
-            <p>Enviando materiales a tu email...</p>
-          </div>
-
-          <!-- State: sent -->
-          <div id="send-done" class="ty__email-sent" style="display:none;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="20 6 9 17 4 12"/>
-            </svg>
-            <p>Materiales enviados a <strong id="email-display"></strong>. Revisá tu casilla (incluyendo spam).</p>
-          </div>
-
-          <!-- State: error -->
-          <div id="send-error" class="ty__email-error" style="display:none;">
-            <p>No pudimos enviar el email. Escribinos por WhatsApp y te lo enviamos.</p>
-          </div>
-
-          <!-- Fallback: no email stored, manual form -->
-          <div id="send-manual" class="ty__email-form-section" style="display:none;">
-            <p class="ty__send-info">Ingresá tu email para recibir los materiales</p>
-            <form id="manual-email-form" class="ty__manual-form">
-              <input
-                type="email"
-                id="manual-email"
-                required
-                placeholder="tu@email.com"
-                class="ty__manual-input"
-                autocomplete="email"
-              />
-              <button type="submit" class="ty__send-btn">Enviar materiales a mi email</button>
-            </form>
           </div>
         </section>
 
@@ -221,7 +131,7 @@ const hasDownloads = downloads.some(d => d.link);
 
         <!-- WhatsApp -->
         <section class="ty__whatsapp">
-          <p>¿Tenés dudas sobre el contenido?</p>
+          <p>¿No recibiste el email o tenés dudas?</p>
           <a href={whatsappLink} target="_blank" rel="noopener noreferrer" class="ty__wa-btn">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
@@ -238,88 +148,6 @@ const hasDownloads = downloads.some(d => d.link);
       </div>
     </main>
 
-    <!-- Auto-send materials when user returns from MP tab -->
-    <script>
-      const sendWaiting = document.getElementById('send-waiting')!;
-      const sendLoading = document.getElementById('send-loading')!;
-      const sendDone = document.getElementById('send-done')!;
-      const sendError = document.getElementById('send-error')!;
-      const sendManual = document.getElementById('send-manual')!;
-      const emailPreview = document.getElementById('email-preview');
-      const emailDisplay = document.getElementById('email-display')!;
-
-      let hasSent = false;
-
-      async function sendMaterials(email: string) {
-        if (hasSent) return;
-        hasSent = true;
-
-        sendWaiting.style.display = 'none';
-        sendManual.style.display = 'none';
-        sendLoading.style.display = 'flex';
-
-        try {
-          const res = await fetch('/api/send-materiales', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email }),
-          });
-
-          if (!res.ok) throw new Error('Error al enviar');
-
-          sendLoading.style.display = 'none';
-          sendDone.style.display = 'flex';
-          emailDisplay.textContent = email;
-
-          localStorage.removeItem('livianas_email');
-          localStorage.removeItem('livianas_email_ts');
-        } catch {
-          hasSent = false;
-          sendLoading.style.display = 'none';
-          sendError.style.display = 'block';
-        }
-      }
-
-      // Check for stored email
-      const storedEmail = localStorage.getItem('livianas_email');
-      const storedTs = localStorage.getItem('livianas_email_ts');
-      const twoHours = 2 * 60 * 60 * 1000;
-
-      if (storedEmail && storedTs && (Date.now() - parseInt(storedTs) < twoHours)) {
-        // Show waiting state
-        if (emailPreview) emailPreview.textContent = storedEmail;
-        sendWaiting.style.display = 'flex';
-
-        // Auto-send when user comes back to this tab from MP
-        document.addEventListener('visibilitychange', () => {
-          if (document.visibilityState === 'visible' && !hasSent) {
-            sendMaterials(storedEmail);
-          }
-        });
-
-        // Also send if tab is already visible (user navigated here directly)
-        // Use a small delay to let them read the page first
-        if (document.visibilityState === 'visible') {
-          setTimeout(() => {
-            if (!hasSent) sendMaterials(storedEmail);
-          }, 3000);
-        }
-      } else {
-        // No email or expired — show manual form
-        sendManual.style.display = 'block';
-      }
-
-      // Manual form handler
-      const manualForm = document.getElementById('manual-email-form') as HTMLFormElement;
-      manualForm?.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const input = document.getElementById('manual-email') as HTMLInputElement;
-        const email = input.value.trim();
-        if (!email) return;
-        await sendMaterials(email);
-      });
-    </script>
-
     <style>
       .ty {
         min-height: 100dvh;
@@ -332,7 +160,6 @@ const hasDownloads = downloads.some(d => d.link);
         margin: 0 auto;
       }
 
-      /* ======= HEADER ======= */
       .ty__header {
         text-align: center;
         margin-bottom: var(--space-10);
@@ -399,9 +226,40 @@ const hasDownloads = downloads.some(d => d.link);
         margin: 0 auto;
       }
 
-      /* ======= DOWNLOADS ======= */
-      .ty__downloads {
+      .ty__info {
         margin-bottom: var(--space-10);
+      }
+
+      .ty__info-card {
+        display: flex;
+        align-items: flex-start;
+        gap: var(--space-4);
+        background: var(--color-sage-wash);
+        border: 1px solid rgba(123, 143, 107, 0.2);
+        border-radius: var(--radius-xl);
+        padding: var(--space-5);
+      }
+
+      .ty__info-card svg {
+        flex-shrink: 0;
+        color: var(--color-sage);
+        margin-top: 2px;
+      }
+
+      .ty__info-card strong {
+        font-family: var(--font-sans);
+        font-size: var(--text-sm);
+        font-weight: 700;
+        color: var(--color-sage-dark);
+        display: block;
+        margin-bottom: var(--space-1);
+      }
+
+      .ty__info-card p {
+        font-family: var(--font-sans);
+        font-size: var(--text-sm);
+        color: var(--color-text-muted);
+        line-height: 1.6;
       }
 
       .ty__section-title {
@@ -413,112 +271,6 @@ const hasDownloads = downloads.some(d => d.link);
         margin-bottom: var(--space-5);
       }
 
-      .ty__download-card {
-        display: flex;
-        align-items: center;
-        gap: var(--space-4);
-        background: var(--color-white);
-        border: 2px solid var(--color-sage);
-        border-radius: var(--radius-xl);
-        padding: var(--space-4) var(--space-5);
-        margin-bottom: var(--space-3);
-        text-decoration: none;
-        color: var(--color-carbon);
-        transition: all 0.3s ease;
-      }
-
-      .ty__download-card:hover {
-        box-shadow: 0 4px 20px rgba(123, 143, 107, 0.15);
-        transform: translateY(-2px);
-      }
-
-      .ty__download-icon {
-        flex-shrink: 0;
-        width: 44px;
-        height: 44px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: var(--color-sage-wash);
-        border-radius: var(--radius-md);
-        color: var(--color-sage);
-      }
-
-      .ty__download-info {
-        flex: 1;
-        min-width: 0;
-      }
-
-      .ty__download-info strong {
-        font-family: var(--font-sans);
-        font-size: var(--text-base);
-        font-weight: 700;
-        display: block;
-      }
-
-      .ty__download-info span {
-        font-family: var(--font-sans);
-        font-size: var(--text-xs);
-        color: var(--color-text-light);
-      }
-
-      .ty__download-btn {
-        flex-shrink: 0;
-        display: flex;
-        align-items: center;
-        gap: var(--space-1);
-        font-family: var(--font-sans);
-        font-size: var(--text-sm);
-        font-weight: 700;
-        color: var(--color-sage-dark);
-        background: var(--color-sage-wash);
-        padding: var(--space-2) var(--space-3);
-        border-radius: var(--radius-full);
-      }
-
-      .ty__download-note {
-        font-family: var(--font-sans);
-        font-size: var(--text-sm);
-        color: var(--color-text-muted);
-        text-align: center;
-        margin-top: var(--space-4);
-        opacity: 0.7;
-      }
-
-      /* Pending state (no download links yet) */
-      .ty__pending-card {
-        display: flex;
-        align-items: flex-start;
-        gap: var(--space-4);
-        background: var(--color-sage-wash);
-        border: 1px solid rgba(123, 143, 107, 0.2);
-        border-radius: var(--radius-xl);
-        padding: var(--space-5);
-      }
-
-      .ty__pending-card svg {
-        flex-shrink: 0;
-        color: var(--color-sage);
-        margin-top: 2px;
-      }
-
-      .ty__pending-card strong {
-        font-family: var(--font-sans);
-        font-size: var(--text-sm);
-        font-weight: 700;
-        color: var(--color-sage-dark);
-        display: block;
-        margin-bottom: var(--space-1);
-      }
-
-      .ty__pending-card p {
-        font-family: var(--font-sans);
-        font-size: var(--text-sm);
-        color: var(--color-text-muted);
-        line-height: 1.6;
-      }
-
-      /* ======= NEXT STEPS ======= */
       .ty__next {
         margin-bottom: var(--space-10);
       }
@@ -568,7 +320,6 @@ const hasDownloads = downloads.some(d => d.link);
         line-height: 1.5;
       }
 
-      /* ======= WHATSAPP ======= */
       .ty__whatsapp {
         text-align: center;
         margin-bottom: var(--space-8);
@@ -603,7 +354,6 @@ const hasDownloads = downloads.some(d => d.link);
         box-shadow: 0 4px 20px rgba(18, 140, 126, 0.4);
       }
 
-      /* ======= FOOTER ======= */
       .ty__footer {
         text-align: center;
         padding: var(--space-6) 0;
@@ -616,160 +366,9 @@ const hasDownloads = downloads.some(d => d.link);
         color: var(--color-text-light);
       }
 
-      /* ======= SEND SECTION ======= */
-      .ty__send-section {
-        margin-bottom: var(--space-8);
-        text-align: center;
-      }
-
-      .ty__send-waiting {
-        display: flex;
-        align-items: flex-start;
-        gap: var(--space-4);
-        background: var(--color-sage-wash);
-        border: 1px solid rgba(123, 143, 107, 0.2);
-        border-radius: var(--radius-xl);
-        padding: var(--space-5);
-        text-align: left;
-        font-family: var(--font-sans);
-        font-size: var(--text-sm);
-        color: var(--color-sage-dark);
-      }
-
-      .ty__send-waiting strong {
-        color: var(--color-carbon);
-      }
-
-      .ty__send-sub {
-        margin-top: var(--space-1);
-        color: var(--color-text-muted);
-        font-size: var(--text-xs);
-      }
-
-      .ty__send-info {
-        font-family: var(--font-sans);
-        font-size: var(--text-sm);
-        color: var(--color-text-muted);
-      }
-
-      .ty__send-info strong {
-        color: var(--color-carbon);
-      }
-
-      .ty__send-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-family: var(--font-sans);
-        font-size: var(--text-base);
-        font-weight: 700;
-        color: white;
-        background: var(--color-sage);
-        border: none;
-        cursor: pointer;
-        padding: var(--space-4) var(--space-8);
-        border-radius: var(--radius-full);
-        box-shadow: 0 4px 16px rgba(123, 143, 107, 0.3);
-        transition: all 0.3s ease;
-      }
-
-      .ty__send-btn:hover {
-        background: var(--color-sage-dark);
-        transform: translateY(-2px);
-        box-shadow: 0 6px 24px rgba(123, 143, 107, 0.4);
-      }
-
-      .ty__email-sending,
-      .ty__email-sent,
-      .ty__email-error {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: var(--space-2);
-        padding: var(--space-4);
-        border-radius: var(--radius-xl);
-        font-family: var(--font-sans);
-        font-size: var(--text-sm);
-      }
-
-      .ty__email-sending {
-        background: var(--color-sage-wash);
-        color: var(--color-sage-dark);
-      }
-
-      .ty__email-sent {
-        background: var(--color-sage-wash);
-        color: var(--color-sage-dark);
-      }
-
-      .ty__email-sent strong {
-        color: var(--color-carbon);
-      }
-
-      .ty__email-error {
-        background: var(--color-blush-wash);
-        color: var(--color-blush-dark);
-      }
-
-      .ty__spinner {
-        animation: spin 1s linear infinite;
-        flex-shrink: 0;
-      }
-
-      @keyframes spin {
-        from { transform: rotate(0deg); }
-        to { transform: rotate(360deg); }
-      }
-
-      /* ======= MANUAL EMAIL FORM ======= */
-      .ty__email-form-section {
-        text-align: center;
-      }
-
-      .ty__manual-form {
-        display: flex;
-        flex-direction: column;
-        gap: var(--space-3);
-        max-width: 320px;
-        margin: var(--space-4) auto 0;
-      }
-
-      .ty__manual-input {
-        width: 100%;
-        font-family: var(--font-sans);
-        font-size: var(--text-sm);
-        color: var(--color-carbon);
-        background: var(--color-white);
-        border: 1.5px solid var(--color-border);
-        border-radius: var(--radius-lg);
-        padding: var(--space-3) var(--space-4);
-        text-align: center;
-        outline: none;
-        transition: border-color 0.2s ease;
-      }
-
-      .ty__manual-input:focus {
-        border-color: var(--color-sage);
-      }
-
-      .ty__manual-input::placeholder {
-        color: var(--color-text-light);
-        opacity: 0.6;
-      }
-
-      /* ======= RESPONSIVE ======= */
       @media (max-width: 480px) {
         .ty {
           padding: var(--space-6) var(--space-4) var(--space-4);
-        }
-
-        .ty__download-card {
-          flex-wrap: wrap;
-        }
-
-        .ty__download-btn {
-          width: 100%;
-          justify-content: center;
         }
       }
     </style>
