@@ -5,7 +5,7 @@
 import type { APIRoute } from 'astro';
 
 const MP_ACCESS_TOKEN = import.meta.env.MERCADOPAGO_ACCESS_TOKEN;
-const SITE_URL = import.meta.env.PUBLIC_SITE_URL || 'https://livianas.com';
+const SITE_URL = 'https://livianas.com';
 
 export const POST: APIRoute = async ({ request }) => {
   try {
