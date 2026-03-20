@@ -1,0 +1,1709 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+import PremiumFooter from '../components/PremiumFooter.astro';
+import {
+  siteConfig,
+  getProgramaWhatsAppLink,
+  plBeneficiosData,
+  plSemanasData,
+  plComoFuncionaData,
+  plParaQuienData,
+  plPricingFeatures,
+  plFaqData,
+} from '../lib/config';
+
+const pl = siteConfig.programaLivianas;
+const waHero = getProgramaWhatsAppLink('hero');
+const waPricing = getProgramaWhatsAppLink('pricing');
+const waFinal = getProgramaWhatsAppLink('finalCta');
+
+// Schema markup
+const productSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: pl.nombre,
+  description: 'Programa grupal de 4 semanas para mujeres. Alimentación antiinflamatoria, coaching emocional y acompañamiento diario por WhatsApp.',
+  brand: { '@type': 'Brand', name: 'LIVIANAS' },
+  offers: {
+    '@type': 'Offer',
+    price: String(pl.precioUYU),
+    priceCurrency: 'UYU',
+    availability: 'https://schema.org/LimitedAvailability',
+  },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: plFaqData.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.answer },
+  })),
+};
+---
+
+<Layout
+  title="Programa Livianas — 30 días para sentirte liviana otra vez"
+  description="Programa grupal de 4 semanas para mujeres. Alimentación antiinflamatoria, coaching emocional y acompañamiento diario por WhatsApp. $6.200. Cupos limitados. Grupos reducidos."
+>
+  <!-- Schema markup (valid in body per Google specs) -->
+  <script type="application/ld+json" set:html={JSON.stringify(productSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <Navbar />
+
+  <!-- ========== 1. HERO ========== -->
+  <section id="hero" class="pl-hero section" aria-label="Presentación principal">
+    <div class="container container--narrow pl-hero__content">
+      <!-- Badge -->
+      <div class="pl-badge" data-gsap="hero-label">
+        <span class="pl-badge__dot" aria-hidden="true"></span>
+        <span>Cupos limitados</span>
+      </div>
+
+      <h1 class="pl-hero__title" data-gsap="hero-title">
+        <span class="pl-hero__title-sans">Programa</span>
+        <span class="pl-hero__title-serif">Livianas</span>
+      </h1>
+
+      <p class="pl-hero__tagline" data-gsap="hero-subtitle">
+        30 días para sentirte liviana otra vez
+      </p>
+
+      <p class="pl-hero__intro" data-gsap="hero-subtitle">
+        Si estás cansada de empezar dietas, bajar un poco y volver a lo mismo... este espacio es para vos.
+        Durante 30 días vamos a trabajar juntas para cambiar algo más profundo que la comida: tu relación con vos misma.
+        Cuando eso cambia, el cuerpo también cambia.
+      </p>
+
+      <div class="pl-hero__ctas" data-gsap="hero-ctas">
+        <a
+          href="#precio"
+          class="btn btn--primary pl-hero__cta"
+          data-utm="pl-hero"
+        >
+          Quiero inscribirme
+          <svg class="pl-hero__cta-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <p class="pl-hero__micro" data-gsap="hero-ctas">
+        Grupos reducidos para acompañamiento real
+      </p>
+    </div>
+  </section>
+
+  <!-- ========== 2. BENEFICIOS ========== -->
+  <section id="beneficios" class="pl-beneficios section" aria-labelledby="beneficios-title" data-gsap="beneficios">
+    <div class="container">
+      <div class="pl-section-header">
+        <span class="pl-label">Lo que vas a lograr</span>
+        <h2 id="beneficios-title" class="pl-section-title">En este proceso vas a lograr:</h2>
+      </div>
+
+      <div class="pl-beneficios__grid">
+        {plBeneficiosData.map((item) => (
+          <div class="pl-beneficio-card">
+            <div class="pl-beneficio-card__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <div>
+              <h3 class="pl-beneficio-card__title">{item.title}</h3>
+              <p class="pl-beneficio-card__desc">{item.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 3. LAS 4 SEMANAS ========== -->
+  <section id="semanas" class="pl-semanas section" aria-labelledby="semanas-title" data-gsap="semanas">
+    <div class="container container--narrow">
+      <div class="pl-section-header">
+        <span class="pl-label">El recorrido</span>
+        <h2 id="semanas-title" class="pl-section-title">4 semanas de transformación real</h2>
+      </div>
+
+      <div class="pl-semanas__list">
+        {plSemanasData.map((semana) => (
+          <div class="pl-semana-card">
+            <div class="pl-semana-card__number">
+              <span>{semana.number}</span>
+            </div>
+            <div class="pl-semana-card__body">
+              <h3 class="pl-semana-card__title">
+                Semana {semana.number} — {semana.title}:
+                <span class="pl-semana-card__subtitle">{semana.subtitle}</span>
+              </h3>
+              <p class="pl-semana-card__desc">{semana.description}</p>
+              <p class="pl-semana-card__ejercicio">
+                <strong>Ejercicio:</strong> {semana.ejercicio}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 4. CÓMO FUNCIONA ========== -->
+  <section id="como-funciona" class="pl-como section" aria-labelledby="como-title" data-gsap="como">
+    <div class="container">
+      <div class="pl-section-header">
+        <span class="pl-label">Formato</span>
+        <h2 id="como-title" class="pl-section-title">Cómo funciona</h2>
+      </div>
+
+      <div class="pl-como__grid">
+        {plComoFuncionaData.map((item) => (
+          <div class="pl-como-card">
+            <span class="pl-como-card__emoji" aria-hidden="true">{item.emoji}</span>
+            <h3 class="pl-como-card__title">{item.title}</h3>
+            <p class="pl-como-card__desc">{item.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 5. PARA QUIÉN ES ========== -->
+  <section id="para-quien" class="pl-paraquien section" aria-labelledby="paraquien-title" data-gsap="paraquien">
+    <div class="container container--narrow">
+      <div class="pl-section-header">
+        <span class="pl-label">Identific&aacute; si es para vos</span>
+        <h2 id="paraquien-title" class="pl-section-title">Te sentís identificada con esto:</h2>
+      </div>
+
+      <ul class="pl-paraquien__list" role="list">
+        {plParaQuienData.map((item) => (
+          <li class="pl-paraquien__item">
+            <span class="pl-paraquien__check" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </span>
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ========== 6. SOBRE ANA ========== -->
+  <section id="sobre-ana" class="pl-about section" aria-labelledby="about-ana-pl-title" data-gsap="about-ana">
+    <div class="container">
+      <div class="pl-about__wrapper">
+        <div class="pl-about__grid">
+          <!-- Image -->
+          <div class="pl-about__image-col">
+            <div class="pl-about__image-frame">
+              <img
+                src="/images/ana-foto.webp"
+                alt="Ana, creadora del Programa Livianas"
+                width="480"
+                height="600"
+                loading="lazy"
+                decoding="async"
+                class="pl-about__image"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+              />
+              <div class="pl-about__image-placeholder">
+                <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span class="pl-about__placeholder-text">Foto de Ana</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Text -->
+          <div class="pl-about__text-col">
+            <span class="pl-label">Sobre Ana</span>
+            <blockquote class="pl-about__quote">
+              &ldquo;No necesitás más fuerza de voluntad. Necesitás entender por qué hacés lo que hacés.&rdquo;
+            </blockquote>
+            <p class="pl-about__bio">
+              Especialista en bienestar integral con enfoque antiinflamatorio. Acompaña a mujeres a transformar su relación con la comida desde la consciencia, sin dietas restrictivas ni culpa.
+            </p>
+            <div class="pl-about__detail">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              <span>Grupos reducidos &middot; Acompañamiento personalizado</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 7. PRECIO Y CTA ========== -->
+  <section id="precio" class="pl-pricing section" aria-labelledby="precio-pl-title" data-gsap="pricing">
+    <div class="container">
+      <div class="pl-section-header">
+        <span class="pl-label">Tu inversión</span>
+        <h2 id="precio-pl-title" class="pl-section-title">30 días de transformación real</h2>
+        <p class="pl-pricing__subtitle">No es un gasto. Es la decisión de invertir en la mujer que querés ser.</p>
+      </div>
+
+      <div class="pricing-card" data-gsap="pricing-card">
+        <!-- Badge -->
+        <div class="pricing-badge-wrap">
+          <span class="pricing-badge">Edición Abril 2026</span>
+        </div>
+
+        <!-- Program name -->
+        <p class="pricing-program-name">{pl.nombre}</p>
+
+        <!-- Price -->
+        <div class="pricing-prices">
+          <span class="pricing-old-price">$ 9.200</span>
+          <div class="pricing-main-price">
+            <span class="pricing-currency">$</span>
+            <span class="pricing-amount">{pl.precioUYU.toLocaleString('es-UY')}</span>
+          </div>
+          <p class="pricing-weekly">Pago único</p>
+        </div>
+
+        <!-- Divider -->
+        <div class="pricing-divider"></div>
+
+        <!-- Features -->
+        <ul class="pricing-features" role="list">
+          {plPricingFeatures.map((feature) => (
+            <li class="pricing-feature-item">
+              <span class="pricing-check">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </span>
+              <span>{feature}</span>
+            </li>
+          ))}
+        </ul>
+
+        <!-- Email capture + MP payment -->
+        <div class="pricing-ctas">
+          <form id="pl-email-form" class="pl-email-form">
+            <label for="pl-email" class="pl-email-form__label">Ingresá tu email para recibir la confirmación:</label>
+            <div class="pl-email-form__row">
+              <input
+                type="email"
+                id="pl-email"
+                name="email"
+                placeholder="tu@email.com"
+                required
+                autocomplete="email"
+                class="pl-email-form__input"
+              />
+              <button type="submit" class="btn btn--clay pl-email-form__btn" data-utm="pl-pricing-primary">
+                Inscribirme ahora
+              </button>
+            </div>
+            <p id="pl-email-error" class="pl-email-form__error" hidden>Ingresá un email válido</p>
+          </form>
+          <div id="pl-email-success" class="pl-email-success" hidden>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            <p>Completá tu pago en MercadoPago. Cuando finalices, volvé a esta pestaña.</p>
+          </div>
+          <div class="pricing-mp-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Pago seguro por MercadoPago
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 8. FAQ ========== -->
+  <section id="faq" class="pl-faq section" aria-labelledby="faq-pl-title" data-gsap="faq">
+    <div class="container container--narrow">
+      <div class="pl-section-header">
+        <h2 id="faq-pl-title" class="pl-faq__title">
+          <span class="pl-faq__title-serif">Preguntas</span>
+          <span class="pl-faq__title-sans">frecuentes</span>
+        </h2>
+      </div>
+
+      <div class="faq-list" role="list">
+        {plFaqData.map((item, index) => (
+          <div class="faq-item" role="listitem" data-faq-index={index}>
+            <button
+              class="faq-trigger"
+              aria-expanded="false"
+              aria-controls={`pl-faq-panel-${index}`}
+              id={`pl-faq-trigger-${index}`}
+            >
+              <span class="faq-question">{item.question}</span>
+              <span class="faq-icon" aria-hidden="true">
+                <span class="faq-icon__bar faq-icon__bar--h"></span>
+                <span class="faq-icon__bar faq-icon__bar--v"></span>
+              </span>
+            </button>
+            <div
+              class="faq-panel"
+              id={`pl-faq-panel-${index}`}
+              role="region"
+              aria-labelledby={`pl-faq-trigger-${index}`}
+              hidden
+            >
+              <div class="faq-answer">
+                <p>{item.answer}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 9. CTA FINAL ========== -->
+  <section id="cta-final" class="pl-final section" aria-labelledby="pl-final-title" data-gsap="final-cta">
+    <div class="pl-final__gradient pl-final__gradient--1" aria-hidden="true"></div>
+    <div class="pl-final__gradient pl-final__gradient--2" aria-hidden="true"></div>
+
+    <div class="container container--narrow pl-final__content">
+      <h2 id="pl-final-title" class="pl-final__title">
+        ¿Estás lista para sentirte liviana?
+      </h2>
+      <p class="pl-final__copy">
+        No esperes al lunes. Este es tu momento.
+      </p>
+      <a
+        href="#precio"
+        class="btn btn--white pl-final__btn"
+        data-utm="pl-final"
+      >
+        Quiero inscribirme
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-sage-dark)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ========== 10. FOOTER ========== -->
+  <PremiumFooter />
+  <WhatsAppButton />
+
+  <!-- ========== TRACKING ========== -->
+  <script define:vars={{ pixelId: siteConfig.metaPixelId, ga4Id: siteConfig.ga4Id, precioUYU: pl.precioUYU }}>
+    // ViewContent at 50% scroll
+    let scrollTracked = false;
+    window.addEventListener('scroll', () => {
+      if (scrollTracked) return;
+      const pct = (window.scrollY + window.innerHeight) / document.documentElement.scrollHeight;
+      if (pct >= 0.5) {
+        scrollTracked = true;
+        if (typeof fbq !== 'undefined') {
+          fbq('track', 'ViewContent', {
+            content_name: 'Programa Livianas',
+            content_type: 'product',
+            value: precioUYU,
+            currency: 'UYU',
+          });
+        }
+      }
+    }, { passive: true });
+
+    // GA4 view_item on load
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'view_item', {
+        items: [{ item_name: 'Programa Livianas', price: precioUYU }],
+      });
+    }
+
+    // CTA click tracking
+    document.querySelectorAll('[data-utm]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const source = btn.dataset.utm;
+
+        // Meta Pixel — Lead on any WhatsApp CTA
+        if (typeof fbq !== 'undefined') {
+          fbq('track', 'Lead', {
+            content_name: 'Programa Livianas CTA',
+            content_category: source,
+            value: precioUYU,
+            currency: 'UYU',
+          });
+          // Contact event on pricing CTA
+          if (source === 'pl-pricing-primary') {
+            fbq('track', 'Contact', {
+              content_name: 'Programa Livianas Pricing',
+              value: precioUYU,
+              currency: 'UYU',
+            });
+          }
+        }
+
+        // GA4
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'cta_click', { button_location: source });
+        }
+      });
+    });
+
+    // FAQ tracking
+    document.querySelectorAll('.faq-item').forEach((item) => {
+      item.addEventListener('click', () => {
+        const question = item.querySelector('.faq-question')?.textContent || '';
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'faq_open', { question });
+        }
+      });
+    });
+
+    // Page engagement
+    [30, 60, 120].forEach((s) => {
+      setTimeout(() => {
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'page_engagement', { engagement_time: s });
+        }
+      }, s * 1000);
+    });
+  </script>
+
+  <!-- Email form → MP payment link -->
+  <script>
+    const MP_LINK = 'https://mpago.la/21t8yCY';
+
+    document.getElementById('pl-email-form')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = document.getElementById('pl-email') as HTMLInputElement;
+      const error = document.getElementById('pl-email-error') as HTMLElement;
+      const email = input.value.trim();
+
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        error.hidden = false;
+        input.focus();
+        return;
+      }
+
+      error.hidden = true;
+      localStorage.setItem('pl_email', email);
+
+      // Track
+      if (typeof fbq !== 'undefined') {
+        fbq('track', 'InitiateCheckout', {
+          content_name: 'Programa Livianas',
+          value: 6200,
+          currency: 'UYU',
+        });
+      }
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'begin_checkout', {
+          currency: 'UYU',
+          value: 6200,
+          items: [{ item_name: 'Programa Livianas' }],
+        });
+      }
+
+      // Open MP in same tab — MP will redirect back to gracias via back_url
+      // Show success message while user is on MP
+      const form = document.getElementById('pl-email-form') as HTMLElement;
+      const success = document.getElementById('pl-email-success') as HTMLElement;
+      form.hidden = true;
+      success.hidden = false;
+
+      window.open(MP_LINK, '_blank');
+
+      // When user comes back from MP tab, redirect to gracias
+      document.addEventListener('visibilitychange', function onReturn() {
+        if (!document.hidden) {
+          document.removeEventListener('visibilitychange', onReturn);
+          window.location.href = '/programa-livianas/gracias';
+        }
+      });
+    });
+  </script>
+
+  <!-- FAQ accordion script -->
+  <script>
+    function initPLFaq() {
+      const items = document.querySelectorAll('.pl-faq .faq-item[data-faq-index]');
+
+      items.forEach((item) => {
+        const trigger = item.querySelector('.faq-trigger') as HTMLButtonElement;
+        const panel = item.querySelector('.faq-panel') as HTMLElement;
+        if (!trigger || !panel) return;
+
+        trigger.addEventListener('click', () => {
+          const isOpen = item.getAttribute('data-open') === 'true';
+
+          // Close others
+          items.forEach((other) => {
+            if (other !== item && other.getAttribute('data-open') === 'true') {
+              const ot = other.querySelector('.faq-trigger') as HTMLButtonElement;
+              const op = other.querySelector('.faq-panel') as HTMLElement;
+              other.setAttribute('data-open', 'false');
+              ot.setAttribute('aria-expanded', 'false');
+              op.classList.remove('is-open');
+              op.setAttribute('hidden', '');
+            }
+          });
+
+          if (isOpen) {
+            item.setAttribute('data-open', 'false');
+            trigger.setAttribute('aria-expanded', 'false');
+            panel.classList.remove('is-open');
+            setTimeout(() => {
+              if (item.getAttribute('data-open') !== 'true') {
+                panel.setAttribute('hidden', '');
+              }
+            }, 500);
+          } else {
+            item.setAttribute('data-open', 'true');
+            trigger.setAttribute('aria-expanded', 'true');
+            panel.removeAttribute('hidden');
+            panel.offsetHeight;
+            panel.classList.add('is-open');
+          }
+        });
+      });
+    }
+    initPLFaq();
+  </script>
+</Layout>
+
+<style>
+  /* ==========================================
+     PROGRAMA LIVIANAS — Page-specific styles
+     Following design system from global.css
+     ========================================== */
+
+  /* --- Shared section styles --- */
+  .pl-label {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--color-sage);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: var(--space-3);
+  }
+
+  .pl-section-header {
+    text-align: center;
+    margin-bottom: var(--space-12);
+  }
+
+  .pl-section-title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+    font-size: var(--text-4xl);
+    color: var(--color-carbon);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  @media (min-width: 768px) {
+    .pl-section-title {
+      font-size: var(--text-5xl);
+    }
+  }
+
+  /* --- Badge --- */
+  .pl-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-sage-dark);
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    margin-bottom: var(--space-6);
+  }
+
+  .pl-badge__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-blush);
+    animation: pulse-dot 2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+
+  /* ========== 1. HERO ========== */
+  .pl-hero {
+    background: linear-gradient(180deg, var(--color-sage-wash) 0%, var(--color-cream) 100%);
+    padding-top: calc(var(--space-32) + var(--space-8));
+    padding-bottom: var(--space-20);
+    text-align: center;
+  }
+
+  @media (min-width: 768px) {
+    .pl-hero {
+      padding-top: calc(var(--space-32) + var(--space-16));
+      padding-bottom: var(--space-32);
+    }
+  }
+
+  .pl-hero__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .pl-hero__title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    margin-bottom: var(--space-4);
+    line-height: 1;
+  }
+
+  .pl-hero__title-sans {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(1.5rem, 4vw, 2.25rem);
+    color: var(--color-carbon);
+    letter-spacing: -0.01em;
+  }
+
+  .pl-hero__title-serif {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+    font-size: clamp(3.5rem, 12vw, 7rem);
+    color: var(--color-carbon);
+    letter-spacing: -0.03em;
+    line-height: 0.9;
+  }
+
+  .pl-hero__tagline {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: var(--text-xl);
+    color: var(--color-blush);
+    margin-bottom: var(--space-6);
+    text-wrap: balance;
+  }
+
+  @media (min-width: 768px) {
+    .pl-hero__tagline {
+      font-size: var(--text-2xl);
+    }
+  }
+
+  .pl-hero__intro {
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    max-width: 600px;
+    margin-bottom: var(--space-8);
+    text-wrap: balance;
+  }
+
+  @media (min-width: 768px) {
+    .pl-hero__intro {
+      font-size: var(--text-lg);
+    }
+  }
+
+  .pl-hero__ctas {
+    margin-bottom: var(--space-4);
+  }
+
+  .pl-hero__cta {
+    font-size: var(--text-base);
+    padding: var(--space-4) var(--space-8);
+    gap: var(--space-2);
+  }
+
+  @media (min-width: 768px) {
+    .pl-hero__cta {
+      font-size: var(--text-lg);
+      padding: var(--space-5) var(--space-10);
+    }
+  }
+
+  .pl-hero__micro {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    color: var(--color-text-light);
+  }
+
+  /* ========== 2. BENEFICIOS ========== */
+  .pl-beneficios {
+    background: var(--color-white);
+  }
+
+  .pl-beneficios__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  @media (min-width: 768px) {
+    .pl-beneficios__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .pl-beneficio-card {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-4);
+    background: var(--color-cream);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    transition: box-shadow var(--transition-base);
+  }
+
+  .pl-beneficio-card:hover {
+    box-shadow: var(--shadow-md);
+  }
+
+  .pl-beneficio-card__icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-sage);
+    color: white;
+    border-radius: var(--radius-md);
+  }
+
+  .pl-beneficio-card__title {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: var(--text-base);
+    color: var(--color-carbon);
+    margin-bottom: var(--space-1);
+  }
+
+  .pl-beneficio-card__desc {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: 1.6;
+  }
+
+  /* ========== 3. SEMANAS ========== */
+  .pl-semanas {
+    background: var(--color-cream);
+  }
+
+  .pl-semanas__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .pl-semana-card {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-5);
+    background: var(--color-white);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    border-left: 4px solid var(--color-sage);
+    transition: box-shadow var(--transition-base);
+  }
+
+  .pl-semana-card:hover {
+    box-shadow: var(--shadow-md);
+  }
+
+  .pl-semana-card__number {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-sage-wash);
+    border-radius: var(--radius-md);
+  }
+
+  .pl-semana-card__number span {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--text-2xl);
+    color: var(--color-sage);
+  }
+
+  .pl-semana-card__body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .pl-semana-card__title {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: var(--text-base);
+    color: var(--color-carbon);
+    margin-bottom: var(--space-2);
+    line-height: 1.4;
+  }
+
+  @media (min-width: 768px) {
+    .pl-semana-card__title {
+      font-size: var(--text-lg);
+    }
+  }
+
+  .pl-semana-card__subtitle {
+    font-weight: 400;
+    color: var(--color-text-muted);
+  }
+
+  .pl-semana-card__desc {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    margin-bottom: var(--space-2);
+  }
+
+  .pl-semana-card__ejercicio {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    color: var(--color-sage-dark);
+    line-height: 1.5;
+  }
+
+  .pl-semana-card__ejercicio strong {
+    font-weight: 700;
+  }
+
+  /* ========== 4. CÓMO FUNCIONA ========== */
+  .pl-como {
+    background: var(--color-sage-wash);
+  }
+
+  .pl-como__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  @media (min-width: 768px) {
+    .pl-como__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .pl-como-card {
+    text-align: center;
+    background: var(--color-white);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8) var(--space-6);
+    transition: box-shadow var(--transition-base), transform var(--transition-base);
+  }
+
+  .pl-como-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-4px);
+  }
+
+  .pl-como-card__emoji {
+    display: block;
+    font-size: var(--text-4xl);
+    margin-bottom: var(--space-4);
+  }
+
+  .pl-como-card__title {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: var(--text-lg);
+    color: var(--color-carbon);
+    margin-bottom: var(--space-2);
+  }
+
+  .pl-como-card__desc {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: 1.6;
+  }
+
+  /* ========== 5. PARA QUIÉN ES ========== */
+  .pl-paraquien {
+    background: var(--color-white);
+  }
+
+  .pl-paraquien__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .pl-paraquien__item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    color: var(--color-carbon);
+    line-height: 1.6;
+  }
+
+  .pl-paraquien__check {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-sage);
+    color: white;
+    border-radius: var(--radius-sm);
+    margin-top: 2px;
+  }
+
+  /* ========== 6. SOBRE ANA ========== */
+  .pl-about {
+    background: var(--color-cream);
+  }
+
+  .pl-about__wrapper {
+    background: var(--color-white);
+    border-radius: var(--radius-3xl);
+    overflow: hidden;
+    padding: var(--space-6);
+    box-shadow: var(--shadow-md);
+  }
+
+  @media (min-width: 768px) {
+    .pl-about__wrapper {
+      padding: var(--space-10);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .pl-about__wrapper {
+      padding: var(--space-12);
+    }
+  }
+
+  .pl-about__grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  @media (min-width: 768px) {
+    .pl-about__grid {
+      display: grid;
+      grid-template-columns: 5fr 7fr;
+      gap: var(--space-10);
+      align-items: center;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .pl-about__grid {
+      gap: var(--space-16);
+    }
+  }
+
+  .pl-about__image-col {
+    display: flex;
+    justify-content: center;
+  }
+
+  .pl-about__image-frame {
+    width: 100%;
+    max-width: 380px;
+    aspect-ratio: 4 / 5;
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    border: 3px solid var(--color-sage);
+    background: linear-gradient(135deg, var(--color-cream), var(--color-cream-warm));
+    position: relative;
+  }
+
+  .pl-about__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .pl-about__image-placeholder {
+    display: none;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    color: var(--color-sage);
+    background: linear-gradient(135deg, var(--color-cream), var(--color-cream-warm));
+  }
+
+  .pl-about__placeholder-text {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    opacity: 0.6;
+  }
+
+  .pl-about__text-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .pl-about__quote {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+    font-size: var(--text-2xl);
+    color: var(--color-carbon);
+    line-height: 1.35;
+    margin: 0 0 var(--space-6) 0;
+    padding: 0;
+    border: none;
+  }
+
+  @media (min-width: 768px) {
+    .pl-about__quote {
+      font-size: var(--text-3xl);
+    }
+  }
+
+  .pl-about__bio {
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    margin-bottom: var(--space-6);
+    max-width: 520px;
+  }
+
+  @media (min-width: 768px) {
+    .pl-about__bio {
+      font-size: var(--text-lg);
+    }
+  }
+
+  .pl-about__detail {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    color: var(--color-sage);
+    font-weight: 500;
+    background: var(--color-cream);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-full);
+    width: fit-content;
+  }
+
+  /* ========== 7. PRICING ========== */
+  .pl-pricing {
+    background: linear-gradient(180deg, var(--color-sage-wash) 0%, var(--color-cream) 50%, var(--color-blush-wash) 100%);
+  }
+
+  .pl-pricing__subtitle {
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    color: var(--color-text-muted);
+    margin-top: var(--space-3);
+    text-wrap: balance;
+  }
+
+  @media (min-width: 768px) {
+    .pl-pricing__subtitle {
+      font-size: var(--text-lg);
+    }
+  }
+
+  /* Reuse pricing-card styles from PremiumPricing */
+  .pricing-card {
+    max-width: 580px;
+    margin: 0 auto;
+    background: var(--color-sage);
+    border-radius: var(--radius-3xl);
+    padding: var(--space-8) var(--space-6);
+    color: white;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+  }
+
+  @media (min-width: 768px) {
+    .pricing-card {
+      padding: var(--space-12) var(--space-10);
+    }
+  }
+
+  .pricing-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 0%, rgba(255,255,255,0.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .pricing-badge-wrap {
+    text-align: center;
+    margin-bottom: var(--space-4);
+    position: relative;
+  }
+
+  .pricing-badge {
+    display: inline-block;
+    background: var(--color-blush);
+    color: white;
+    font-family: var(--font-outfit);
+    font-weight: 700;
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: var(--space-2) var(--space-5);
+    border-radius: var(--radius-full);
+  }
+
+  .pricing-program-name {
+    text-align: center;
+    font-family: var(--font-outfit);
+    font-weight: 600;
+    font-size: var(--text-lg);
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: var(--space-6);
+    position: relative;
+  }
+
+  .pricing-prices {
+    text-align: center;
+    margin-bottom: var(--space-6);
+    position: relative;
+  }
+
+  .pricing-old-price {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: var(--text-2xl);
+    font-weight: 600;
+    color: #e74c3c;
+    text-decoration: line-through;
+    opacity: 0.8;
+    margin-bottom: var(--space-2);
+  }
+
+  @media (min-width: 768px) {
+    .pricing-old-price {
+      font-size: var(--text-3xl);
+    }
+  }
+
+  .pricing-main-price {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: var(--space-2);
+  }
+
+  .pricing-currency {
+    font-family: var(--font-sans);
+    font-size: var(--text-xl);
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .pricing-amount {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--text-7xl);
+    color: white;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  @media (min-width: 768px) {
+    .pricing-amount {
+      font-size: var(--text-8xl);
+    }
+  }
+
+  .pricing-weekly {
+    font-family: var(--font-outfit);
+    font-weight: 600;
+    font-size: var(--text-base);
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .pricing-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.15);
+    margin: var(--space-6) 0;
+    position: relative;
+  }
+
+  .pricing-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-8) 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    position: relative;
+  }
+
+  .pricing-feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.5;
+  }
+
+  @media (min-width: 768px) {
+    .pricing-feature-item {
+      font-size: var(--text-base);
+    }
+  }
+
+  .pricing-check {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: var(--radius-sm);
+    margin-top: 1px;
+  }
+
+  .pricing-ctas {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+    position: relative;
+  }
+
+  .btn--clay {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    background: var(--color-blush);
+    color: white;
+    font-family: var(--font-outfit);
+    font-weight: 700;
+    font-size: var(--text-lg);
+    padding: var(--space-4) var(--space-8);
+    border-radius: var(--radius-full);
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all var(--transition-base);
+    box-shadow: 0 4px 20px rgba(212, 145, 126, 0.4);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn--clay::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    transition: left var(--transition-slow);
+  }
+
+  .btn--clay:hover::before {
+    left: 100%;
+  }
+
+  .btn--clay:hover {
+    background: var(--color-blush-light);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 6px 30px rgba(212, 145, 126, 0.5);
+  }
+
+  .btn--clay:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  /* --- Email form in pricing --- */
+  .pl-email-form {
+    width: 100%;
+  }
+
+  .pl-email-form__label {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: var(--space-3);
+    text-align: center;
+  }
+
+  .pl-email-form__row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .pl-email-form__input {
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-lg);
+    border: 1.5px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    text-align: center;
+    outline: none;
+    transition: border-color var(--transition-base);
+  }
+
+  .pl-email-form__input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  .pl-email-form__input:focus {
+    border-color: var(--color-blush);
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .pl-email-form__btn {
+    width: 100%;
+  }
+
+  .pl-email-form__error {
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    color: #e74c3c;
+    text-align: center;
+    margin-top: var(--space-2);
+  }
+
+  .pl-email-success {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    background: rgba(123, 143, 107, 0.2);
+    border: 1px solid rgba(123, 143, 107, 0.4);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    margin-top: var(--space-4);
+    animation: scaleIn 0.3s ease-out;
+  }
+
+  .pl-email-success svg {
+    flex-shrink: 0;
+    color: var(--color-sage-light, #a8b99a);
+    margin-top: 2px;
+  }
+
+  .pl-email-success p {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  @keyframes scaleIn {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .pricing-mp-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.55);
+    letter-spacing: 0.02em;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-full);
+    padding: var(--space-2) var(--space-4);
+  }
+
+  .pricing-mp-badge svg {
+    opacity: 0.6;
+  }
+
+  /* ========== 8. FAQ ========== */
+  .pl-faq {
+    background: var(--color-white);
+  }
+
+  .pl-faq__title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    line-height: 1.1;
+  }
+
+  .pl-faq__title-serif {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: var(--text-5xl);
+    color: var(--color-carbon);
+    letter-spacing: -0.02em;
+  }
+
+  .pl-faq__title-sans {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: var(--text-3xl);
+    color: var(--color-carbon);
+    letter-spacing: -0.01em;
+    margin-top: var(--space-1);
+  }
+
+  @media (min-width: 768px) {
+    .pl-faq__title-serif {
+      font-size: var(--text-6xl);
+    }
+    .pl-faq__title-sans {
+      font-size: var(--text-4xl);
+    }
+  }
+
+  /* Re-use FAQ item styles from PremiumFAQ */
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .faq-item {
+    background: var(--color-cream-warm);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    transition: box-shadow var(--transition-base);
+  }
+
+  .faq-item:hover {
+    box-shadow: var(--shadow-sm);
+  }
+
+  .faq-item[data-open="true"] {
+    box-shadow: var(--shadow-md);
+  }
+
+  .faq-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: var(--space-5) var(--space-6);
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+    transition: background var(--transition-fast);
+  }
+
+  .faq-trigger:hover {
+    background: rgba(46, 64, 54, 0.04);
+  }
+
+  @media (min-width: 768px) {
+    .faq-trigger {
+      padding: var(--space-6) var(--space-8);
+    }
+  }
+
+  .faq-question {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: var(--text-base);
+    color: var(--color-carbon);
+    line-height: 1.4;
+  }
+
+  @media (min-width: 768px) {
+    .faq-question {
+      font-size: var(--text-lg);
+    }
+  }
+
+  .faq-icon {
+    position: relative;
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    border-radius: var(--radius-full);
+    background: var(--color-sage);
+    transition: transform var(--transition-base), background var(--transition-base);
+  }
+
+  .faq-icon__bar {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: white;
+    border-radius: 2px;
+    transition: transform var(--transition-base), opacity var(--transition-base);
+  }
+
+  .faq-icon__bar--h {
+    width: 12px;
+    height: 2px;
+    transform: translate(-50%, -50%);
+  }
+
+  .faq-icon__bar--v {
+    width: 2px;
+    height: 12px;
+    transform: translate(-50%, -50%);
+  }
+
+  .faq-item[data-open="true"] .faq-icon {
+    background: var(--color-blush);
+    transform: rotate(90deg);
+  }
+
+  .faq-item[data-open="true"] .faq-icon__bar--v {
+    opacity: 0;
+    transform: translate(-50%, -50%) scaleY(0);
+  }
+
+  .faq-panel {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .faq-panel[hidden] {
+    display: block;
+    max-height: 0;
+  }
+
+  .faq-panel.is-open {
+    max-height: 600px;
+  }
+
+  .faq-answer {
+    padding: 0 var(--space-6) var(--space-6);
+  }
+
+  @media (min-width: 768px) {
+    .faq-answer {
+      padding: 0 var(--space-8) var(--space-8);
+    }
+  }
+
+  .faq-answer p {
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: 1.7;
+    color: var(--color-text-muted);
+  }
+
+  /* ========== 9. CTA FINAL ========== */
+  .pl-final {
+    position: relative;
+    overflow: hidden;
+    background: var(--color-sage-dark);
+    padding: var(--space-24) 0;
+  }
+
+  @media (min-width: 768px) {
+    .pl-final {
+      padding: var(--space-32) 0;
+    }
+  }
+
+  .pl-final__gradient {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(80px);
+  }
+
+  .pl-final__gradient--1 {
+    width: 500px;
+    height: 500px;
+    top: -15%;
+    left: -10%;
+    background: radial-gradient(circle, rgba(94, 114, 82, 0.6) 0%, transparent 70%);
+  }
+
+  .pl-final__gradient--2 {
+    width: 400px;
+    height: 400px;
+    bottom: -10%;
+    right: -5%;
+    background: radial-gradient(circle, rgba(212, 145, 126, 0.15) 0%, transparent 70%);
+  }
+
+  .pl-final__content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+  }
+
+  .pl-final__title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+    font-size: var(--text-4xl);
+    color: white;
+    line-height: 1.15;
+    margin-bottom: var(--space-4);
+    text-wrap: balance;
+  }
+
+  @media (min-width: 768px) {
+    .pl-final__title {
+      font-size: var(--text-6xl);
+    }
+  }
+
+  .pl-final__copy {
+    font-family: var(--font-sans);
+    font-size: var(--text-lg);
+    color: rgba(255, 255, 255, 0.75);
+    margin-bottom: var(--space-10);
+    text-wrap: balance;
+  }
+
+  .pl-final__btn {
+    font-weight: 700;
+    font-size: var(--text-base);
+    padding: var(--space-4) var(--space-8);
+    gap: var(--space-2);
+  }
+
+  @media (min-width: 768px) {
+    .pl-final__btn {
+      font-size: var(--text-lg);
+      padding: var(--space-5) var(--space-10);
+    }
+  }
+</style>

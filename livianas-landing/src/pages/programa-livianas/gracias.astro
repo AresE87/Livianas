@@ -1,15 +1,15 @@
 ---
-// src/pages/materiales/gracias.astro
-// Página de fallback — el usuario llega aquí via back_urls de MP (Checkout Pro redirect)
-// En el flujo principal (Checkout Bricks modal), el éxito se muestra dentro del modal.
-// Esta página es un safety net para edge cases.
+// src/pages/programa-livianas/gracias.astro
+// Página post-pago del Programa Livianas.
+// El usuario llega aquí después de pagar en MP (redirect) o volviendo de la pestaña de MP.
+// Usa visibilitychange + localStorage email para enviar confirmación automáticamente.
 
 import '../../styles/global.css';
 import { siteConfig } from '../../lib/config';
-import ChatWidget from '../../components/ChatWidget.astro';
 
 const metaPixelId = siteConfig.metaPixelId;
 const ga4Id = siteConfig.ga4Id;
+const precioUYU = siteConfig.programaLivianas.precioUYU;
 ---
 
 <!doctype html>
@@ -17,8 +17,8 @@ const ga4Id = siteConfig.ga4Id;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>¡Gracias por tu compra! — LIVIANAS</title>
-    <meta name="description" content="Tu Pack de Materiales LIVIANAS está en camino." />
+    <title>¡Tu lugar está confirmado! — Programa Livianas</title>
+    <meta name="description" content="Tu inscripción al Programa Livianas fue confirmada." />
     <meta name="robots" content="noindex, nofollow" />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -40,11 +40,11 @@ const ga4Id = siteConfig.ga4Id;
         fbq('init', '${metaPixelId}');
         fbq('track', 'PageView');
         fbq('track', 'Purchase', {
-          content_name: 'Pack Materiales LIVIANAS',
+          content_name: 'Programa Livianas',
           content_type: 'product',
-          content_ids: ['pack-materiales'],
-          value: 15,
-          currency: 'USD'
+          content_ids: ['programa-livianas'],
+          value: ${precioUYU},
+          currency: 'UYU'
         });
       `} />
     )}
@@ -57,10 +57,10 @@ const ga4Id = siteConfig.ga4Id;
         gtag('js', new Date());
         gtag('config', '${ga4Id}');
         gtag('event', 'purchase', {
-          transaction_id: 'mat_' + Date.now(),
-          currency: 'USD',
-          value: 15,
-          items: [{ item_id: 'pack-materiales', item_name: 'Pack Materiales LIVIANAS', price: 15, quantity: 1 }]
+          transaction_id: 'pl_' + Date.now(),
+          currency: 'UYU',
+          value: ${precioUYU},
+          items: [{ item_id: 'programa-livianas', item_name: 'Programa Livianas', price: ${precioUYU}, quantity: 1 }]
         });
       `} />
     )}
@@ -79,11 +79,11 @@ const ga4Id = siteConfig.ga4Id;
             </svg>
           </div>
           <h1 class="ty__title">
-            <span class="ty__title-serif">¡Gracias</span>
-            <span class="ty__title-sans">por tu compra!</span>
+            <span class="ty__title-serif">¡Tu lugar</span>
+            <span class="ty__title-sans">está confirmado!</span>
           </h1>
           <p class="ty__subtitle">
-            Tu pago fue procesado correctamente. En los próximos minutos vas a recibir un email con los links de descarga de tu Guía de Bienestar y Recetario.
+            Tu pago fue procesado correctamente. Ya sos parte del Programa Livianas.
           </p>
         </header>
 
@@ -96,7 +96,7 @@ const ga4Id = siteConfig.ga4Id;
             </svg>
             <div>
               <strong>Revisá tu email</strong>
-              <p>Te enviamos los materiales automáticamente. Si no los ves en tu bandeja de entrada, revisá la carpeta de spam o promociones.</p>
+              <p>Te enviamos una confirmación con todos los detalles del programa. Si no la ves, revisá spam o promociones.</p>
             </div>
           </div>
         </section>
@@ -108,30 +108,30 @@ const ga4Id = siteConfig.ga4Id;
             <li>
               <span class="ty__next-num">1</span>
               <div>
-                <strong>Descargá tus PDFs</strong>
-                <p>Guardalos en tu celular o computadora para tenerlos siempre a mano.</p>
+                <strong>Ana te escribe</strong>
+                <p>Te va a contactar por WhatsApp para darte la bienvenida personalmente.</p>
               </div>
             </li>
             <li>
               <span class="ty__next-num">2</span>
               <div>
-                <strong>Empezá por la Guía</strong>
-                <p>Leé los fundamentos y elegí los alimentos recomendados para tu primera semana.</p>
+                <strong>Te sumamos al grupo</strong>
+                <p>Vas a ser parte del grupo privado de WhatsApp del programa.</p>
               </div>
             </li>
             <li>
               <span class="ty__next-num">3</span>
               <div>
-                <strong>Cociná tu primera receta</strong>
-                <p>Elegí una receta del recetario que te llame la atención y preparala esta semana.</p>
+                <strong>Primera clase</strong>
+                <p>Recibís toda la info de la primera sesión en vivo antes de arrancar.</p>
               </div>
             </li>
           </ol>
         </section>
 
-        <!-- Soporte via Livia -->
+        <!-- WhatsApp directo -->
         <section class="ty__help">
-          <p>¿No recibiste el email o tenés dudas? Preguntale a Livia, nuestra asistente virtual.</p>
+          <p>¿Tenés alguna consulta? <a href="https://wa.me/59891086674?text=Hola%20Ana!%20Acabo%20de%20inscribirme%20en%20el%20Programa%20Livianas%20%F0%9F%8C%BF" target="_blank" rel="noopener noreferrer" class="ty__wa-link">Escribile a Ana por WhatsApp</a></p>
         </section>
 
         <!-- Footer -->
@@ -142,8 +142,45 @@ const ga4Id = siteConfig.ga4Id;
       </div>
     </main>
 
-    <!-- Livia — Asistente virtual (contexto materiales) -->
-    <ChatWidget context="materiales" />
+    <!-- Auto-send confirmation email -->
+    <script>
+      (function () {
+        const email = localStorage.getItem('pl_email');
+        if (!email) return;
+
+        let sent = false;
+
+        async function sendConfirmation() {
+          if (sent) return;
+          sent = true;
+
+          try {
+            const res = await fetch('/api/send-confirmacion-programa', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email }),
+            });
+            if (res.ok) {
+              console.log('[gracias] Confirmación enviada a', email);
+              localStorage.removeItem('pl_email');
+            }
+          } catch (err) {
+            console.error('[gracias] Error enviando confirmación:', err);
+            sent = false;
+          }
+        }
+
+        // Send immediately if page is visible
+        if (!document.hidden) {
+          sendConfirmation();
+        }
+
+        // Also try on visibility change (returning from MP tab)
+        document.addEventListener('visibilitychange', () => {
+          if (!document.hidden) sendConfirmation();
+        });
+      })();
+    </script>
 
     <style>
       .ty {
@@ -326,6 +363,17 @@ const ga4Id = siteConfig.ga4Id;
         font-family: var(--font-sans);
         font-size: var(--text-sm);
         color: var(--color-text-muted);
+      }
+
+      .ty__wa-link {
+        color: var(--color-sage-dark);
+        font-weight: 600;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
+
+      .ty__wa-link:hover {
+        color: var(--color-sage);
       }
 
       .ty__footer {

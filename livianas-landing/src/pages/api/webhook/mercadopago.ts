@@ -7,6 +7,7 @@
 import type { APIRoute } from 'astro';
 import { createClient } from '@supabase/supabase-js';
 import { sendMateriales } from '../../../lib/email/send-materiales';
+import { sendConfirmacionProgramaByEmail } from '../../../lib/email/send-confirmacion-programa';
 
 const MP_ACCESS_TOKEN    = import.meta.env.MERCADOPAGO_ACCESS_TOKEN;
 const SUPABASE_URL       = import.meta.env.PUBLIC_SUPABASE_URL;
@@ -87,18 +88,27 @@ export const POST: APIRoute = async ({ request }) => {
       return new Response('ok - already sent', { status: 200 });
     }
 
-    // ── 5. Enviar materiales ─────────────────────────────────────────────
-    await sendMateriales(email);
+    // ── 5. Detectar producto y enviar email correspondiente ────────────
+    // Programa Livianas: monto >= 5000 UYU (6200 UYU)
+    // Pack Materiales: monto < 5000 UYU (650 UYU)
+    const isPrograma = transaction_amount >= 5000;
+
+    if (isPrograma) {
+      await sendConfirmacionProgramaByEmail(email);
+      console.log(`[webhook-mp] ✅ Confirmación programa enviada a ${email} (pago ${paymentId})`);
+    } else {
+      await sendMateriales(email);
+      console.log(`[webhook-mp] ✅ Materiales enviados a ${email} (pago ${paymentId})`);
+    }
 
     await supabase
       .from('purchases')
       .update({
         email_sent:    true,
         email_sent_at: new Date().toISOString(),
+        product_type:  isPrograma ? 'programa-livianas' : 'pack-materiales',
       })
       .eq('payment_id', paymentId);
-
-    console.log(`[webhook-mp] ✅ Materiales enviados a ${email} (pago ${paymentId})`);
     return new Response('ok', { status: 200 });
 
   } catch (err) {

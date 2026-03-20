@@ -33,7 +33,7 @@ PRODUCTO — PACK BIENESTAR (USD 15):
   • Alimentos que nutren vs. alimentos que inflaman
   • Guía visual de porciones con la mano
   • Planificación semanal completa paso a paso
-  • Lista de compras descargable
+  • 10 recetas básicas para arrancar
   • Cómo empezar sin estrés ni restricciones
 
 - Recetario Saludable: PDF de 36 páginas

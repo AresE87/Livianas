@@ -20,8 +20,7 @@ export const POST: APIRoute = async ({ request }) => {
 
     // La cuenta MP de Ana está en UYU (pesos uruguayos)
     // USD 15 ≈ UYU 650 — ajustar al tipo de cambio del momento
-    // TODO: volver a 650 después de testear
-    const PRICE_UYU = 10;
+    const PRICE_UYU = 650;
 
     // Normalizar SITE_URL (sin trailing slash)
     const siteUrl = SITE_URL.replace(/\/+$/, '');
@@ -31,7 +30,7 @@ export const POST: APIRoute = async ({ request }) => {
         {
           id: 'pack-bienestar-v1',
           title: 'Pack Bienestar — Guía + Recetario Saludable',
-          description: 'Guía de Bienestar Integral (47 pág) + Recetario Saludable +20 recetas (36 pág). Descarga inmediata.',
+          description: 'Guía de Bienestar Integral (47 pág) + Recetario Saludable (36 pág). +30 recetas en total. Descarga inmediata.',
           quantity: 1,
           unit_price: PRICE_UYU,
           currency_id: 'UYU',

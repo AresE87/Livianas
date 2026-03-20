@@ -49,11 +49,32 @@ export const siteConfig = {
   // SEO
   siteUrl: 'https://livianas.com',
   siteName: 'LIVIANAS',
+  // Programa Livianas (producto de entrada)
+  programaLivianas: {
+    nombre: 'Programa Livianas',
+    precioUSD: 149,
+    precioUYU: 6200,
+    cuposMax: 10,
+    fechaInicio: '12 de abril de 2026',
+    fechaCierreInscripciones: '10 de abril de 2026',
+    horarioClases: 'Sábados 11hs (Uruguay)',
+    whatsappMessages: {
+      hero: encodeURIComponent('Hola Ana, quiero saber más sobre el Programa Livianas 🌿'),
+      pricing: encodeURIComponent('Hola Ana, quiero inscribirme en el Programa Livianas 🌿'),
+      finalCta: encodeURIComponent('Hola Ana, estoy lista para el Programa Livianas 🌿'),
+    },
+  },
 } as const;
 
 // Helper para generar links de WhatsApp
 export function getWhatsAppLink(location: keyof typeof siteConfig.whatsappMessages): string {
   const msg = siteConfig.whatsappMessages[location];
+  return `https://wa.me/${siteConfig.whatsappNumber}?text=${msg}`;
+}
+
+// Helper para generar links de WhatsApp del Programa Livianas
+export function getProgramaWhatsAppLink(location: keyof typeof siteConfig.programaLivianas.whatsappMessages): string {
+  const msg = siteConfig.programaLivianas.whatsappMessages[location];
   return `https://wa.me/${siteConfig.whatsappNumber}?text=${msg}`;
 }
 
@@ -273,5 +294,121 @@ export const faqData = [
     question: '¿Puedo hablar con Ana antes de inscribirme?',
     answer: 'Por supuesto. Si llegaste hasta acá y todavía tenés dudas, escribile directamente. Ana se toma el tiempo de responder personalmente a cada mujer que está considerando ser parte del círculo.',
     showDirectCta: true,
+  },
+];
+
+// ===== Programa Livianas — Datos de Secciones =====
+
+export const plBeneficiosData = [
+  {
+    title: 'Entender qué te frena',
+    description: 'Descubrir por qué te cuesta sostener cambios y dejar de culparte por eso.',
+  },
+  {
+    title: 'Reducir la ansiedad',
+    description: 'Transformar tu relación emocional con la comida. Sin culpa, sin restricción.',
+  },
+  {
+    title: 'Organizar tu alimentación',
+    description: 'Aprender a comer bien de forma simple, sin obsesión y sin contar calorías.',
+  },
+  {
+    title: 'Recuperar tu energía',
+    description: 'Sentir liviandad, vitalidad y ganas de cuidarte todos los días.',
+  },
+];
+
+export const plSemanasData = [
+  {
+    number: 1,
+    title: 'Despertar',
+    subtitle: 'lo que te frena sin que lo veas',
+    description: 'Identificar sabotajes, patrones emocionales, hambre física vs emocional, creencias limitantes.',
+    ejercicio: 'Mapa personal de obstáculos',
+  },
+  {
+    number: 2,
+    title: 'Orden',
+    subtitle: 'comer bien sin sufrir',
+    description: 'Bases antiinflamatorias, guía de porciones con la mano, menú modelo de 4 días, lista de compras.',
+    ejercicio: 'Armar tu menú con supervisión de Ana',
+  },
+  {
+    number: 3,
+    title: 'Energía',
+    subtitle: 'mover el cuerpo sin castigarte',
+    description: 'Movimiento mínimo efectivo (20-30 min), cortisol y estrés, rutina de sueño, manejo del estrés.',
+    ejercicio: 'Mini circuito en vivo',
+  },
+  {
+    number: 4,
+    title: 'Valor',
+    subtitle: 'esto no es peso, es amor propio',
+    description: 'Autoestima, diálogo interno, cuidado personal no negociable, nueva identidad.',
+    ejercicio: 'Carta a tu versión futura',
+  },
+];
+
+export const plComoFuncionaData = [
+  {
+    emoji: '📹',
+    title: '4 clases en vivo',
+    description: 'Por Zoom, 1 hora y media cada una. Sábados 11hs.',
+  },
+  {
+    emoji: '💬',
+    title: 'Grupo WhatsApp',
+    description: 'Acompañamiento entre semana con Ana y las demás participantes.',
+  },
+  {
+    emoji: '📝',
+    title: 'Tareas semanales',
+    description: 'Ejercicios prácticos para que el cambio no quede solo en la clase.',
+  },
+];
+
+export const plParaQuienData = [
+  'Empezás dietas con toda la motivación y a las dos semanas las dejás',
+  'Sentís que comés por ansiedad, aburrimiento o emociones, no por hambre real',
+  'Te cuesta organizar tu alimentación con el ritmo de vida que tenés',
+  'Te prometés "empezar el lunes" cada semana y no lo sostenés',
+  'Sabés lo que tenés que hacer pero no lográs hacerlo de forma consistente',
+  'Querés sentirte liviana, con energía y en paz con tu cuerpo',
+];
+
+export const plPricingFeatures = [
+  '4 clases en vivo de 1h30 con Ana',
+  'Grupo de WhatsApp con acompañamiento diario',
+  'Guía de porciones + menú modelo',
+  'Lista de compras antiinflamatoria',
+  'Tareas prácticas de cada semana',
+  'Diario emocional guiado',
+  'Grupo reducido para acompañamiento personalizado',
+];
+
+export const plFaqData = [
+  {
+    question: '¿Cuánto dura el programa?',
+    answer: '4 semanas exactas. Cada semana hay una clase en vivo de 1h30 por Zoom y acompañamiento diario por WhatsApp.',
+  },
+  {
+    question: '¿Qué pasa si no puedo ir a una clase en vivo?',
+    answer: 'Todas las clases quedan grabadas y las podés ver cuando quieras.',
+  },
+  {
+    question: '¿Tengo que contar calorías o pesar la comida?',
+    answer: 'Jamás. Trabajamos con guía de porciones usando tu mano como medida.',
+  },
+  {
+    question: '¿Necesito experiencia previa o estar en forma?',
+    answer: 'No. Las rutinas son de 20-30 minutos, sin equipo, y se adaptan a cualquier nivel.',
+  },
+  {
+    question: '¿Puedo participar desde fuera de Uruguay?',
+    answer: 'Sí. Las clases son online por Zoom y el grupo de WhatsApp funciona desde cualquier país.',
+  },
+  {
+    question: '¿Cuántas personas hay por grupo?',
+    answer: 'Grupos reducidos para que Ana pueda acompañar a cada participante de forma personalizada.',
   },
 ];
