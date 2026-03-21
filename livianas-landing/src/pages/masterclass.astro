@@ -68,48 +68,72 @@ const paraQuienEs = [
 >
   <script type="application/ld+json" set:html={JSON.stringify(eventSchema)} />
 
-  <Navbar />
+  <!-- ========== TOP BAR ========== -->
+  <div class="mc-topbar">
+    ¿Cansada de empezar dietas que nunca funcionan? Descubrí por qué.
+  </div>
 
-  <!-- ========== 1. HERO ========== -->
-  <section class="mc-hero section" aria-label="Masterclass gratuita">
-    <div class="container container--narrow mc-hero__content">
-      <div class="mc-badge" data-gsap="hero-label">
-        <span class="mc-badge__dot" aria-hidden="true"></span>
-        <span>Masterclass gratuita</span>
+  <!-- ========== 1. HERO — SPLIT LAYOUT ========== -->
+  <section class="mc-hero" aria-label="Masterclass gratuita">
+    <!-- Background watermark -->
+    <div class="mc-hero__watermark" aria-hidden="true">LIVIANAS</div>
+
+    <div class="mc-hero__grid">
+      <!-- LEFT: Content -->
+      <div class="mc-hero__text">
+        <div class="mc-hero__top-badge">
+          MASTERCLASS GRATUITA &middot; {mc.fecha.toUpperCase()} &middot; {mc.hora.toUpperCase()} &middot; {mc.plataforma.toUpperCase()}
+        </div>
+
+        <h1 class="mc-hero__title">
+          Las 3 Mentiras que te Alejan de <em class="mc-hero__highlight">Vivir</em> Liviana.
+        </h1>
+
+        <p class="mc-hero__subtitle">
+          En {mc.duracion} vas a entender por qué las dietas no funcionan, qué hay detrás de tu relación con la comida y los 3 pasos para transformarla. Sin restricciones. Sin culpa. Sin sufrir.
+        </p>
+
+        <div class="mc-hero__pills">
+          <span class="mc-pill">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            {mc.fecha}
+          </span>
+          <span class="mc-pill">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            {mc.plataforma}
+          </span>
+          <span class="mc-pill">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12V8H6a2 2 0 01-2-2c0-1.1.9-2 2-2h12v4"/><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"/><path d="M18 12a2 2 0 000 4h4v-4h-4z"/></svg>
+            100% gratuita
+          </span>
+        </div>
+
+        <div class="mc-hero__time-row">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>{mc.hora}</span>
+        </div>
+
+        <a href="#registro" class="mc-hero__cta">
+          QUIERO RESERVAR MI LUGAR GRATIS
+        </a>
+
+        <p class="mc-hero__urgency">
+          ⚡ Los cupos son limitados. Cuando se llena, se cierra. ⚡
+        </p>
       </div>
 
-      <h1 class="mc-hero__title" data-gsap="hero-title">
-        <span class="mc-hero__title-sans">Las 3</span>
-        <span class="mc-hero__title-serif">Mentiras</span>
-      </h1>
-
-      <p class="mc-hero__tagline" data-gsap="hero-subtitle">
-        {mc.subtitulo}
-      </p>
-
-      <div class="mc-hero__event-info" data-gsap="hero-subtitle">
-        <div class="mc-event-detail">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          <span>{mc.fecha}</span>
-        </div>
-        <div class="mc-event-detail">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          <span>{mc.hora} · {mc.duracion}</span>
-        </div>
-        <div class="mc-event-detail">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 10l5 5-5 5"/><path d="M4 4v7a4 4 0 004 4h12"/></svg>
-          <span>En vivo por {mc.plataforma}</span>
-        </div>
+      <!-- RIGHT: Ana photo -->
+      <div class="mc-hero__image-col">
+        <img
+          src="/images/ana-foto.webp"
+          alt="Ana, creadora del Método Livianas"
+          width="700"
+          height="900"
+          class="mc-hero__photo"
+          loading="eager"
+          fetchpriority="high"
+        />
       </div>
-
-      <a href="#registro" class="mc-hero__cta btn btn--primary" data-gsap="hero-cta">
-        Reservar mi lugar gratis
-      </a>
-
-      <p class="mc-hero__spots">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22c5.5 0 10-4.5 10-10S17.5 2 12 2 2 6.5 2 12s4.5 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
-        100% gratuita · Sin compromisos · Cupos limitados
-      </p>
     </div>
   </section>
 
@@ -152,7 +176,7 @@ const paraQuienEs = [
       </ul>
 
       <div class="mc-quien__cta-wrap">
-        <a href="#registro" class="btn btn--primary">Quiero mi lugar</a>
+        <a href="#registro" class="mc-hero__cta" style="display:inline-block;">Quiero mi lugar gratis</a>
       </div>
     </div>
   </section>
@@ -228,8 +252,8 @@ const paraQuienEs = [
             autocomplete="email"
           />
         </div>
-        <button type="submit" class="mc-form__btn btn btn--primary" id="mc-submit">
-          <span id="mc-btn-text">Reservar mi lugar gratis</span>
+        <button type="submit" class="mc-form__btn mc-hero__cta" id="mc-submit" style="text-align:center;">
+          <span id="mc-btn-text">RESERVAR MI LUGAR GRATIS</span>
           <span id="mc-btn-loading" style="display:none;">Registrando...</span>
         </button>
         <p class="mc-form__privacy">
@@ -255,7 +279,7 @@ const paraQuienEs = [
       <p style="color: rgba(255,255,255,0.8); font-size: 1.05rem; margin-bottom: var(--space-8);">
         Escribile directamente a Ana por WhatsApp
       </p>
-      <a href={waLink} target="_blank" rel="noopener" class="btn btn--whatsapp mc-final__btn">
+      <a href={waLink} target="_blank" rel="noopener" class="btn--whatsapp mc-final__btn">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.27-.47-2.42-1.49-.9-.8-1.5-1.78-1.67-2.08-.18-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.21 5.1 4.5.71.31 1.27.49 1.7.63.72.23 1.37.2 1.88.12.58-.09 1.76-.72 2.01-1.42.25-.7.25-1.3.17-1.42-.07-.13-.27-.2-.57-.35z"/><path d="M12 0C5.37 0 0 5.37 0 12c0 2.12.55 4.11 1.51 5.85L0 24l6.33-1.66C8.07 23.42 9.99 24 12 24c6.63 0 12-5.37 12-12S18.63 0 12 0zm0 22c-1.82 0-3.56-.5-5.08-1.41l-.36-.22-3.76.99 1-3.67-.24-.37A9.94 9.94 0 012 12c0-5.51 4.49-10 10-10s10 4.49 10 10-4.49 10-10 10z"/></svg>
         Hablar con Ana
       </a>
@@ -315,125 +339,218 @@ const paraQuienEs = [
 </script>
 
 <style>
-  /* ========== HERO ========== */
-  .mc-hero {
-    background: linear-gradient(180deg, var(--color-cream) 0%, var(--color-cream-warm) 100%);
+  /* ========== TOP BAR ========== */
+  .mc-topbar {
+    background: var(--color-sage);
+    color: white;
     text-align: center;
-    padding-top: 8rem;
-    padding-bottom: var(--space-16);
+    font-family: var(--font-outfit);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding: 0.65rem 1rem;
+    position: relative;
+    z-index: 100;
   }
 
-  .mc-hero__content {
+  /* ========== HERO — SPLIT ========== */
+  .mc-hero {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-cream-warm) 60%, rgba(123, 143, 107, 0.08) 100%);
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+  }
+
+  .mc-hero__watermark {
+    position: absolute;
+    right: -2%;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--font-display);
+    font-size: clamp(8rem, 18vw, 20rem);
+    font-weight: 700;
+    color: rgba(123, 143, 107, 0.04);
+    pointer-events: none;
+    white-space: nowrap;
+    line-height: 1;
+    z-index: 0;
+  }
+
+  .mc-hero__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: center;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 6rem 1.5rem 2rem;
+    gap: var(--space-8);
+    position: relative;
+    z-index: 1;
+  }
+
+  @media (min-width: 768px) {
+    .mc-hero__grid {
+      grid-template-columns: 1fr 1fr;
+      padding: 2rem 3rem;
+      gap: var(--space-6);
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .mc-hero__grid {
+      grid-template-columns: 1.1fr 0.9fr;
+      padding: 2rem 4rem;
+    }
+  }
+
+  /* Hero text */
+  .mc-hero__text {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: var(--space-6);
+    gap: var(--space-5);
   }
 
-  .mc-badge {
+  .mc-hero__top-badge {
     display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
+    align-self: flex-start;
     font-family: var(--font-outfit);
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--color-sage-dark);
-    background: var(--color-sage-wash);
-    padding: 0.5rem 1.25rem;
+    color: white;
+    background: var(--color-sage);
+    padding: 0.6rem 1.5rem;
     border-radius: var(--radius-full);
   }
 
-  .mc-badge__dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--color-sage);
-    animation: pulse-dot 2s infinite;
-  }
-
-  @keyframes pulse-dot {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(1.3); }
-  }
-
   .mc-hero__title {
-    display: flex;
-    flex-direction: column;
-    line-height: 1;
-    gap: 0;
-  }
-
-  .mc-hero__title-sans {
-    font-family: var(--font-outfit);
-    font-weight: 300;
-    font-size: clamp(1.5rem, 4vw, 2.25rem);
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--color-text-muted);
-  }
-
-  .mc-hero__title-serif {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    line-height: 1.2;
     color: var(--color-carbon);
+  }
+
+  .mc-hero__highlight {
+    color: var(--color-sage);
     font-style: italic;
   }
 
-  .mc-hero__tagline {
+  .mc-hero__subtitle {
     font-family: var(--font-sans);
-    font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+    font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+    line-height: 1.7;
     color: var(--color-text-muted);
-    max-width: 520px;
-    line-height: 1.6;
+    max-width: 540px;
   }
 
-  .mc-hero__event-info {
+  /* Pills */
+  .mc-hero__pills {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: var(--space-4) var(--space-8);
-    padding: var(--space-6) var(--space-8);
-    background: var(--color-white);
-    border-radius: var(--radius-lg);
-    box-shadow: 0 4px 24px rgba(44, 40, 37, 0.06);
-    border: 1px solid var(--color-border);
+    gap: var(--space-3);
   }
 
-  .mc-event-detail {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-family: var(--font-sans);
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: var(--color-carbon);
-  }
-
-  .mc-event-detail svg {
-    color: var(--color-sage);
-    flex-shrink: 0;
-  }
-
-  .mc-hero__cta {
-    font-size: 1.1rem;
-    padding: 1rem 2.5rem;
-  }
-
-  .mc-hero__spots {
-    display: flex;
+  .mc-pill {
+    display: inline-flex;
     align-items: center;
     gap: 0.4rem;
     font-family: var(--font-sans);
     font-size: 0.85rem;
-    color: var(--color-sage-dark);
+    font-weight: 500;
+    color: var(--color-carbon);
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    padding: 0.5rem 1rem;
+  }
+
+  .mc-pill svg {
+    color: var(--color-sage);
+    flex-shrink: 0;
+  }
+
+  .mc-hero__time-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    padding: 0.5rem 1rem;
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    align-self: flex-start;
+  }
+
+  .mc-hero__time-row svg {
+    color: var(--color-sage);
+  }
+
+  /* CTA */
+  .mc-hero__cta {
+    display: inline-block;
+    font-family: var(--font-outfit);
+    font-weight: 700;
+    font-size: clamp(0.9rem, 1.5vw, 1.05rem);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: white;
+    background: var(--color-sage);
+    border: none;
+    border-radius: var(--radius-full);
+    padding: 1.1rem 2.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(123, 143, 107, 0.35);
+  }
+
+  .mc-hero__cta:hover {
+    background: var(--color-sage-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(123, 143, 107, 0.45);
+  }
+
+  .mc-hero__urgency {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
     font-weight: 500;
   }
 
-  .mc-hero__spots svg {
-    color: var(--color-sage);
+  /* Hero image */
+  .mc-hero__image-col {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  }
+
+  .mc-hero__photo {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    object-fit: cover;
+    object-position: top center;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    box-shadow: 0 20px 60px rgba(44, 40, 37, 0.15);
+  }
+
+  @media (min-width: 768px) {
+    .mc-hero__photo {
+      max-width: 100%;
+      max-height: 85vh;
+      border-radius: var(--radius-xl);
+    }
   }
 
   /* ========== SHARED ========== */
@@ -672,10 +789,7 @@ const paraQuienEs = [
   }
 
   .mc-form__btn {
-    font-size: 1.05rem;
-    padding: 1rem 2rem;
     width: 100%;
-    cursor: pointer;
   }
 
   .mc-form__btn:disabled {
@@ -734,38 +848,6 @@ const paraQuienEs = [
   .mc-final__btn {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-  }
-
-  /* ========== BTN REUSABLE ========== */
-  .btn--primary {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    font-family: var(--font-outfit);
-    font-weight: 600;
-    font-size: 1rem;
-    letter-spacing: 0.02em;
-    color: white;
-    background: var(--color-sage);
-    border: none;
-    border-radius: var(--radius-full);
-    padding: 0.875rem 2rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-decoration: none;
-  }
-
-  .btn--primary:hover {
-    background: var(--color-sage-dark);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 16px rgba(123, 143, 107, 0.3);
-  }
-
-  .btn--whatsapp {
-    display: inline-flex;
-    align-items: center;
     justify-content: center;
     gap: 0.5rem;
     font-family: var(--font-outfit);
@@ -781,7 +863,7 @@ const paraQuienEs = [
     text-decoration: none;
   }
 
-  .btn--whatsapp:hover {
+  .mc-final__btn:hover {
     background: var(--color-whatsapp-hover);
     transform: translateY(-1px);
   }
