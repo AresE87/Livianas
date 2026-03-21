@@ -1,0 +1,426 @@
+---
+/**
+ * TestimonialsCarousel — Carrusel de transformaciones reales
+ * Muestra testimonios con fotos antes/después y texto descriptivo
+ */
+
+const testimonios = [
+  {
+    nombre: 'Cecilia',
+    imagen: '/images/testimonios/cecilia.webp',
+    historia: 'Ella llegó sin mucha expectativa y se ha sorprendido muchísimo durante el proceso, pensada en logros que serían muy lejanos.',
+    detalle: 'Sabía que lo lograría, poco a poco, cambió su alimentación (sin privarse de nada, ni de salir a ningún lado) inició el gimnasio. Su trabajo requiere estar muchas horas sentada y con el público y aún así lo logró más rápido de lo que pensaba.',
+    frase: '\u201CLas personas no me reconocen cuándo las saludo\u201D — el cambio físico comienza desde nuestra mente y luego se ve en la realidad.',
+  },
+  {
+    nombre: 'Verónica',
+    imagen: '/images/testimonios/veronica.webp',
+    historia: 'Cuándo comenzó vivía con mucho estrés, ansiedad, no creía que podía bajar de peso comiendo, sin sufrir.',
+    detalle: 'Un desafío muy grande, ella trabaja con alimentos y están presentes los dulces siempre, sin embargo, logró vivir más liviana.',
+    frase: 'Cambió 100% su mentalidad y su forma de \u201Cver la comida\u201D ya no es en \u201Clo único que piensa\u201D cómo antes de aplicar el método.',
+  },
+  {
+    nombre: 'Camila',
+    imagen: '/images/testimonios/camila.webp',
+    historia: 'Desde el primer día tuvo absoluta confianza en el proceso, sabía que iba a cambiar su vida y le agradezco infinitamente por eso porque me enseñó también a tener más confianza en mí.',
+    detalle: 'Tiene sus hijos pequeños, sin embargo logró vivir más liviana todos los días haciendo cambios en sus colaciones y meriendas en el trabajo fundamentalmente.',
+    frase: 'La confianza en el proceso siempre es un gran pilar cuándo la balanza no refleja lo que deseamos de forma inmediata.',
+  },
+  {
+    nombre: 'Viviana',
+    imagen: '/images/testimonios/viviana.webp',
+    historia: 'Cuándo Vivi comenzó estaba muy estructurada en su mentalidad, muy rígida, con ella trabajamos la flexibilidad.',
+    detalle: 'Se preocupaba mucho por las cantidades de los alimentos, las marcas, los alimentos light, las reuniones sociales, las viandas al trabajo eran un estrés, realmente cambió su relación con los alimentos.',
+    frase: 'Estar abiertas a querer cambiar los conceptos en la alimentación es vital para vivir más livianas.',
+  },
+];
+---
+
+<section id="testimonios-reales" class="tc-section section" aria-labelledby="tc-title">
+  <div class="container">
+    <div class="tc-header">
+      <span class="tc-label">Transformaciones reales</span>
+      <h2 id="tc-title" class="tc-title">Ellas ya lo lograron</h2>
+      <p class="tc-subtitle">Historias de mujeres que cambiaron su relación con la comida y su cuerpo</p>
+    </div>
+
+    <div class="tc-carousel" role="region" aria-label="Carrusel de testimonios" tabindex="0">
+      <div class="tc-track" id="tc-track">
+        {testimonios.map((t, i) => (
+          <article class="tc-slide" data-index={i}>
+            <div class="tc-slide__image-container">
+              <img
+                src={t.imagen}
+                alt={`Transformación de ${t.nombre}`}
+                width="600"
+                height="400"
+                loading="lazy"
+                decoding="async"
+                class="tc-slide__image"
+                onerror="this.style.display='none';this.parentElement.querySelector('.tc-slide__placeholder').style.display='flex';"
+              />
+              <div class="tc-slide__placeholder">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+                <span>Foto de {t.nombre}</span>
+              </div>
+            </div>
+            <div class="tc-slide__content">
+              <h3 class="tc-slide__name">{t.nombre}</h3>
+              <p class="tc-slide__historia">{t.historia}</p>
+              <p class="tc-slide__detalle">{t.detalle}</p>
+              <blockquote class="tc-slide__frase">
+                <p>{t.frase}</p>
+              </blockquote>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <!-- Navigation arrows -->
+      <button class="tc-nav tc-nav--prev" aria-label="Testimonio anterior" id="tc-prev">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+      </button>
+      <button class="tc-nav tc-nav--next" aria-label="Siguiente testimonio" id="tc-next">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+    </div>
+
+    <!-- Dots -->
+    <div class="tc-dots" role="tablist" aria-label="Navegación de testimonios">
+      {testimonios.map((t, i) => (
+        <button
+          class={`tc-dot ${i === 0 ? 'tc-dot--active' : ''}`}
+          role="tab"
+          aria-selected={i === 0 ? 'true' : 'false'}
+          aria-label={`Ver testimonio de ${t.nombre}`}
+          data-dot={i}
+        />
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  function initCarousel() {
+    const track = document.getElementById('tc-track');
+    const prevBtn = document.getElementById('tc-prev');
+    const nextBtn = document.getElementById('tc-next');
+    const dots = document.querySelectorAll('.tc-dot');
+    if (!track || !prevBtn || !nextBtn) return;
+
+    const slides = track.querySelectorAll('.tc-slide');
+    const total = slides.length;
+    let current = 0;
+    let startX = 0;
+    let isDragging = false;
+
+    function goTo(index: number) {
+      current = ((index % total) + total) % total;
+      const slide = slides[current] as HTMLElement;
+      track.scrollTo({ left: slide.offsetLeft, behavior: 'smooth' });
+      dots.forEach((d, i) => {
+        d.classList.toggle('tc-dot--active', i === current);
+        d.setAttribute('aria-selected', i === current ? 'true' : 'false');
+      });
+    }
+
+    prevBtn.addEventListener('click', () => goTo(current - 1));
+    nextBtn.addEventListener('click', () => goTo(current + 1));
+    dots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        const idx = Number((dot as HTMLElement).dataset.dot);
+        goTo(idx);
+      });
+    });
+
+    // Swipe support
+    track.addEventListener('touchstart', (e) => {
+      startX = (e as TouchEvent).touches[0].clientX;
+      isDragging = true;
+    }, { passive: true });
+
+    track.addEventListener('touchend', (e) => {
+      if (!isDragging) return;
+      isDragging = false;
+      const diff = startX - (e as TouchEvent).changedTouches[0].clientX;
+      if (Math.abs(diff) > 50) {
+        goTo(diff > 0 ? current + 1 : current - 1);
+      }
+    }, { passive: true });
+
+    // Sync dots on scroll
+    let scrollTimeout: ReturnType<typeof setTimeout>;
+    track.addEventListener('scroll', () => {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        const scrollLeft = track.scrollLeft;
+        let closest = 0;
+        let minDist = Infinity;
+        slides.forEach((s, i) => {
+          const dist = Math.abs((s as HTMLElement).offsetLeft - scrollLeft);
+          if (dist < minDist) { minDist = dist; closest = i; }
+        });
+        if (closest !== current) {
+          current = closest;
+          dots.forEach((d, i) => {
+            d.classList.toggle('tc-dot--active', i === current);
+            d.setAttribute('aria-selected', i === current ? 'true' : 'false');
+          });
+        }
+      }, 100);
+    }, { passive: true });
+
+    // Auto-play
+    let autoplay = setInterval(() => goTo(current + 1), 6000);
+    const carousel = track.closest('.tc-carousel');
+    carousel?.addEventListener('mouseenter', () => clearInterval(autoplay));
+    carousel?.addEventListener('mouseleave', () => {
+      autoplay = setInterval(() => goTo(current + 1), 6000);
+    });
+  }
+
+  // Init on page load and after view transitions
+  initCarousel();
+  document.addEventListener('astro:after-swap', initCarousel);
+</script>
+
+<style>
+  .tc-section {
+    background: var(--color-cream);
+    overflow: hidden;
+  }
+
+  .tc-header {
+    text-align: center;
+    margin-bottom: var(--space-10);
+  }
+
+  .tc-label {
+    display: inline-block;
+    font-family: var(--font-outfit);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-sage);
+    background: var(--color-sage-wash);
+    padding: 0.35rem 1rem;
+    border-radius: 100px;
+    margin-bottom: var(--space-4);
+  }
+
+  .tc-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    color: var(--color-carbon);
+    margin-bottom: var(--space-3);
+  }
+
+  .tc-subtitle {
+    font-family: var(--font-sans);
+    font-size: 1.05rem;
+    color: var(--color-text-muted);
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  /* Carousel container */
+  .tc-carousel {
+    position: relative;
+    margin: 0 -1rem;
+  }
+
+  @media (min-width: 768px) {
+    .tc-carousel {
+      margin: 0;
+    }
+  }
+
+  .tc-track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: var(--space-6);
+    padding: 0 1rem var(--space-4);
+  }
+
+  .tc-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .tc-track {
+      padding: 0 0 var(--space-4);
+    }
+  }
+
+  /* Slide */
+  .tc-slide {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    background: var(--color-white);
+    border-radius: var(--radius-lg, 1rem);
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(44, 40, 37, 0.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  @media (min-width: 768px) {
+    .tc-slide {
+      flex: 0 0 calc(50% - var(--space-3));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .tc-slide {
+      flex: 0 0 calc(50% - var(--space-3));
+    }
+  }
+
+  .tc-slide:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(44, 40, 37, 0.1);
+  }
+
+  /* Image */
+  .tc-slide__image-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    background: var(--color-cream-warm);
+  }
+
+  .tc-slide__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  .tc-slide__placeholder {
+    display: none;
+    position: absolute;
+    inset: 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+    background: var(--color-cream-warm);
+  }
+
+  /* Content */
+  .tc-slide__content {
+    padding: var(--space-6);
+  }
+
+  .tc-slide__name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--color-carbon);
+    margin-bottom: var(--space-3);
+  }
+
+  .tc-slide__historia {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--color-text);
+    margin-bottom: var(--space-3);
+  }
+
+  .tc-slide__detalle {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
+  }
+
+  .tc-slide__frase {
+    border-left: 3px solid var(--color-sage);
+    padding-left: var(--space-4);
+    margin: 0;
+  }
+
+  .tc-slide__frase p {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    font-style: italic;
+    line-height: 1.6;
+    color: var(--color-carbon);
+  }
+
+  /* Navigation arrows */
+  .tc-nav {
+    display: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    box-shadow: 0 2px 12px rgba(44, 40, 37, 0.08);
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-carbon);
+    transition: all 0.2s ease;
+    z-index: 2;
+  }
+
+  .tc-nav:hover {
+    background: var(--color-sage);
+    color: white;
+    border-color: var(--color-sage);
+  }
+
+  @media (min-width: 768px) {
+    .tc-nav {
+      display: flex;
+    }
+  }
+
+  .tc-nav--prev {
+    left: -22px;
+  }
+
+  .tc-nav--next {
+    right: -22px;
+  }
+
+  /* Dots */
+  .tc-dots {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-2);
+    margin-top: var(--space-6);
+  }
+
+  .tc-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: none;
+    background: var(--color-sand);
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.3s ease;
+  }
+
+  .tc-dot--active {
+    background: var(--color-sage);
+    transform: scale(1.3);
+  }
+
+  .tc-dot:hover:not(.tc-dot--active) {
+    background: var(--color-sage-light);
+  }
+</style>

@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/Navbar.astro';
 import WhatsAppButton from '../components/WhatsAppButton.astro';
 import PremiumFooter from '../components/PremiumFooter.astro';
+import TestimonialsCarousel from '../components/TestimonialsCarousel.astro';
 import {
   siteConfig,
   getProgramaWhatsAppLink,
@@ -234,6 +235,9 @@ const faqSchema = {
       </div>
     </div>
   </section>
+
+  <!-- ========== 6.5 TESTIMONIOS REALES ========== -->
+  <TestimonialsCarousel />
 
   <!-- ========== 7. PRECIO Y CTA ========== -->
   <section id="precio" class="pl-pricing section" aria-labelledby="precio-pl-title" data-gsap="pricing">
