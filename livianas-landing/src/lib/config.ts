@@ -65,6 +65,19 @@ export const siteConfig = {
       finalCta: encodeURIComponent('Hola Ana, estoy lista para el Programa Livianas 🌿'),
     },
   },
+  // Masterclass
+  masterclass: {
+    nombre: 'Las 3 Mentiras',
+    subtitulo: 'Lo que nadie te dice sobre las dietas, la comida y tu cuerpo',
+    fecha: '26 de abril de 2026',
+    fechaISO: '2026-04-26T19:00:00-03:00',
+    hora: '19:00 hs (Uruguay)',
+    duracion: '90 minutos',
+    plataforma: 'Zoom',
+    whatsappMessages: {
+      hero: encodeURIComponent('Hola Ana, quiero info sobre la masterclass Las 3 Mentiras 🌿'),
+    },
+  },
 } as const;
 
 // Helper para generar links de WhatsApp
