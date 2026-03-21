@@ -1,6 +1,5 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Navbar from '../components/Navbar.astro';
 import PremiumFooter from '../components/PremiumFooter.astro';
 import TestimonialsCarousel from '../components/TestimonialsCarousel.astro';
 import { siteConfig } from '../lib/config';
@@ -16,38 +15,26 @@ const eventSchema = {
   startDate: mc.fechaISO,
   eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
   eventStatus: 'https://schema.org/EventScheduled',
-  location: {
-    '@type': 'VirtualLocation',
-    url: 'https://livianas.com/masterclass',
-  },
-  organizer: {
-    '@type': 'Person',
-    name: 'Ana',
-    url: 'https://livianas.com',
-  },
+  location: { '@type': 'VirtualLocation', url: 'https://livianas.com/masterclass' },
+  organizer: { '@type': 'Person', name: 'Ana', url: 'https://livianas.com' },
   isAccessibleForFree: true,
-  offers: {
-    '@type': 'Offer',
-    price: '0',
-    priceCurrency: 'USD',
-    availability: 'https://schema.org/InStock',
-  },
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', availability: 'https://schema.org/InStock' },
 };
 
 const queVasAAprender = [
   {
-    icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`,
-    title: 'Mentira #1: "Necesitás más fuerza de voluntad"',
+    num: '01',
+    title: '"Necesitás más fuerza de voluntad"',
     description: 'Vas a descubrir por qué la fuerza de voluntad no es el problema — y qué es lo que realmente te frena.',
   },
   {
-    icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
-    title: 'Mentira #2: "Comer sano es caro y difícil"',
+    num: '02',
+    title: '"Comer sano es caro y difícil"',
     description: 'Te voy a mostrar cómo la alimentación antiinflamatoria puede ser simple, accesible y sin restricciones.',
   },
   {
-    icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`,
-    title: 'Mentira #3: "Tu cuerpo es el enemigo"',
+    num: '03',
+    title: '"Tu cuerpo es el enemigo"',
     description: 'Vamos a cambiar la forma en que te mirás y hablás sobre tu cuerpo. El cambio empieza por dentro.',
   },
 ];
@@ -70,91 +57,87 @@ const paraQuienEs = [
 
   <!-- ========== TOP BAR ========== -->
   <div class="mc-topbar">
-    🔥 ¿Cansada de empezar dietas que nunca funcionan? Descubrí por qué. 🔥
+    ¿Cansada de empezar dietas que nunca funcionan? Descubrí por qué.
   </div>
 
-  <!-- ========== 1. HERO — SPLIT LAYOUT ========== -->
+  <!-- ========== 1. HERO — PHOTO-FIRST ========== -->
   <section class="mc-hero" aria-label="Masterclass gratuita">
-    <!-- Background watermark behind Ana -->
-    <div class="mc-hero__watermark" aria-hidden="true">
-      <span class="mc-hero__wm-line1">Vivir</span>
-      <span class="mc-hero__wm-line2">Liviana</span>
+    <!-- Photo area with watermark behind -->
+    <div class="mc-hero__photo-area">
+      <div class="mc-hero__watermark" aria-hidden="true">
+        <span>Vivir</span>
+        <span>Liviana</span>
+      </div>
+      <img
+        src="/images/ana-foto.webp"
+        alt="Ana, creadora del Método Livianas"
+        width="700"
+        height="900"
+        class="mc-hero__photo"
+        loading="eager"
+        fetchpriority="high"
+      />
+      <!-- Badge overlaid on photo -->
+      <div class="mc-hero__badge">
+        MASTERCLASS GRATUITA &middot; {mc.fecha.toUpperCase()} &middot; {mc.hora.toUpperCase()} &middot; ZOOM
+      </div>
     </div>
 
-    <div class="mc-hero__grid">
-      <!-- LEFT: Content -->
-      <div class="mc-hero__text">
-        <div class="mc-hero__top-badge">
-          MASTERCLASS GRATUITA &middot; {mc.fecha.toUpperCase()} &middot; {mc.hora.toUpperCase()} &middot; {mc.plataforma.toUpperCase()}
-        </div>
+    <!-- Content below photo -->
+    <div class="mc-hero__content">
+      <h1 class="mc-hero__title">
+        Las 3 Mentiras que te Alejan de <em>Vivir</em> Liviana.
+      </h1>
 
-        <h1 class="mc-hero__title">
-          Las 3 Mentiras que te Alejan de <em class="mc-hero__highlight">Vivir</em> Liviana.
-        </h1>
+      <p class="mc-hero__subtitle">
+        En {mc.duracion} vas a entender por qué las dietas no funcionan, qué hay detrás de tu relación con la comida y los 3 pasos para transformarla. Sin restricciones. Sin culpa. Sin sufrir.
+      </p>
 
-        <p class="mc-hero__subtitle">
-          En {mc.duracion} vas a entender por qué las dietas no funcionan, qué hay detrás de tu relación con la comida y los 3 pasos para transformarla. Sin restricciones. Sin culpa. Sin sufrir.
-        </p>
-
-        <div class="mc-hero__pills">
-          <span class="mc-pill">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            {mc.fecha}
-          </span>
-          <span class="mc-pill">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-            {mc.plataforma}
-          </span>
-          <span class="mc-pill">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12V8H6a2 2 0 01-2-2c0-1.1.9-2 2-2h12v4"/><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"/><path d="M18 12a2 2 0 000 4h4v-4h-4z"/></svg>
-            100% gratuita
-          </span>
-        </div>
-
-        <div class="mc-hero__time-row">
+      <div class="mc-hero__pills">
+        <span class="mc-pill">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          <span>{mc.hora}</span>
-        </div>
-
-        <a href="#registro" class="mc-hero__cta">
-          QUIERO RESERVAR MI LUGAR GRATIS
-        </a>
-
-        <p class="mc-hero__urgency">
-          ⚡ Los cupos son limitados. Cuando se llena, se cierra. ⚡
-        </p>
+          {mc.hora}
+        </span>
+        <span class="mc-pill">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          {mc.fecha}
+        </span>
+        <span class="mc-pill">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          Zoom
+        </span>
+        <span class="mc-pill mc-pill--free">
+          🎁 100% gratuita
+        </span>
       </div>
 
-      <!-- RIGHT: Ana photo -->
-      <div class="mc-hero__image-col">
-        <img
-          src="/images/ana-foto.webp"
-          alt="Ana, creadora del Método Livianas"
-          width="700"
-          height="900"
-          class="mc-hero__photo"
-          loading="eager"
-          fetchpriority="high"
-        />
-      </div>
+      <a href="#registro" class="mc-hero__cta">
+        QUIERO UNIRME Y ASEGURAR MI LUGAR
+      </a>
+
+      <p class="mc-hero__urgency">
+        ⚡ Los cupos son limitados. Cuando se llena, se cierra. ⚡
+      </p>
     </div>
   </section>
 
   <!-- ========== 2. QUE VAS A APRENDER ========== -->
-  <section class="mc-learn section" aria-labelledby="mc-learn-title">
-    <div class="container">
+  <section class="mc-learn" aria-labelledby="mc-learn-title">
+    <div class="mc-container">
       <div class="mc-section-header">
         <span class="mc-label">En esta masterclass</span>
         <h2 id="mc-learn-title" class="mc-section-title">¿Qué vas a descubrir?</h2>
-        <p class="mc-section-subtitle">3 creencias que te mantienen atrapada — y cómo soltarlas</p>
+        <p class="mc-section-sub">3 creencias que te mantienen atrapada — y cómo soltarlas</p>
       </div>
 
-      <div class="mc-cards-grid">
-        {queVasAAprender.map((item, i) => (
-          <article class="mc-card" style={`--card-delay: ${i * 0.1}s`}>
-            <div class="mc-card__icon" set:html={item.icon} />
-            <h3 class="mc-card__title">{item.title}</h3>
-            <p class="mc-card__desc">{item.description}</p>
+      <div class="mc-mentiras">
+        {queVasAAprender.map((item) => (
+          <article class="mc-mentira">
+            <span class="mc-mentira__num">{item.num}</span>
+            <div>
+              <h3 class="mc-mentira__title">Mentira: {item.title}</h3>
+              <p class="mc-mentira__desc">{item.description}</p>
+            </div>
           </article>
         ))}
       </div>
@@ -162,8 +145,8 @@ const paraQuienEs = [
   </section>
 
   <!-- ========== 3. PARA QUIEN ES ========== -->
-  <section class="mc-quien section" aria-labelledby="mc-quien-title">
-    <div class="container container--narrow">
+  <section class="mc-quien" aria-labelledby="mc-quien-title">
+    <div class="mc-container mc-container--narrow">
       <div class="mc-section-header">
         <span class="mc-label">¿Es para vos?</span>
         <h2 id="mc-quien-title" class="mc-section-title">Esta masterclass es para vos si...</h2>
@@ -171,37 +154,27 @@ const paraQuienEs = [
 
       <ul class="mc-checklist">
         {paraQuienEs.map((item) => (
-          <li class="mc-checklist__item">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-sage)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="mc-checklist__icon"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+          <li class="mc-check">
+            <span class="mc-check__icon">✓</span>
             <span>{item}</span>
           </li>
         ))}
       </ul>
 
-      <div class="mc-quien__cta-wrap">
-        <a href="#registro" class="mc-hero__cta" style="display:inline-block;">Quiero mi lugar gratis</a>
+      <div style="text-align:center; margin-top:2.5rem;">
+        <a href="#registro" class="mc-hero__cta">Quiero mi lugar gratis</a>
       </div>
     </div>
   </section>
 
   <!-- ========== 4. SOBRE ANA ========== -->
-  <section class="mc-ana section" aria-labelledby="mc-ana-title">
-    <div class="container">
+  <section class="mc-ana" aria-labelledby="mc-ana-title">
+    <div class="mc-container">
       <div class="mc-ana__grid">
-        <div class="mc-ana__image-col">
-          <div class="mc-ana__image-frame">
-            <img
-              src="/images/ana-foto.webp"
-              alt="Ana, creadora del Método Livianas"
-              width="480"
-              height="600"
-              loading="lazy"
-              decoding="async"
-              class="mc-ana__image"
-            />
-          </div>
+        <div class="mc-ana__img-wrap">
+          <img src="/images/ana-foto.webp" alt="Ana" width="480" height="600" loading="lazy" class="mc-ana__img" />
         </div>
-        <div class="mc-ana__text-col">
+        <div class="mc-ana__text">
           <span class="mc-label">Tu guía</span>
           <h2 id="mc-ana-title" class="mc-section-title">Ana</h2>
           <blockquote class="mc-ana__quote">
@@ -222,53 +195,32 @@ const paraQuienEs = [
   <TestimonialsCarousel />
 
   <!-- ========== 6. REGISTRO ========== -->
-  <section id="registro" class="mc-registro section" aria-labelledby="mc-registro-title">
-    <div class="container container--narrow">
+  <section id="registro" class="mc-registro" aria-labelledby="mc-registro-title">
+    <div class="mc-container mc-container--narrow">
       <div class="mc-section-header">
         <span class="mc-label">Cupos limitados</span>
         <h2 id="mc-registro-title" class="mc-section-title">Reservá tu lugar</h2>
-        <p class="mc-section-subtitle">Es 100% gratuita. Solo necesitamos tu nombre y email para enviarte el link de acceso.</p>
+        <p class="mc-section-sub">Es 100% gratuita. Solo necesitamos tu nombre y email para enviarte el link.</p>
       </div>
 
-      <form id="mc-form" class="mc-form" action="/api/masterclass-registro" method="POST">
+      <form id="mc-form" class="mc-form">
         <div class="mc-form__field">
           <label for="mc-nombre" class="mc-form__label">Tu nombre</label>
-          <input
-            type="text"
-            id="mc-nombre"
-            name="nombre"
-            required
-            placeholder="¿Cómo te llamás?"
-            class="mc-form__input"
-            autocomplete="given-name"
-          />
+          <input type="text" id="mc-nombre" name="nombre" required placeholder="¿Cómo te llamás?" class="mc-form__input" autocomplete="given-name" />
         </div>
         <div class="mc-form__field">
           <label for="mc-email" class="mc-form__label">Tu email</label>
-          <input
-            type="email"
-            id="mc-email"
-            name="email"
-            required
-            placeholder="tu@email.com"
-            class="mc-form__input"
-            autocomplete="email"
-          />
+          <input type="email" id="mc-email" name="email" required placeholder="tu@email.com" class="mc-form__input" autocomplete="email" />
         </div>
-        <button type="submit" class="mc-form__btn mc-hero__cta" id="mc-submit" style="text-align:center;">
+        <button type="submit" class="mc-hero__cta mc-form__submit" id="mc-submit">
           <span id="mc-btn-text">RESERVAR MI LUGAR GRATIS</span>
           <span id="mc-btn-loading" style="display:none;">Registrando...</span>
         </button>
-        <p class="mc-form__privacy">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-          Tu información está segura. No compartimos tus datos.
-        </p>
+        <p class="mc-form__note">🔒 Tu información está segura. No compartimos tus datos.</p>
       </form>
 
       <div id="mc-success" class="mc-success" style="display:none;">
-        <div class="mc-success__icon">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--color-sage)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
-        </div>
+        <div class="mc-success__check">✓</div>
         <h3 class="mc-success__title">¡Listo! Tu lugar está reservado</h3>
         <p class="mc-success__text">Revisá tu email — te enviamos los detalles de acceso.</p>
       </div>
@@ -276,14 +228,14 @@ const paraQuienEs = [
   </section>
 
   <!-- ========== 7. CTA FINAL ========== -->
-  <section class="mc-final section" aria-label="Llamado final">
-    <div class="container container--narrow" style="text-align:center;">
+  <section class="mc-final">
+    <div class="mc-container mc-container--narrow" style="text-align:center;">
       <h2 class="mc-section-title" style="color:white;">¿Tenés dudas?</h2>
-      <p style="color: rgba(255,255,255,0.8); font-size: 1.05rem; margin-bottom: var(--space-8);">
+      <p style="color:rgba(255,255,255,0.75); font-size:1.1rem; margin-bottom:2rem;">
         Escribile directamente a Ana por WhatsApp
       </p>
-      <a href={waLink} target="_blank" rel="noopener" class="btn--whatsapp mc-final__btn">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.27-.47-2.42-1.49-.9-.8-1.5-1.78-1.67-2.08-.18-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.21 5.1 4.5.71.31 1.27.49 1.7.63.72.23 1.37.2 1.88.12.58-.09 1.76-.72 2.01-1.42.25-.7.25-1.3.17-1.42-.07-.13-.27-.2-.57-.35z"/><path d="M12 0C5.37 0 0 5.37 0 12c0 2.12.55 4.11 1.51 5.85L0 24l6.33-1.66C8.07 23.42 9.99 24 12 24c6.63 0 12-5.37 12-12S18.63 0 12 0zm0 22c-1.82 0-3.56-.5-5.08-1.41l-.36-.22-3.76.99 1-3.67-.24-.37A9.94 9.94 0 012 12c0-5.51 4.49-10 10-10s10 4.49 10 10-4.49 10-10 10z"/></svg>
+      <a href={waLink} target="_blank" rel="noopener" class="mc-wa-btn">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.27-.47-2.42-1.49-.9-.8-1.5-1.78-1.67-2.08-.18-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.21 5.1 4.5.71.31 1.27.49 1.7.63.72.23 1.37.2 1.88.12.58-.09 1.76-.72 2.01-1.42.25-.7.25-1.3.17-1.42-.07-.13-.27-.2-.57-.35z"/><path d="M12 0C5.37 0 0 5.37 0 12c0 2.12.55 4.11 1.51 5.85L0 24l6.33-1.66C8.07 23.42 9.99 24 12 24c6.63 0 12-5.37 12-12S18.63 0 12 0zm0 22c-1.82 0-3.56-.5-5.08-1.41l-.36-.22-3.76.99 1-3.67-.24-.37A9.94 9.94 0 012 12c0-5.51 4.49-10 10-10s10 4.49 10 10-4.49 10-10 10z"/></svg>
         Hablar con Ana
       </a>
     </div>
@@ -310,10 +262,7 @@ const paraQuienEs = [
       btnLoading.style.display = 'inline';
 
       const formData = new FormData(form);
-      const data = {
-        nombre: formData.get('nombre'),
-        email: formData.get('email'),
-      };
+      const data = { nombre: formData.get('nombre'), email: formData.get('email') };
 
       try {
         const res = await fetch('/api/masterclass-registro', {
@@ -321,14 +270,13 @@ const paraQuienEs = [
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data),
         });
-
         if (res.ok) {
           form.style.display = 'none';
           successEl.style.display = 'block';
         } else {
-          throw new Error('Error en el registro');
+          throw new Error('fail');
         }
-      } catch (err) {
+      } catch {
         alert('Hubo un error. Por favor intentá de nuevo o escribile a Ana por WhatsApp.');
         submitBtn.disabled = false;
         btnText.style.display = 'inline';
@@ -336,563 +284,518 @@ const paraQuienEs = [
       }
     });
   }
-
   initMasterclassForm();
   document.addEventListener('astro:after-swap', initMasterclassForm);
 </script>
 
 <style>
-  /* ========== TOP BAR ========== */
+  /* ===== RESET & BASE ===== */
+  .mc-container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 1.25rem;
+  }
+  .mc-container--narrow { max-width: 680px; }
+
+  /* ===== TOP BAR ===== */
   .mc-topbar {
-    background: #C0392B;
-    color: white;
+    background: #B91C1C;
+    color: #fff;
     text-align: center;
     font-family: var(--font-outfit);
-    font-size: clamp(1rem, 2vw, 1.2rem);
-    font-weight: 800;
-    letter-spacing: 0.04em;
-    padding: 1rem 1.5rem;
-    position: relative;
-    z-index: 100;
-    text-transform: uppercase;
+    font-size: clamp(0.85rem, 2.2vw, 1.1rem);
+    font-weight: 700;
+    padding: 0.75rem 1rem;
+    letter-spacing: 0.02em;
   }
 
-  /* ========== HERO — SPLIT ========== */
+  /* ===== HERO ===== */
   .mc-hero {
+    background: #fff;
+  }
+
+  /* Photo area — the photo IS the hero */
+  .mc-hero__photo-area {
     position: relative;
-    overflow: hidden;
-    background: linear-gradient(135deg, #FDF5F2 0%, #F9EDE8 40%, #F3E0D8 70%, #EEDDD6 100%);
-    min-height: 100vh;
-    min-height: 100dvh;
+    width: 100%;
+    background: linear-gradient(180deg, #FAF0EC 0%, #F3DDD4 40%, #EDD0C5 100%);
     display: flex;
-    align-items: center;
+    justify-content: center;
+    align-items: flex-end;
+    overflow: hidden;
+    min-height: 50vh;
   }
 
   .mc-hero__watermark {
     position: absolute;
-    right: -1%;
-    top: 50%;
-    transform: translateY(-50%);
+    inset: 0;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    justify-content: center;
+    align-items: center;
     pointer-events: none;
     z-index: 0;
-    padding-right: 2rem;
   }
 
-  .mc-hero__wm-line1,
-  .mc-hero__wm-line2 {
+  .mc-hero__watermark span {
     font-family: var(--font-display);
     font-weight: 700;
     font-style: italic;
-    line-height: 0.85;
-    white-space: nowrap;
-    color: rgba(180, 120, 100, 0.12);
+    line-height: 0.9;
+    color: rgba(160, 100, 80, 0.12);
   }
 
-  .mc-hero__wm-line1 {
-    font-size: clamp(6rem, 14vw, 14rem);
+  .mc-hero__watermark span:first-child {
+    font-size: clamp(5rem, 20vw, 16rem);
   }
 
-  .mc-hero__wm-line2 {
-    font-size: clamp(7rem, 16vw, 16rem);
-    color: rgba(180, 120, 100, 0.08);
+  .mc-hero__watermark span:last-child {
+    font-size: clamp(5.5rem, 22vw, 18rem);
+    color: rgba(160, 100, 80, 0.08);
   }
 
-  .mc-hero__grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    align-items: center;
-    width: 100%;
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 6rem 1.5rem 2rem;
-    gap: var(--space-8);
+  .mc-hero__photo {
     position: relative;
     z-index: 1;
+    width: 65%;
+    max-width: 480px;
+    height: auto;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
   }
 
   @media (min-width: 768px) {
-    .mc-hero__grid {
-      grid-template-columns: 1fr 1fr;
-      padding: 2rem 3rem;
-      gap: var(--space-6);
-      min-height: 100vh;
-      min-height: 100dvh;
+    .mc-hero__photo-area {
+      min-height: 70vh;
+    }
+    .mc-hero__photo {
+      width: 45%;
+      max-width: 520px;
     }
   }
 
-  @media (min-width: 1024px) {
-    .mc-hero__grid {
-      grid-template-columns: 1.1fr 0.9fr;
-      padding: 2rem 4rem;
+  /* Badge overlaid on photo bottom */
+  .mc-hero__badge {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    font-family: var(--font-outfit);
+    font-size: clamp(0.6rem, 1.5vw, 0.75rem);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #fff;
+    background: rgba(44, 40, 37, 0.85);
+    backdrop-filter: blur(8px);
+    padding: 0.7rem 1.5rem;
+    border-radius: 999px;
+    white-space: nowrap;
+    max-width: 90%;
+    text-align: center;
+  }
+
+  @media (max-width: 480px) {
+    .mc-hero__badge {
+      white-space: normal;
+      max-width: 85%;
+      font-size: 0.65rem;
     }
   }
 
-  /* Hero text */
-  .mc-hero__text {
+  /* Content below photo */
+  .mc-hero__content {
+    padding: 2.5rem 1.5rem 3rem;
+    text-align: center;
     display: flex;
     flex-direction: column;
-    gap: var(--space-6);
-  }
-
-  .mc-hero__top-badge {
-    display: inline-flex;
-    align-self: flex-start;
-    font-family: var(--font-outfit);
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: white;
-    background: var(--color-blush-dark);
-    padding: 0.7rem 1.75rem;
-    border-radius: var(--radius-full);
-    box-shadow: 0 4px 16px rgba(192, 122, 102, 0.35);
+    align-items: center;
+    gap: 1.5rem;
+    max-width: 680px;
+    margin: 0 auto;
   }
 
   .mc-hero__title {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: clamp(2.5rem, 6vw, 4rem);
-    line-height: 1.15;
-    color: var(--color-carbon);
+    font-size: clamp(1.75rem, 5.5vw, 3rem);
+    line-height: 1.2;
+    color: #1a1614;
   }
 
-  .mc-hero__highlight {
-    color: var(--color-blush-dark);
+  .mc-hero__title em {
+    color: #7B8F6B;
     font-style: italic;
     text-decoration: underline;
-    text-decoration-color: rgba(212, 145, 126, 0.4);
+    text-decoration-color: rgba(123, 143, 107, 0.35);
     text-underline-offset: 4px;
-    text-decoration-thickness: 3px;
+    text-decoration-thickness: 2px;
   }
 
   .mc-hero__subtitle {
     font-family: var(--font-sans);
-    font-size: clamp(1.05rem, 2vw, 1.2rem);
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
     line-height: 1.7;
-    color: var(--color-carbon-light);
-    max-width: 540px;
+    color: #5a524d;
   }
 
   /* Pills */
   .mc-hero__pills {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-3);
+    justify-content: center;
+    gap: 0.6rem;
   }
 
   .mc-pill {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.4rem;
     font-family: var(--font-sans);
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     font-weight: 600;
-    color: var(--color-carbon);
-    background: var(--color-white);
-    border: 1.5px solid var(--color-sand);
-    border-radius: var(--radius-full);
-    padding: 0.6rem 1.25rem;
-    box-shadow: 0 2px 8px rgba(44, 40, 37, 0.06);
-  }
-
-  .mc-pill svg {
-    color: var(--color-blush-dark);
-    flex-shrink: 0;
-  }
-
-  .mc-hero__time-row {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-family: var(--font-sans);
-    font-size: 0.9rem;
-    color: var(--color-text-muted);
+    color: #3d3835;
+    background: #f5f0ec;
+    border: 1px solid #e8dfd6;
+    border-radius: 999px;
     padding: 0.5rem 1rem;
-    background: var(--color-white);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-full);
-    align-self: flex-start;
   }
 
-  .mc-hero__time-row svg {
-    color: var(--color-blush-dark);
+  .mc-pill svg { color: #7B8F6B; flex-shrink: 0; }
+
+  .mc-pill--free {
+    background: #f0f3ec;
+    border-color: #c9d6b8;
+    color: #5E7252;
   }
 
-  /* CTA */
+  /* CTA — Big green button */
   .mc-hero__cta {
-    display: inline-block;
+    display: block;
+    width: 100%;
+    max-width: 480px;
     font-family: var(--font-outfit);
     font-weight: 800;
-    font-size: clamp(1rem, 1.8vw, 1.2rem);
-    letter-spacing: 0.06em;
+    font-size: clamp(0.95rem, 2vw, 1.15rem);
+    letter-spacing: 0.05em;
     text-transform: uppercase;
-    color: white;
-    background: var(--color-sage);
-    border: none;
-    border-radius: var(--radius-full);
-    padding: 1.25rem 3rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-decoration: none;
     text-align: center;
-    box-shadow: 0 6px 28px rgba(123, 143, 107, 0.45);
-    max-width: 100%;
+    color: #fff;
+    background: #5E7252;
+    border: none;
+    border-radius: 999px;
+    padding: 1.2rem 2rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-decoration: none;
+    box-shadow: 0 6px 24px rgba(94, 114, 82, 0.35);
   }
 
   .mc-hero__cta:hover {
-    background: var(--color-sage-dark);
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 10px 40px rgba(94, 114, 82, 0.55);
+    background: #4a5e40;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 36px rgba(94, 114, 82, 0.45);
   }
 
   .mc-hero__urgency {
     font-family: var(--font-sans);
-    font-size: 0.95rem;
-    color: var(--color-carbon);
-    font-weight: 600;
+    font-size: 0.9rem;
+    color: #8a7e77;
+    font-weight: 500;
   }
 
-  /* Hero image */
-  .mc-hero__image-col {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-  }
-
-  .mc-hero__photo {
-    width: 100%;
-    max-width: 500px;
-    height: auto;
-    object-fit: cover;
-    object-position: top center;
-    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-    box-shadow: 0 20px 80px rgba(192, 122, 102, 0.25), 0 8px 30px rgba(44, 40, 37, 0.1);
-  }
-
-  @media (min-width: 768px) {
-    .mc-hero__photo {
-      max-width: 100%;
-      max-height: 85vh;
-      border-radius: var(--radius-xl);
-    }
-  }
-
-  /* ========== SHARED ========== */
+  /* ===== SECTIONS SHARED ===== */
   .mc-section-header {
     text-align: center;
-    margin-bottom: var(--space-12);
+    margin-bottom: 3rem;
   }
 
   .mc-label {
     display: inline-block;
     font-family: var(--font-outfit);
-    font-size: 0.75rem;
-    font-weight: 600;
+    font-size: 0.7rem;
+    font-weight: 700;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: var(--color-sage);
-    background: var(--color-sage-wash);
-    padding: 0.35rem 1rem;
-    border-radius: var(--radius-full);
-    margin-bottom: var(--space-4);
+    color: #5E7252;
+    background: #f0f3ec;
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    margin-bottom: 1rem;
   }
 
   .mc-section-title {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
-    color: var(--color-carbon);
-    margin-bottom: var(--space-3);
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    color: #1a1614;
+    margin-bottom: 0.75rem;
   }
 
-  .mc-section-subtitle {
+  .mc-section-sub {
     font-family: var(--font-sans);
-    font-size: 1.05rem;
-    color: var(--color-text-muted);
-    max-width: 520px;
+    font-size: 1rem;
+    color: #7a7470;
+    max-width: 480px;
     margin: 0 auto;
   }
 
-  /* ========== QUE VAS A APRENDER ========== */
+  /* ===== QUE VAS A APRENDER ===== */
   .mc-learn {
-    background: var(--color-white);
+    background: #fff;
+    padding: 5rem 0;
   }
 
-  .mc-cards-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-6);
-    max-width: 960px;
+  .mc-mentiras {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 680px;
     margin: 0 auto;
   }
 
-  @media (min-width: 768px) {
-    .mc-cards-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  .mc-card {
-    background: var(--color-cream);
-    border-radius: var(--radius-lg);
-    padding: var(--space-8);
-    text-align: center;
-    border: 1px solid var(--color-border);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  .mc-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 32px rgba(44, 40, 37, 0.08);
-  }
-
-  .mc-card__icon {
+  .mc-mentira {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: var(--color-sage-wash);
-    color: var(--color-sage);
-    margin: 0 auto var(--space-5);
+    gap: 1.5rem;
+    align-items: flex-start;
+    padding: 2rem 0;
+    border-bottom: 1px solid #f0ebe6;
   }
 
-  .mc-card__title {
+  .mc-mentira:last-child { border-bottom: none; }
+
+  .mc-mentira__num {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: rgba(123, 143, 107, 0.2);
+    line-height: 1;
+    flex-shrink: 0;
+    width: 3.5rem;
+  }
+
+  .mc-mentira__title {
     font-family: var(--font-display);
     font-weight: 700;
     font-size: 1.2rem;
-    color: var(--color-carbon);
-    margin-bottom: var(--space-3);
-    line-height: 1.4;
+    color: #1a1614;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
   }
 
-  .mc-card__desc {
+  .mc-mentira__desc {
     font-size: 0.95rem;
     line-height: 1.7;
-    color: var(--color-text-muted);
+    color: #7a7470;
   }
 
-  /* ========== PARA QUIEN ES ========== */
+  /* ===== PARA QUIEN ===== */
   .mc-quien {
-    background: var(--color-cream);
+    background: #FAF7F4;
+    padding: 5rem 0;
   }
 
   .mc-checklist {
     list-style: none;
     padding: 0;
-    max-width: 600px;
+    max-width: 560px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: var(--space-4);
+    gap: 1.1rem;
   }
 
-  .mc-checklist__item {
+  .mc-check {
     display: flex;
     align-items: flex-start;
-    gap: var(--space-3);
+    gap: 0.75rem;
     font-family: var(--font-sans);
     font-size: 1rem;
     line-height: 1.6;
-    color: var(--color-text);
+    color: #3d3835;
   }
 
-  .mc-checklist__icon {
+  .mc-check__icon {
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #5E7252;
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 800;
     margin-top: 2px;
   }
 
-  .mc-quien__cta-wrap {
-    text-align: center;
-    margin-top: var(--space-10);
-  }
-
-  /* ========== SOBRE ANA ========== */
+  /* ===== SOBRE ANA ===== */
   .mc-ana {
-    background: var(--color-white);
+    background: #fff;
+    padding: 5rem 0;
   }
 
   .mc-ana__grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--space-10);
+    gap: 2.5rem;
     align-items: center;
-    max-width: 900px;
+    max-width: 880px;
     margin: 0 auto;
   }
 
   @media (min-width: 768px) {
-    .mc-ana__grid {
-      grid-template-columns: 1fr 1.2fr;
-    }
+    .mc-ana__grid { grid-template-columns: 0.8fr 1.2fr; }
   }
 
-  .mc-ana__image-frame {
-    border-radius: var(--radius-xl);
+  .mc-ana__img-wrap {
+    border-radius: 1.25rem;
     overflow: hidden;
     box-shadow: 0 8px 40px rgba(44, 40, 37, 0.1);
   }
 
-  .mc-ana__image {
+  .mc-ana__img {
     width: 100%;
     height: auto;
     display: block;
     object-fit: cover;
   }
 
-  .mc-ana__text-col {
+  .mc-ana__text {
     display: flex;
     flex-direction: column;
-    gap: var(--space-4);
+    gap: 1rem;
   }
 
   .mc-ana__quote {
     font-family: var(--font-display);
-    font-size: 1.35rem;
+    font-size: 1.3rem;
     font-style: italic;
     font-weight: 600;
-    color: var(--color-carbon);
+    color: #1a1614;
     line-height: 1.5;
-    border-left: 3px solid var(--color-sage);
-    padding-left: var(--space-5);
+    border-left: 3px solid #7B8F6B;
+    padding-left: 1.25rem;
     margin: 0;
   }
 
   .mc-ana__bio {
     font-size: 0.95rem;
     line-height: 1.7;
-    color: var(--color-text-muted);
+    color: #7a7470;
   }
 
-  /* ========== REGISTRO ========== */
+  /* ===== REGISTRO ===== */
   .mc-registro {
-    background: linear-gradient(180deg, var(--color-cream-warm) 0%, var(--color-cream) 100%);
+    background: linear-gradient(180deg, #FAF0EC, #F5EDE8);
+    padding: 5rem 0;
   }
 
   .mc-form {
-    max-width: 480px;
+    max-width: 440px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: var(--space-5);
+    gap: 1.25rem;
   }
 
   .mc-form__field {
     display: flex;
     flex-direction: column;
-    gap: var(--space-2);
+    gap: 0.4rem;
   }
 
   .mc-form__label {
     font-family: var(--font-sans);
-    font-size: 0.875rem;
+    font-size: 0.85rem;
     font-weight: 600;
-    color: var(--color-carbon);
+    color: #1a1614;
   }
 
   .mc-form__input {
     font-family: var(--font-sans);
     font-size: 1rem;
     padding: 0.875rem 1.25rem;
-    border: 1.5px solid var(--color-sand);
-    border-radius: var(--radius-md);
-    background: var(--color-white);
-    color: var(--color-carbon);
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    border: 1.5px solid #e0d6cd;
+    border-radius: 0.75rem;
+    background: #fff;
+    color: #1a1614;
     outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
   }
 
   .mc-form__input:focus {
-    border-color: var(--color-sage);
-    box-shadow: 0 0 0 3px var(--color-sage-wash);
+    border-color: #7B8F6B;
+    box-shadow: 0 0 0 3px rgba(123, 143, 107, 0.15);
   }
 
-  .mc-form__input::placeholder {
-    color: var(--color-text-light);
+  .mc-form__input::placeholder { color: #b5ada7; }
+
+  .mc-form__submit {
+    margin-top: 0.5rem;
   }
 
-  .mc-form__btn {
-    width: 100%;
+  .mc-form__submit:disabled { opacity: 0.6; cursor: wait; }
+
+  .mc-form__note {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #8a7e77;
   }
 
-  .mc-form__btn:disabled {
-    opacity: 0.7;
-    cursor: wait;
+  /* Success */
+  .mc-success {
+    text-align: center;
+    padding: 2.5rem 0;
   }
 
-  .mc-form__privacy {
+  .mc-success__check {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.4rem;
-    font-size: 0.8rem;
-    color: var(--color-text-muted);
-    text-align: center;
-  }
-
-  .mc-form__privacy svg {
-    flex-shrink: 0;
-    color: var(--color-sage);
-  }
-
-  /* Success state */
-  .mc-success {
-    text-align: center;
-    padding: var(--space-10) 0;
-  }
-
-  .mc-success__icon {
-    margin-bottom: var(--space-5);
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #5E7252;
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin: 0 auto 1.25rem;
   }
 
   .mc-success__title {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: 1.75rem;
-    color: var(--color-carbon);
-    margin-bottom: var(--space-3);
+    font-size: 1.6rem;
+    color: #1a1614;
+    margin-bottom: 0.5rem;
   }
 
-  .mc-success__text {
-    font-size: 1rem;
-    color: var(--color-text-muted);
-  }
+  .mc-success__text { font-size: 1rem; color: #7a7470; }
 
-  /* ========== CTA FINAL ========== */
+  /* ===== FINAL CTA ===== */
   .mc-final {
-    background: var(--color-carbon);
-    padding: var(--space-16) 0;
+    background: #1a1614;
+    padding: 4rem 0;
   }
 
-  .mc-final .mc-section-title {
-    color: white;
-  }
-
-  .mc-final__btn {
+  .mc-wa-btn {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
     gap: 0.5rem;
     font-family: var(--font-outfit);
-    font-weight: 600;
+    font-weight: 700;
     font-size: 1rem;
-    color: white;
-    background: var(--color-whatsapp);
-    border: none;
-    border-radius: var(--radius-full);
+    color: #fff;
+    background: #128C7E;
+    border-radius: 999px;
     padding: 0.875rem 2rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
     text-decoration: none;
+    transition: all 0.25s ease;
   }
 
-  .mc-final__btn:hover {
-    background: var(--color-whatsapp-hover);
-    transform: translateY(-1px);
-  }
+  .mc-wa-btn:hover { background: #0E7A6E; transform: translateY(-1px); }
 </style>
