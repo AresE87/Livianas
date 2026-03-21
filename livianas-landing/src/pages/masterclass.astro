@@ -75,8 +75,11 @@ const paraQuienEs = [
 
   <!-- ========== 1. HERO — SPLIT LAYOUT ========== -->
   <section class="mc-hero" aria-label="Masterclass gratuita">
-    <!-- Background watermark -->
-    <div class="mc-hero__watermark" aria-hidden="true">LIVIANAS</div>
+    <!-- Background watermark behind Ana -->
+    <div class="mc-hero__watermark" aria-hidden="true">
+      <span class="mc-hero__wm-line1">Vivir</span>
+      <span class="mc-hero__wm-line2">Liviana</span>
+    </div>
 
     <div class="mc-hero__grid">
       <!-- LEFT: Content -->
@@ -341,14 +344,14 @@ const paraQuienEs = [
 <style>
   /* ========== TOP BAR ========== */
   .mc-topbar {
-    background: var(--color-sage);
+    background: var(--color-sage-dark);
     color: white;
     text-align: center;
     font-family: var(--font-outfit);
-    font-size: 0.85rem;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    padding: 0.65rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    padding: 0.8rem 1rem;
     position: relative;
     z-index: 100;
   }
@@ -366,17 +369,34 @@ const paraQuienEs = [
 
   .mc-hero__watermark {
     position: absolute;
-    right: -2%;
+    right: 0;
     top: 50%;
     transform: translateY(-50%);
-    font-family: var(--font-display);
-    font-size: clamp(8rem, 18vw, 20rem);
-    font-weight: 700;
-    color: rgba(123, 143, 107, 0.04);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
     pointer-events: none;
-    white-space: nowrap;
-    line-height: 1;
     z-index: 0;
+    padding-right: 2rem;
+  }
+
+  .mc-hero__wm-line1,
+  .mc-hero__wm-line2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-style: italic;
+    line-height: 0.85;
+    white-space: nowrap;
+    color: rgba(123, 143, 107, 0.07);
+  }
+
+  .mc-hero__wm-line1 {
+    font-size: clamp(6rem, 14vw, 14rem);
+  }
+
+  .mc-hero__wm-line2 {
+    font-size: clamp(7rem, 16vw, 16rem);
+    color: rgba(123, 143, 107, 0.05);
   }
 
   .mc-hero__grid {
@@ -413,41 +433,46 @@ const paraQuienEs = [
   .mc-hero__text {
     display: flex;
     flex-direction: column;
-    gap: var(--space-5);
+    gap: var(--space-6);
   }
 
   .mc-hero__top-badge {
     display: inline-flex;
     align-self: flex-start;
     font-family: var(--font-outfit);
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: white;
-    background: var(--color-sage);
-    padding: 0.6rem 1.5rem;
+    background: var(--color-sage-dark);
+    padding: 0.7rem 1.75rem;
     border-radius: var(--radius-full);
+    box-shadow: 0 4px 16px rgba(94, 114, 82, 0.3);
   }
 
   .mc-hero__title {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: clamp(2rem, 5vw, 3.25rem);
-    line-height: 1.2;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    line-height: 1.15;
     color: var(--color-carbon);
   }
 
   .mc-hero__highlight {
     color: var(--color-sage);
     font-style: italic;
+    text-decoration: underline;
+    text-decoration-color: rgba(123, 143, 107, 0.3);
+    text-underline-offset: 4px;
+    text-decoration-thickness: 3px;
   }
 
   .mc-hero__subtitle {
     font-family: var(--font-sans);
-    font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+    font-size: clamp(1.05rem, 2vw, 1.2rem);
     line-height: 1.7;
-    color: var(--color-text-muted);
+    color: var(--color-carbon-light);
     max-width: 540px;
   }
 
@@ -461,15 +486,16 @@ const paraQuienEs = [
   .mc-pill {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: 0.5rem;
     font-family: var(--font-sans);
-    font-size: 0.85rem;
-    font-weight: 500;
+    font-size: 0.95rem;
+    font-weight: 600;
     color: var(--color-carbon);
     background: var(--color-white);
-    border: 1px solid var(--color-border);
+    border: 1.5px solid var(--color-sand);
     border-radius: var(--radius-full);
-    padding: 0.5rem 1rem;
+    padding: 0.6rem 1.25rem;
+    box-shadow: 0 2px 8px rgba(44, 40, 37, 0.06);
   }
 
   .mc-pill svg {
@@ -499,33 +525,34 @@ const paraQuienEs = [
   .mc-hero__cta {
     display: inline-block;
     font-family: var(--font-outfit);
-    font-weight: 700;
-    font-size: clamp(0.9rem, 1.5vw, 1.05rem);
-    letter-spacing: 0.04em;
+    font-weight: 800;
+    font-size: clamp(1rem, 1.8vw, 1.2rem);
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     color: white;
     background: var(--color-sage);
     border: none;
     border-radius: var(--radius-full);
-    padding: 1.1rem 2.5rem;
+    padding: 1.25rem 3rem;
     cursor: pointer;
     transition: all 0.3s ease;
     text-decoration: none;
     text-align: center;
-    box-shadow: 0 4px 20px rgba(123, 143, 107, 0.35);
+    box-shadow: 0 6px 28px rgba(123, 143, 107, 0.4);
+    max-width: 100%;
   }
 
   .mc-hero__cta:hover {
     background: var(--color-sage-dark);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(123, 143, 107, 0.45);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 10px 40px rgba(94, 114, 82, 0.5);
   }
 
   .mc-hero__urgency {
     font-family: var(--font-sans);
-    font-size: 0.85rem;
-    color: var(--color-text-muted);
-    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--color-carbon);
+    font-weight: 600;
   }
 
   /* Hero image */
