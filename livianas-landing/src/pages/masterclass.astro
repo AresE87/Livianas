@@ -344,7 +344,7 @@ const paraQuienEs = [
 <style>
   /* ========== TOP BAR ========== */
   .mc-topbar {
-    background: var(--color-sage-dark);
+    background: var(--color-carbon);
     color: white;
     text-align: center;
     font-family: var(--font-outfit);
@@ -360,7 +360,7 @@ const paraQuienEs = [
   .mc-hero {
     position: relative;
     overflow: hidden;
-    background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-cream-warm) 60%, rgba(123, 143, 107, 0.08) 100%);
+    background: linear-gradient(135deg, #FDF5F2 0%, #F9EDE8 40%, #F3E0D8 70%, #EEDDD6 100%);
     min-height: 100vh;
     min-height: 100dvh;
     display: flex;
@@ -369,7 +369,7 @@ const paraQuienEs = [
 
   .mc-hero__watermark {
     position: absolute;
-    right: 0;
+    right: -1%;
     top: 50%;
     transform: translateY(-50%);
     display: flex;
@@ -387,7 +387,7 @@ const paraQuienEs = [
     font-style: italic;
     line-height: 0.85;
     white-space: nowrap;
-    color: rgba(123, 143, 107, 0.07);
+    color: rgba(180, 120, 100, 0.12);
   }
 
   .mc-hero__wm-line1 {
@@ -396,7 +396,7 @@ const paraQuienEs = [
 
   .mc-hero__wm-line2 {
     font-size: clamp(7rem, 16vw, 16rem);
-    color: rgba(123, 143, 107, 0.05);
+    color: rgba(180, 120, 100, 0.08);
   }
 
   .mc-hero__grid {
@@ -445,10 +445,10 @@ const paraQuienEs = [
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: white;
-    background: var(--color-sage-dark);
+    background: var(--color-blush-dark);
     padding: 0.7rem 1.75rem;
     border-radius: var(--radius-full);
-    box-shadow: 0 4px 16px rgba(94, 114, 82, 0.3);
+    box-shadow: 0 4px 16px rgba(192, 122, 102, 0.35);
   }
 
   .mc-hero__title {
@@ -460,10 +460,10 @@ const paraQuienEs = [
   }
 
   .mc-hero__highlight {
-    color: var(--color-sage);
+    color: var(--color-blush-dark);
     font-style: italic;
     text-decoration: underline;
-    text-decoration-color: rgba(123, 143, 107, 0.3);
+    text-decoration-color: rgba(212, 145, 126, 0.4);
     text-underline-offset: 4px;
     text-decoration-thickness: 3px;
   }
@@ -499,7 +499,7 @@ const paraQuienEs = [
   }
 
   .mc-pill svg {
-    color: var(--color-sage);
+    color: var(--color-blush-dark);
     flex-shrink: 0;
   }
 
@@ -518,7 +518,7 @@ const paraQuienEs = [
   }
 
   .mc-hero__time-row svg {
-    color: var(--color-sage);
+    color: var(--color-blush-dark);
   }
 
   /* CTA */
@@ -538,14 +538,14 @@ const paraQuienEs = [
     transition: all 0.3s ease;
     text-decoration: none;
     text-align: center;
-    box-shadow: 0 6px 28px rgba(123, 143, 107, 0.4);
+    box-shadow: 0 6px 28px rgba(123, 143, 107, 0.45);
     max-width: 100%;
   }
 
   .mc-hero__cta:hover {
     background: var(--color-sage-dark);
     transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 10px 40px rgba(94, 114, 82, 0.5);
+    box-shadow: 0 10px 40px rgba(94, 114, 82, 0.55);
   }
 
   .mc-hero__urgency {
@@ -569,7 +569,7 @@ const paraQuienEs = [
     object-fit: cover;
     object-position: top center;
     border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-    box-shadow: 0 20px 60px rgba(44, 40, 37, 0.15);
+    box-shadow: 0 20px 80px rgba(192, 122, 102, 0.25), 0 8px 30px rgba(44, 40, 37, 0.1);
   }
 
   @media (min-width: 768px) {
