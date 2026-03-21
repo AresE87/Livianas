@@ -257,14 +257,24 @@ const faqSchema = {
         <!-- Program name -->
         <p class="pricing-program-name">{pl.nombre}</p>
 
-        <!-- Price -->
+        <!-- Price UYU -->
         <div class="pricing-prices">
           <span class="pricing-old-price">$ 9.200</span>
           <div class="pricing-main-price">
             <span class="pricing-currency">$</span>
             <span class="pricing-amount">{pl.precioUYU.toLocaleString('es-UY')}</span>
           </div>
-          <p class="pricing-weekly">Pago único</p>
+          <p class="pricing-weekly">Pesos uruguayos · Pago único</p>
+        </div>
+
+        <!-- Price USD -->
+        <div class="pricing-prices pricing-prices--usd">
+          <span class="pricing-old-price">USD {pl.precioRegularUSD}</span>
+          <div class="pricing-main-price">
+            <span class="pricing-currency">USD</span>
+            <span class="pricing-amount">{pl.precioUSD}</span>
+          </div>
+          <p class="pricing-weekly">Dólares · Pago único</p>
         </div>
 
         <!-- Divider -->
@@ -1193,6 +1203,12 @@ const faqSchema = {
     text-align: center;
     margin-bottom: var(--space-6);
     position: relative;
+  }
+
+  .pricing-prices--usd {
+    margin-top: 0;
+    padding-top: var(--space-4);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
   }
 
   .pricing-old-price {
