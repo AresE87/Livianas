@@ -52,8 +52,8 @@ export const siteConfig = {
   // Programa Livianas (producto de entrada)
   programaLivianas: {
     nombre: 'Programa Livianas',
-    precioUSD: 127,
-    precioRegularUSD: 197,
+    precioUSD: 147,
+    precioRegularUSD: 247,
     precioUYU: 6200,
     cuposMax: 10,
     fechaInicio: '12 de abril de 2026',
