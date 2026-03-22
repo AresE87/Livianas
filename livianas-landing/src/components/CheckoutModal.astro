@@ -636,12 +636,15 @@
 </style>
 
 <!-- ══════════════════════════════════════════
-     FLUJO DE PAGO: Email → localStorage → MP link (nueva pestaña) → auto-send al volver
+     FLUJO DE PAGO SEGURO:
+     1. Email → create-preference (email como external_reference)
+     2. Abre checkout de MP en nueva pestaña
+     3. MP redirige a /materiales/gracias cuando paga
+     4. Webhook de MP confirma pago y envía materiales por email
+     NUNCA se envían materiales sin confirmación de pago de MP.
 ═══════════════════════════════════════════ -->
 
 <script is:inline>
-
-  const MP_PAYMENT_LINK = 'https://mpago.la/2WDYdvD';
 
   // ── Referencias DOM ──────────────────────────────
   const modal          = document.getElementById('checkout-modal');
@@ -665,7 +668,6 @@
   const priceStrip     = document.querySelector('.modal-price');
 
   let currentEmail = '';
-  let mpWindowOpened = false;
 
   // ── Helpers de UI ────────────────────────────────
   function showModal()  { modal.style.setProperty('display', 'flex', 'important'); document.body.style.overflow = 'hidden'; }
@@ -724,11 +726,11 @@
   });
 
   // ── Continuar al pago ─────────────────────────────
-  // 1. Guarda email en localStorage
-  // 2. Abre el link de MP en nueva pestaña
-  // 3. Muestra paso de "esperando" con indicaciones
-  // 4. Cuando el usuario vuelve (visibilitychange), muestra éxito y envía materiales
-  btnContinuar?.addEventListener('click', () => {
+  // 1. Crea preferencia en MP con el email como external_reference
+  // 2. Abre el init_point de MP (checkout) en nueva pestaña
+  // 3. MP maneja todo: pago, redirect a /materiales/gracias
+  // 4. Webhook de MP confirma pago aprobado → envía materiales al email
+  btnContinuar?.addEventListener('click', async () => {
     const email = emailInput.value.trim();
     if (!isValidEmail(email)) {
       emailError.classList.remove('hidden');
@@ -739,80 +741,91 @@
     emailInput.classList.remove('modal-input--error');
     currentEmail = email;
 
-    // Guardar email en localStorage para el flujo autónomo
-    localStorage.setItem('mat_email', email);
-    localStorage.setItem('mat_timestamp', Date.now().toString());
-
-    // Abrir MP en nueva pestaña
-    window.open(MP_PAYMENT_LINK, '_blank');
-    mpWindowOpened = true;
-
-    // Mostrar paso de espera (reutilizamos step-bricks como "esperando pago")
+    // Mostrar loading
     showStep(stepBricks);
     bricksLoader.innerHTML = `
       <div class="modal-loader__spinner"></div>
-      <p class="modal-loader__text">Completá tu pago en Mercado Pago</p>
-      <p style="font-family:var(--font-sans);font-size:12px;color:var(--color-text-light);text-align:center;line-height:1.5;margin-top:8px;">
-        Se abrió una nueva pestaña con Mercado Pago.<br/>
-        Cuando termines, volvé acá.
-      </p>
+      <p class="modal-loader__text">Preparando tu checkout seguro...</p>
     `;
     bricksLoader.style.display = 'flex';
-  });
 
-  // ── Detectar cuando el usuario vuelve de MP ───────
-  document.addEventListener('visibilitychange', async () => {
-    if (document.visibilityState === 'visible' && mpWindowOpened && currentEmail) {
-      mpWindowOpened = false;
+    try {
+      // Crear preferencia en MP con email como referencia
+      const res = await fetch('/api/create-preference', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
 
-      // Mostrar éxito
-      successEmail.textContent = currentEmail;
-      showStep(stepSuccess);
+      if (!res.ok) throw new Error('Error al crear preferencia');
+      const { init_point } = await res.json();
 
-      // Enviar materiales automáticamente
-      try {
-        await fetch('/api/send-materiales', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: currentEmail }),
-        });
-        console.log('[checkout] Materiales enviados a', currentEmail);
-      } catch (err) {
-        console.error('[checkout] Error enviando materiales:', err);
-      }
+      if (!init_point) throw new Error('No se recibió link de checkout');
 
-      // Tracking
-      if (typeof fbq !== 'undefined') {
-        fbq('track', 'Purchase', {
-          content_name: 'Pack Materiales LIVIANAS',
-          content_type: 'product',
-          content_ids: ['pack-materiales'],
-          value: 990,
-          currency: 'UYU'
-        });
-      }
-      if (typeof gtag !== 'undefined') {
-        gtag('event', 'purchase', {
-          transaction_id: 'mat_' + Date.now(),
-          currency: 'UYU',
-          value: 990,
-          items: [{ item_id: 'pack-materiales', item_name: 'Pack Materiales LIVIANAS', price: 990, quantity: 1 }]
-        });
-      }
+      // Abrir checkout de MP — el pago se procesa allá
+      // MP redirige a /materiales/gracias cuando el pago es aprobado
+      // El webhook envía los materiales al email
+      window.open(init_point, '_blank');
+
+      // Mostrar mensaje informativo
+      bricksLoader.innerHTML = `
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-sage)">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+        <p class="modal-loader__text" style="font-weight:600;color:var(--color-carbon)">Completá tu pago en Mercado Pago</p>
+        <p style="font-family:var(--font-sans);font-size:12px;color:var(--color-text-muted);text-align:center;line-height:1.6;margin-top:4px;">
+          Se abrió una nueva pestaña con el checkout seguro.<br/>
+          Una vez confirmado el pago, te enviamos los materiales automáticamente a <strong>${email}</strong>.
+        </p>
+        <button onclick="closeModal()" style="margin-top:16px;padding:8px 24px;border:1.5px solid var(--color-border);border-radius:999px;font-family:var(--font-sans);font-size:13px;font-weight:500;color:var(--color-text-muted);background:transparent;cursor:pointer;">Entendido</button>
+      `;
+
+    } catch (err) {
+      console.error('[checkout] Error:', err);
+      errorMsg.textContent = 'No pudimos iniciar el checkout. Intentá de nuevo.';
+      showStep(stepError);
     }
   });
 
   // ── Reintentar ────────────────────────────────────
-  btnRetry?.addEventListener('click', () => {
+  btnRetry?.addEventListener('click', async () => {
     if (!currentEmail) {
       showStep(stepEmail);
       return;
     }
-    // Reabrir MP
-    window.open(MP_PAYMENT_LINK, '_blank');
-    mpWindowOpened = true;
     showStep(stepBricks);
+    bricksLoader.innerHTML = `
+      <div class="modal-loader__spinner"></div>
+      <p class="modal-loader__text">Preparando tu checkout seguro...</p>
+    `;
     bricksLoader.style.display = 'flex';
+
+    try {
+      const res = await fetch('/api/create-preference', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: currentEmail }),
+      });
+      if (!res.ok) throw new Error('Error al crear preferencia');
+      const { init_point } = await res.json();
+      window.open(init_point, '_blank');
+
+      bricksLoader.innerHTML = `
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-sage)">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+        <p class="modal-loader__text" style="font-weight:600;color:var(--color-carbon)">Completá tu pago en Mercado Pago</p>
+        <p style="font-family:var(--font-sans);font-size:12px;color:var(--color-text-muted);text-align:center;line-height:1.6;margin-top:4px;">
+          Una vez confirmado el pago, te enviamos los materiales a <strong>${currentEmail}</strong>.
+        </p>
+        <button onclick="closeModal()" style="margin-top:16px;padding:8px 24px;border:1.5px solid var(--color-border);border-radius:999px;font-family:var(--font-sans);font-size:13px;font-weight:500;color:var(--color-text-muted);background:transparent;cursor:pointer;">Entendido</button>
+      `;
+    } catch(err) {
+      errorMsg.textContent = 'No pudimos reiniciar el checkout.';
+      showStep(stepError);
+    }
   });
 
   // ── Input interactions ──────────────────────────
