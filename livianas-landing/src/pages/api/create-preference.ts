@@ -18,9 +18,8 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
-    // La cuenta MP de Ana está en UYU (pesos uruguayos)
-    // USD 15 ≈ UYU 650 — ajustar al tipo de cambio del momento
-    const PRICE_UYU = 650;
+    // Precio en pesos uruguayos
+    const PRICE_UYU = 990;
 
     // Normalizar SITE_URL (sin trailing slash)
     const siteUrl = SITE_URL.replace(/\/+$/, '');

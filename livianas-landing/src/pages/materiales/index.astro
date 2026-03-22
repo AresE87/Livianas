@@ -77,8 +77,8 @@ const faqItems = [
           content_name: 'Pack Materiales LIVIANAS',
           content_type: 'product',
           content_ids: ['pack-materiales'],
-          value: 15,
-          currency: 'USD'
+          value: 990,
+          currency: 'UYU'
         });
       `} />
       <noscript>
@@ -94,9 +94,9 @@ const faqItems = [
         gtag('js', new Date());
         gtag('config', '${ga4Id}');
         gtag('event', 'view_item', {
-          currency: 'USD',
-          value: 15,
-          items: [{ item_id: 'pack-materiales', item_name: 'Pack Materiales LIVIANAS', price: 15 }]
+          currency: 'UYU',
+          value: 990,
+          items: [{ item_id: 'pack-materiales', item_name: 'Pack Materiales LIVIANAS', price: 990 }]
         });
       `} />
     )}
@@ -123,7 +123,7 @@ const faqItems = [
         <section class="mat__product">
           <div class="mat__product-badge">
             <span class="mat__product-badge-text">OFERTA DE LANZAMIENTO</span>
-            <span class="mat__product-badge-discount">-38%</span>
+            <span class="mat__product-badge-discount">-33%</span>
           </div>
 
           <div class="mat__product-content">
@@ -153,10 +153,10 @@ const faqItems = [
             <div class="mat__product-pricing">
               <div class="mat__price-box">
                 <div class="mat__price-row">
-                  <span class="mat__price-old">USD 24</span>
-                  <span class="mat__price-current">USD 15</span>
+                  <span class="mat__price-old">$1.490</span>
+                  <span class="mat__price-current">$990</span>
                 </div>
-                <p class="mat__price-note">Pago único &middot; Descarga inmediata</p>
+                <p class="mat__price-note">Pago único en pesos &middot; Descarga inmediata</p>
               </div>
 
               <!-- Checkout Bricks embebido en modal -->
@@ -507,9 +507,9 @@ const faqItems = [
       .mat__price-old {
         font-family: var(--font-sans);
         font-size: var(--text-lg);
-        color: var(--color-text-muted);
+        color: #c0392b;
         text-decoration: line-through;
-        opacity: 0.5;
+        opacity: 0.8;
       }
 
       .mat__price-current {

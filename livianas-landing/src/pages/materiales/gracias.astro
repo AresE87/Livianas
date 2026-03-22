@@ -43,8 +43,8 @@ const ga4Id = siteConfig.ga4Id;
           content_name: 'Pack Materiales LIVIANAS',
           content_type: 'product',
           content_ids: ['pack-materiales'],
-          value: 15,
-          currency: 'USD'
+          value: 990,
+          currency: 'UYU'
         });
       `} />
     )}
@@ -58,9 +58,9 @@ const ga4Id = siteConfig.ga4Id;
         gtag('config', '${ga4Id}');
         gtag('event', 'purchase', {
           transaction_id: 'mat_' + Date.now(),
-          currency: 'USD',
-          value: 15,
-          items: [{ item_id: 'pack-materiales', item_name: 'Pack Materiales LIVIANAS', price: 15, quantity: 1 }]
+          currency: 'UYU',
+          value: 990,
+          items: [{ item_id: 'pack-materiales', item_name: 'Pack Materiales LIVIANAS', price: 990, quantity: 1 }]
         });
       `} />
     )}

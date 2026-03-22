@@ -1,9 +1,7 @@
 ---
 // src/components/CheckoutModal.astro
-// Checkout Bricks embebido en modal — sin salir de livianas.com
-// Requiere: PUBLIC_MP_PUBLIC_KEY en variables de entorno
-
-const MP_PUBLIC_KEY = import.meta.env.PUBLIC_MP_PUBLIC_KEY;
+// Checkout modal: captura email → abre link MP en nueva pestaña → auto-envía materiales al volver
+// Link de pago: https://mpago.la/2WDYdvD (990 UYU)
 ---
 
 <!-- BOTÓN TRIGGER -->
@@ -12,7 +10,7 @@ const MP_PUBLIC_KEY = import.meta.env.PUBLIC_MP_PUBLIC_KEY;
   class="btn-comprar"
 >
   <span class="btn-comprar__text">Comprar Pack</span>
-  <span class="btn-comprar__price">USD 15</span>
+  <span class="btn-comprar__price">$990</span>
 </button>
 
 <!-- ══════════════════════════════════════════
@@ -52,9 +50,9 @@ const MP_PUBLIC_KEY = import.meta.env.PUBLIC_MP_PUBLIC_KEY;
 
     <!-- Price strip -->
     <div class="modal-price">
-      <span class="modal-price__old">USD 24</span>
-      <span class="modal-price__current">USD 15</span>
-      <span class="modal-price__save">Ahorrás 38%</span>
+      <span class="modal-price__old">$1.490</span>
+      <span class="modal-price__current">$990</span>
+      <span class="modal-price__save">Ahorrás 33%</span>
     </div>
 
     <!-- PASO 1: Email -->
@@ -323,7 +321,7 @@ const MP_PUBLIC_KEY = import.meta.env.PUBLIC_MP_PUBLIC_KEY;
   .modal-price__old {
     font-family: var(--font-sans);
     font-size: var(--text-sm);
-    color: var(--color-text-light);
+    color: #c0392b;
     text-decoration: line-through;
   }
 
@@ -638,11 +636,12 @@ const MP_PUBLIC_KEY = import.meta.env.PUBLIC_MP_PUBLIC_KEY;
 </style>
 
 <!-- ══════════════════════════════════════════
-     SDK DE MERCADO PAGO
+     FLUJO DE PAGO: Email → localStorage → MP link (nueva pestaña) → auto-send al volver
 ═══════════════════════════════════════════ -->
-<script src="https://sdk.mercadopago.com/js/v2" is:inline></script>
 
-<script define:vars={{ MP_PUBLIC_KEY }}>
+<script is:inline>
+
+  const MP_PAYMENT_LINK = 'https://mpago.la/2WDYdvD';
 
   // ── Referencias DOM ──────────────────────────────
   const modal          = document.getElementById('checkout-modal');
@@ -666,7 +665,7 @@ const MP_PUBLIC_KEY = import.meta.env.PUBLIC_MP_PUBLIC_KEY;
   const priceStrip     = document.querySelector('.modal-price');
 
   let currentEmail = '';
-  let brickController = null;
+  let mpWindowOpened = false;
 
   // ── Helpers de UI ────────────────────────────────
   function showModal()  { modal.style.setProperty('display', 'flex', 'important'); document.body.style.overflow = 'hidden'; }
@@ -675,7 +674,6 @@ const MP_PUBLIC_KEY = import.meta.env.PUBLIC_MP_PUBLIC_KEY;
   function showStep(step) {
     [stepEmail, stepBricks, stepSuccess, stepError].forEach(s => s.classList.add('hidden'));
     step.classList.remove('hidden');
-    // Ocultar badge y price en success/error
     if (step === stepSuccess || step === stepError) {
       securityBadge.style.display = 'none';
       btnModalClose.style.display = 'none';
@@ -706,10 +704,6 @@ const MP_PUBLIC_KEY = import.meta.env.PUBLIC_MP_PUBLIC_KEY;
   // ── Cerrar modal ──────────────────────────────────
   function closeModal() {
     hideModal();
-    if (brickController) {
-      brickController.unmount();
-      brickController = null;
-    }
     setTimeout(() => {
       showStep(stepEmail);
       securityBadge.style.display = 'flex';
@@ -721,18 +715,20 @@ const MP_PUBLIC_KEY = import.meta.env.PUBLIC_MP_PUBLIC_KEY;
   btnModalClose?.addEventListener('click', closeModal);
   btnCloseSuccess?.addEventListener('click', closeModal);
 
-  // Click fuera del modal
   modal?.addEventListener('click', (e) => {
     if (e.target === modal) closeModal();
   });
 
-  // Escape key
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && modal.style.display !== 'none') closeModal();
   });
 
   // ── Continuar al pago ─────────────────────────────
-  btnContinuar?.addEventListener('click', async () => {
+  // 1. Guarda email en localStorage
+  // 2. Abre el link de MP en nueva pestaña
+  // 3. Muestra paso de "esperando" con indicaciones
+  // 4. Cuando el usuario vuelve (visibilitychange), muestra éxito y envía materiales
+  btnContinuar?.addEventListener('click', () => {
     const email = emailInput.value.trim();
     if (!isValidEmail(email)) {
       emailError.classList.remove('hidden');
@@ -743,81 +739,80 @@ const MP_PUBLIC_KEY = import.meta.env.PUBLIC_MP_PUBLIC_KEY;
     emailInput.classList.remove('modal-input--error');
     currentEmail = email;
 
+    // Guardar email en localStorage para el flujo autónomo
+    localStorage.setItem('mat_email', email);
+    localStorage.setItem('mat_timestamp', Date.now().toString());
+
+    // Abrir MP en nueva pestaña
+    window.open(MP_PAYMENT_LINK, '_blank');
+    mpWindowOpened = true;
+
+    // Mostrar paso de espera (reutilizamos step-bricks como "esperando pago")
     showStep(stepBricks);
+    bricksLoader.innerHTML = `
+      <div class="modal-loader__spinner"></div>
+      <p class="modal-loader__text">Completá tu pago en Mercado Pago</p>
+      <p style="font-family:var(--font-sans);font-size:12px;color:var(--color-text-light);text-align:center;line-height:1.5;margin-top:8px;">
+        Se abrió una nueva pestaña con Mercado Pago.<br/>
+        Cuando termines, volvé acá.
+      </p>
+    `;
     bricksLoader.style.display = 'flex';
-    document.getElementById('paymentBrick_container').innerHTML = '';
+  });
 
-    try {
-      const res = await fetch('/api/create-preference', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      });
+  // ── Detectar cuando el usuario vuelve de MP ───────
+  document.addEventListener('visibilitychange', async () => {
+    if (document.visibilityState === 'visible' && mpWindowOpened && currentEmail) {
+      mpWindowOpened = false;
 
-      if (!res.ok) throw new Error('Error al crear preferencia');
-      const { preference_id } = await res.json();
+      // Mostrar éxito
+      successEmail.textContent = currentEmail;
+      showStep(stepSuccess);
 
-      await initBricks(preference_id);
+      // Enviar materiales automáticamente
+      try {
+        await fetch('/api/send-materiales', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: currentEmail }),
+        });
+        console.log('[checkout] Materiales enviados a', currentEmail);
+      } catch (err) {
+        console.error('[checkout] Error enviando materiales:', err);
+      }
 
-    } catch (err) {
-      console.error(err);
-      errorMsg.textContent = 'No pudimos iniciar el checkout. Intentá de nuevo.';
-      showStep(stepError);
+      // Tracking
+      if (typeof fbq !== 'undefined') {
+        fbq('track', 'Purchase', {
+          content_name: 'Pack Materiales LIVIANAS',
+          content_type: 'product',
+          content_ids: ['pack-materiales'],
+          value: 990,
+          currency: 'UYU'
+        });
+      }
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'purchase', {
+          transaction_id: 'mat_' + Date.now(),
+          currency: 'UYU',
+          value: 990,
+          items: [{ item_id: 'pack-materiales', item_name: 'Pack Materiales LIVIANAS', price: 990, quantity: 1 }]
+        });
+      }
     }
   });
 
-  // ── Inicializar Wallet Brick ──────────────────────
-  // Wallet Brick: muestra botón "Pagar con Mercado Pago"
-  // El usuario paga en MP y vuelve via back_urls de la preferencia.
-  // El webhook se encarga de enviar los materiales por email.
-  async function initBricks(preferenceId) {
-    const mp = new MercadoPago(MP_PUBLIC_KEY, { locale: 'es-UY' });
-    const bricksBuilder = mp.bricks();
-
-    brickController = await bricksBuilder.create('wallet', 'paymentBrick_container', {
-      initialization: {
-        preferenceId: preferenceId,
-        redirectMode: 'self',
-      },
-      customization: {
-        visual: {
-          buttonHeight: '48px',
-        },
-      },
-      callbacks: {
-        onReady: () => {
-          bricksLoader.style.display = 'none';
-        },
-        onError: (error) => {
-          console.error('Brick error:', error);
-          errorMsg.textContent = 'Error en el checkout. Intentá de nuevo.';
-          showStep(stepError);
-        },
-      },
-    });
-  }
-
   // ── Reintentar ────────────────────────────────────
-  btnRetry?.addEventListener('click', async () => {
+  btnRetry?.addEventListener('click', () => {
     if (!currentEmail) {
       showStep(stepEmail);
       return;
     }
+    // Reabrir MP
+    window.open(MP_PAYMENT_LINK, '_blank');
+    mpWindowOpened = true;
     showStep(stepBricks);
     bricksLoader.style.display = 'flex';
-    document.getElementById('paymentBrick_container').innerHTML = '';
-
-    try {
-      const res = await fetch('/api/create-preference', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: currentEmail }),
-      });
-      const { preference_id } = await res.json();
-      await initBricks(preference_id);
-    } catch(err) {
-      errorMsg.textContent = 'No pudimos reiniciar el checkout.';
-    }
   });
 
   // ── Input interactions ──────────────────────────
