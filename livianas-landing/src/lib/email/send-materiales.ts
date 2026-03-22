@@ -162,3 +162,56 @@ export async function sendMaterialesEmail({ to, nombre }: SendMaterialesOptions)
 export async function sendMateriales(email: string) {
   return sendMaterialesEmail({ to: email });
 }
+
+// ── Notificación a Ana cuando se concreta una venta ─────────────────
+const ANA_EMAIL = 'anabienestarintegral25@gmail.com';
+
+interface NotifyAnaOptions {
+  buyerEmail: string;
+  product: string;
+  amount: number;
+  currency: string;
+}
+
+export async function notifyAnaNewSale({ buyerEmail, product, amount, currency }: NotifyAnaOptions) {
+  const now = new Date().toLocaleString('es-UY', { timeZone: 'America/Montevideo' });
+
+  const html = `
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="UTF-8"></head>
+<body style="font-family:system-ui,-apple-system,sans-serif;max-width:500px;margin:0 auto;padding:24px;color:#2d2d2d;">
+  <h2 style="color:#7a8c6e;margin-bottom:4px;">🎉 ¡Nueva venta!</h2>
+  <p style="color:#666;font-size:14px;margin-top:0;">${now}</p>
+  <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+    <tr>
+      <td style="padding:8px 0;font-weight:600;color:#555;">Producto</td>
+      <td style="padding:8px 0;">${product}</td>
+    </tr>
+    <tr>
+      <td style="padding:8px 0;font-weight:600;color:#555;">Comprador</td>
+      <td style="padding:8px 0;"><a href="mailto:${buyerEmail}" style="color:#7a8c6e;">${buyerEmail}</a></td>
+    </tr>
+    <tr>
+      <td style="padding:8px 0;font-weight:600;color:#555;">Monto</td>
+      <td style="padding:8px 0;">$${amount.toLocaleString('es-UY')} ${currency}</td>
+    </tr>
+  </table>
+  <p style="font-size:13px;color:#999;">Los materiales ya fueron enviados automáticamente al comprador.</p>
+</body>
+</html>`.trim();
+
+  const { error } = await resend.emails.send({
+    from: FROM_EMAIL,
+    to: ANA_EMAIL,
+    subject: `🛒 Nueva venta: ${product} — ${buyerEmail}`,
+    html,
+  });
+
+  if (error) {
+    console.error('[email] Error notificando a Ana:', error);
+    throw error;
+  }
+
+  console.log(`[email] Notificación de venta enviada a Ana (${buyerEmail})`);
+}

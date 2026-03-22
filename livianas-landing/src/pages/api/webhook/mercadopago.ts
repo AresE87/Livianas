@@ -6,7 +6,7 @@
 
 import type { APIRoute } from 'astro';
 import { createClient } from '@supabase/supabase-js';
-import { sendMateriales } from '../../../lib/email/send-materiales';
+import { sendMateriales, notifyAnaNewSale } from '../../../lib/email/send-materiales';
 import { sendConfirmacionProgramaByEmail } from '../../../lib/email/send-confirmacion-programa';
 
 const MP_ACCESS_TOKEN    = import.meta.env.MERCADOPAGO_ACCESS_TOKEN;
@@ -99,6 +99,15 @@ export const POST: APIRoute = async ({ request }) => {
     } else {
       await sendMateriales(email);
       console.log(`[webhook-mp] ✅ Materiales enviados a ${email} (pago ${paymentId})`);
+    }
+
+    // ── 5b. Notificar a Ana de la venta ──────────────────────────────
+    try {
+      const productName = isPrograma ? 'Programa Livianas' : 'Pack Materiales';
+      await notifyAnaNewSale({ buyerEmail: email, product: productName, amount: transaction_amount, currency: currency_id });
+      console.log(`[webhook-mp] 📧 Notificación de venta enviada a Ana`);
+    } catch (notifyErr) {
+      console.error(`[webhook-mp] Error notificando a Ana (no crítico):`, notifyErr);
     }
 
     await supabase
