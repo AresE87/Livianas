@@ -1,0 +1,962 @@
+---
+// src/pages/masterclass.astro — EFECTO LIVIANA masterclass landing page
+import '../styles/global.css';
+import { siteConfig } from '../lib/config';
+
+const metaPixelId = siteConfig.metaPixelId;
+const ga4Id = siteConfig.ga4Id;
+const whatsappLink = `https://wa.me/59891086674?text=${encodeURIComponent('Hola Ana, quiero info sobre la masterclass EFECTO LIVIANA 🌿')}`;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EFECTO LIVIANA — Masterclass Gratuita | LIVIANAS</title>
+    <meta name="description" content="Cómo pasar de estar cansada y pesada a sentirte liviana en 30 días. Masterclass gratuita con Ana — Sábado 28 de marzo, 11 hs (Uruguay) por Zoom." />
+    <link rel="canonical" href="https://livianas.com/masterclass" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://livianas.com/masterclass" />
+    <meta property="og:title" content="EFECTO LIVIANA — Masterclass Gratuita" />
+    <meta property="og:description" content="Cómo pasar de estar cansada y pesada a sentirte liviana en 30 días. Evento gratuito por Zoom." />
+    <meta property="og:locale" content="es_UY" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400;1,700&family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    {metaPixelId && (
+      <script set:html={`
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '${metaPixelId}');
+        fbq('track', 'PageView');
+      `} />
+      <noscript>
+        <img height="1" width="1" style="display:none" src={`https://www.facebook.com/tr?id=${metaPixelId}&ev=PageView&noscript=1`} />
+      </noscript>
+    )}
+
+    {ga4Id && (
+      <script async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`} />
+    )}
+    {ga4Id && (
+      <script set:html={`
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '${ga4Id}');
+      `} />
+    )}
+  </head>
+
+  <body class="bg-cream text-carbon">
+
+    <!-- ═══ TOP BAR ═══ -->
+    <div class="topbar">
+      <p>EVENTO GRATUITO &mdash; Sábado 28 de marzo &mdash; 11 hs Uruguay &mdash; Cupos limitados</p>
+    </div>
+
+    <!-- ═══ HERO ═══ -->
+    <section class="hero">
+      <div class="hero__inner">
+        <div class="hero__photo-col">
+          <div class="hero__photo-glow"></div>
+          <img src="/images/ana-foto.webp" alt="Ana, creadora del Método Livianas" class="hero__photo" width="380" height="460" loading="eager" />
+        </div>
+        <div class="hero__content">
+          <p class="hero__eyebrow">EXPERIENCIA INTEGRAL CON ENERGÍA</p>
+          <h1 class="hero__title">EFECTO<br/>LIVIANA</h1>
+          <p class="hero__subtitle">Cómo pasar de estar cansada y pesada a sentirte liviana en 30 días.</p>
+          <div class="hero__badges">
+            <span class="badge">📅 Sáb 28 de marzo</span>
+            <span class="badge">🕐 11 hs (Uruguay)</span>
+            <span class="badge">💻 Zoom</span>
+            <span class="badge">🎁 Gratuita</span>
+          </div>
+          <a href="#registro" class="hero__cta">INSCRÍBETE AHORA</a>
+          <p class="hero__limited">Cupos limitados. Transformación integral.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 3 PILARES ═══ -->
+    <section class="pillars" id="descubrir">
+      <div class="section-inner">
+        <p class="section-label">Qué vas a descubrir</p>
+        <h2 class="section-title">En esta masterclass vas a entender...</h2>
+
+        <div class="pillars__grid">
+          <!-- Pilar 1 -->
+          <div class="pillar-card">
+            <div class="pillar-card__icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l2 2"/></svg>
+            </div>
+            <h3 class="pillar-card__title">El Problema Real</h3>
+            <ul class="pillar-card__list">
+              <li>Por qué te sentís cansada y pesada todo el tiempo</li>
+              <li>Qué hay detrás de la falta de tiempo y organización</li>
+              <li>Por qué aumentás de peso sin entender la razón</li>
+            </ul>
+          </div>
+
+          <!-- Pilar 2 -->
+          <div class="pillar-card">
+            <div class="pillar-card__icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 1 4 12.73V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.27A7 7 0 0 1 12 2z"/><line x1="9" y1="21" x2="15" y2="21"/><line x1="10" y1="24" x2="14" y2="24"/></svg>
+            </div>
+            <h3 class="pillar-card__title">Un Enfoque Diferente</h3>
+            <ul class="pillar-card__list">
+              <li>Cómo las emociones y traumas del pasado te trajeron hasta acá</li>
+              <li>Un cambio de perspectiva que lo transforma todo</li>
+              <li>Planificación de menú simple y sostenible</li>
+            </ul>
+          </div>
+
+          <!-- Pilar 3 -->
+          <div class="pillar-card">
+            <div class="pillar-card__icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+            </div>
+            <h3 class="pillar-card__title">Tu Nueva Realidad</h3>
+            <ul class="pillar-card__list">
+              <li>Bajar de peso como consecuencia natural</li>
+              <li>Más organización y mejor rendimiento de tu tiempo</li>
+              <li>Sentirte liviana por dentro y por fuera</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="text-center mt-10">
+          <a href="#registro" class="cta-secondary">RESERVÁ TU LUGAR</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ ES PARA VOS SI... ═══ -->
+    <section class="for-you">
+      <div class="section-inner">
+        <p class="section-label">¿Es para vos?</p>
+        <h2 class="section-title">Esta masterclass es para vos si...</h2>
+
+        <ul class="for-you__list">
+          <li>Te sentís cansada y pesada, y no sabés por dónde empezar</li>
+          <li>Probaste muchas dietas pero siempre volvés al punto de partida</li>
+          <li>No tenés tiempo para organizarte con la comida</li>
+          <li>Sabés que el peso no es solo un tema de alimentación</li>
+          <li>Querés entender qué hay detrás de tus hábitos</li>
+          <li>Buscás un cambio real y profundo, no otra dieta más</li>
+          <li>Necesitás un empujón para dar el primer paso</li>
+        </ul>
+
+        <div class="text-center mt-8">
+          <a href="#registro" class="cta-secondary">Quiero mi lugar gratis</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ SOBRE ANA ═══ -->
+    <section class="about-ana">
+      <div class="section-inner about-ana__inner">
+        <img src="/images/ana-foto.webp" alt="Ana" class="about-ana__photo" width="160" height="160" loading="lazy" />
+        <div class="about-ana__content">
+          <p class="section-label">Tu guía</p>
+          <h2 class="section-title" style="text-align:left;">Ana</h2>
+          <p class="about-ana__bio">
+            Coach de bienestar y creadora del <strong>Método Livianas</strong>. Acompaña a mujeres a transformar su relación con la comida, su cuerpo y sus emociones — sin dietas restrictivas, sin culpa y con resultados reales.
+          </p>
+          <p class="about-ana__bio">
+            En esta masterclass gratuita va a compartir su enfoque integral que combina nutrición consciente, trabajo emocional y planificación práctica.
+          </p>
+          <a href="https://instagram.com/anabienestarintegral" target="_blank" rel="noopener" class="about-ana__ig">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            @anabienestarintegral
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ TESTIMONIOS ═══ -->
+    <section class="testimonials">
+      <div class="section-inner">
+        <p class="section-label">Transformaciones reales</p>
+        <h2 class="section-title">Ellas ya lo lograron</h2>
+        <p class="section-subtitle">Historias de mujeres que cambiaron su relación con la comida y su cuerpo</p>
+
+        <div class="testimonials__carousel" id="carousel">
+          <div class="testimonial-card" data-index="0">
+            <img src="/images/testimonios/cecilia.webp" alt="Transformación de Cecilia" class="testimonial-card__img" loading="lazy" />
+            <h3 class="testimonial-card__name">Cecilia</h3>
+            <p class="testimonial-card__text">Llegó sin mucha expectativa y se sorprendió muchísimo durante el proceso. Poco a poco cambió su alimentación sin privarse de nada. Su trabajo requiere estar muchas horas sentada y aún así lo logró más rápido de lo que pensaba.</p>
+          </div>
+          <div class="testimonial-card" data-index="1">
+            <img src="/images/testimonios/veronica.webp" alt="Transformación de Verónica" class="testimonial-card__img" loading="lazy" />
+            <h3 class="testimonial-card__name">Verónica</h3>
+            <p class="testimonial-card__text">Cuando comenzó vivía con mucho estrés y ansiedad. No creía que podía bajar de peso comiendo, sin sufrir. Trabaja con alimentos y están presentes los dulces siempre. Cambió 100% su mentalidad y su forma de ver la comida.</p>
+          </div>
+          <div class="testimonial-card" data-index="2">
+            <img src="/images/testimonios/camila.webp" alt="Transformación de Camila" class="testimonial-card__img" loading="lazy" />
+            <h3 class="testimonial-card__name">Camila</h3>
+            <p class="testimonial-card__text">Desde el primer día tuvo absoluta confianza en el proceso. Tiene hijos pequeños, sin embargo logró vivir más liviana todos los días haciendo cambios en sus hábitos. La confianza en el proceso es un gran pilar.</p>
+          </div>
+          <div class="testimonial-card" data-index="3">
+            <img src="/images/testimonios/viviana.webp" alt="Transformación de Viviana" class="testimonial-card__img" loading="lazy" />
+            <h3 class="testimonial-card__name">Viviana</h3>
+            <p class="testimonial-card__text">Cuando comenzó estaba muy estructurada y rígida. Se preocupaba mucho por las cantidades, las marcas, los alimentos light. Trabajamos la flexibilidad y estar abierta a cambiar conceptos en la alimentación para vivir más liviana.</p>
+          </div>
+        </div>
+
+        <div class="testimonials__nav">
+          <button class="carousel-btn" id="prev-btn" aria-label="Testimonio anterior">❮</button>
+          <div class="carousel-dots" id="carousel-dots"></div>
+          <button class="carousel-btn" id="next-btn" aria-label="Siguiente testimonio">❯</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ FORMULARIO DE REGISTRO ═══ -->
+    <section class="registro" id="registro">
+      <div class="section-inner registro__inner">
+        <p class="section-label">Cupos limitados</p>
+        <h2 class="section-title">Reservá tu lugar gratuito</h2>
+        <p class="section-subtitle">Sábado 28 de marzo &mdash; 11 hs (Uruguay) &mdash; Por Zoom</p>
+
+        <form id="mc-form" class="registro__form">
+          <div class="form-group">
+            <label for="mc-nombre">Tu nombre</label>
+            <input type="text" id="mc-nombre" name="nombre" placeholder="¿Cómo te llamás?" required />
+          </div>
+          <div class="form-group">
+            <label for="mc-email">Tu email</label>
+            <input type="email" id="mc-email" name="email" placeholder="tu@email.com" required />
+          </div>
+          <button type="submit" class="registro__btn" id="mc-submit">
+            <span class="btn-text">INSCRÍBETE AHORA</span>
+            <span class="btn-loading" style="display:none;">Registrando...</span>
+          </button>
+          <p class="registro__privacy">🔒 Tu información está segura. No compartimos tus datos.</p>
+        </form>
+
+        <div class="registro__success" id="mc-success" style="display:none;">
+          <div class="check-anim">✓</div>
+          <h3>¡Listo! Tu lugar está reservado</h3>
+          <p>Revisá tu email — te enviamos los detalles de acceso.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ WHATSAPP CTA ═══ -->
+    <section class="wa-section">
+      <div class="section-inner text-center">
+        <h2 class="section-title" style="font-size:1.5rem;">¿Tenés dudas?</h2>
+        <p class="section-subtitle">Escribile directamente a Ana por WhatsApp</p>
+        <a href={whatsappLink} target="_blank" rel="noopener" class="wa-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.612.638l4.716-1.246A11.937 11.937 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.319 0-4.476-.678-6.29-1.846l-.126-.079-3.006.794.808-2.95-.09-.132A9.96 9.96 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
+          Hablar con Ana
+        </a>
+      </div>
+    </section>
+
+    <!-- ═══ FOOTER ═══ -->
+    <footer class="mc-footer">
+      <p class="mc-footer__brand">LIVIANAS</p>
+      <nav class="mc-footer__links">
+        <a href="/terminos">Términos y condiciones</a>
+        <a href="/privacidad">Política de privacidad</a>
+      </nav>
+      <p class="mc-footer__copy">© 2026 LIVIANAS — Todos los derechos reservados</p>
+      <p class="mc-footer__tagline">Hecho con cuidado para mujeres que eligen transformarse.</p>
+    </footer>
+
+    <!-- ═══ STYLES ═══ -->
+    <style>
+      /* --- Top Bar --- */
+      .topbar {
+        background: var(--color-gold);
+        color: var(--color-carbon);
+        text-align: center;
+        padding: 0.6rem 1rem;
+        font-family: var(--font-outfit);
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+      }
+
+      /* --- Hero --- */
+      .hero {
+        background: linear-gradient(170deg, #1a1816 0%, var(--color-carbon) 40%, #3D3530 100%);
+        padding: 3rem 1.5rem 4rem;
+        overflow: hidden;
+        position: relative;
+      }
+      .hero::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -30%;
+        width: 80%;
+        height: 200%;
+        background: radial-gradient(ellipse at center, rgba(201,169,110,0.06) 0%, transparent 70%);
+        pointer-events: none;
+      }
+      .hero__inner {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 3rem;
+      }
+      .hero__photo-col {
+        flex-shrink: 0;
+        position: relative;
+      }
+      .hero__photo-glow {
+        position: absolute;
+        inset: -20px;
+        background: radial-gradient(ellipse at center, rgba(201,169,110,0.12) 0%, transparent 70%);
+        border-radius: 50%;
+        z-index: 0;
+      }
+      .hero__photo {
+        position: relative;
+        z-index: 1;
+        max-width: 340px;
+        width: 100%;
+        border-radius: var(--radius-2xl);
+        mask-image: radial-gradient(ellipse 92% 88% at center, black 50%, transparent 88%);
+        -webkit-mask-image: radial-gradient(ellipse 92% 88% at center, black 50%, transparent 88%);
+      }
+      .hero__content {
+        flex: 1;
+        min-width: 0;
+      }
+      .hero__eyebrow {
+        color: var(--color-gold);
+        font-family: var(--font-outfit);
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.3em;
+        margin-bottom: 0.75rem;
+      }
+      .hero__title {
+        font-family: var(--font-display);
+        font-size: clamp(2.8rem, 6vw, 5rem);
+        font-weight: 700;
+        color: var(--color-cream);
+        line-height: 0.95;
+        margin: 0 0 1rem;
+      }
+      .hero__subtitle {
+        font-family: var(--font-sans);
+        font-size: clamp(1rem, 2vw, 1.25rem);
+        color: rgba(251,249,245,0.75);
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+        max-width: 440px;
+      }
+      .hero__badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
+      .badge {
+        background: rgba(251,249,245,0.08);
+        border: 1px solid rgba(251,249,245,0.15);
+        color: rgba(251,249,245,0.85);
+        padding: 0.4rem 0.8rem;
+        border-radius: var(--radius-full);
+        font-size: 0.8rem;
+        font-family: var(--font-sans);
+        font-weight: 500;
+      }
+      .hero__cta {
+        display: inline-block;
+        background: var(--color-gold);
+        color: var(--color-carbon);
+        font-family: var(--font-outfit);
+        font-weight: 700;
+        font-size: 1rem;
+        letter-spacing: 0.08em;
+        padding: 1rem 2.5rem;
+        border-radius: var(--radius-full);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero__cta:hover {
+        background: var(--color-gold-light);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(201,169,110,0.3);
+      }
+      .hero__limited {
+        margin-top: 0.75rem;
+        font-size: 0.8rem;
+        color: rgba(251,249,245,0.45);
+        font-family: var(--font-sans);
+      }
+
+      /* --- Section common --- */
+      .section-inner {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 4rem 1.5rem;
+      }
+      .section-label {
+        text-align: center;
+        font-family: var(--font-outfit);
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--color-gold);
+        margin-bottom: 0.5rem;
+      }
+      .section-title {
+        text-align: center;
+        font-family: var(--font-display);
+        font-size: clamp(1.8rem, 4vw, 2.5rem);
+        font-weight: 700;
+        color: var(--color-carbon);
+        margin: 0 0 0.5rem;
+      }
+      .section-subtitle {
+        text-align: center;
+        font-family: var(--font-sans);
+        font-size: 1rem;
+        color: var(--color-text-muted);
+        margin-bottom: 2rem;
+      }
+
+      /* --- Pillars --- */
+      .pillars {
+        background: var(--color-white);
+      }
+      .pillars__grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+      }
+      .pillar-card {
+        background: var(--color-cream);
+        border-radius: var(--radius-xl);
+        padding: 2rem 1.5rem;
+        border-top: 3px solid var(--color-gold);
+        box-shadow: var(--shadow-sm);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .pillar-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-md);
+      }
+      .pillar-card__icon {
+        margin-bottom: 0.75rem;
+        color: var(--color-gold);
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(201,169,110,0.08);
+        border-radius: var(--radius-full);
+        padding: 6px;
+      }
+      .pillar-card__title {
+        font-family: var(--font-outfit);
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin: 0 0 1rem;
+        color: var(--color-carbon);
+      }
+      .pillar-card__list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .pillar-card__list li {
+        font-family: var(--font-sans);
+        font-size: 0.9rem;
+        color: var(--color-text-muted);
+        line-height: 1.5;
+        padding: 0.4rem 0 0.4rem 1.25rem;
+        position: relative;
+      }
+      .pillar-card__list li::before {
+        content: '→';
+        position: absolute;
+        left: 0;
+        color: var(--color-gold);
+        font-weight: 700;
+      }
+
+      /* --- For You --- */
+      .for-you {
+        background: var(--color-sage-wash);
+      }
+      .for-you__list {
+        list-style: none;
+        padding: 0;
+        margin: 0 auto;
+        max-width: 600px;
+      }
+      .for-you__list li {
+        font-family: var(--font-sans);
+        font-size: 1rem;
+        color: var(--color-carbon);
+        line-height: 1.6;
+        padding: 0.6rem 0 0.6rem 2rem;
+        position: relative;
+      }
+      .for-you__list li::before {
+        content: '✓';
+        position: absolute;
+        left: 0;
+        color: var(--color-sage);
+        font-weight: 700;
+        font-size: 1.1rem;
+      }
+
+      /* --- About Ana --- */
+      .about-ana {
+        background: var(--color-white);
+      }
+      .about-ana__inner {
+        display: flex;
+        align-items: flex-start;
+        gap: 2rem;
+      }
+      .about-ana__photo {
+        width: 140px;
+        height: 140px;
+        border-radius: var(--radius-full);
+        object-fit: cover;
+        flex-shrink: 0;
+        border: 3px solid var(--color-sage-wash);
+      }
+      .about-ana__content {
+        flex: 1;
+      }
+      .about-ana__bio {
+        font-family: var(--font-sans);
+        font-size: 0.95rem;
+        color: var(--color-text-muted);
+        line-height: 1.7;
+        margin: 0 0 0.75rem;
+      }
+      .about-ana__ig {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-family: var(--font-outfit);
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--color-sage);
+        text-decoration: none;
+        margin-top: 0.5rem;
+      }
+      .about-ana__ig:hover { color: var(--color-sage-dark); }
+
+      /* --- Testimonials --- */
+      .testimonials {
+        background: var(--color-cream);
+      }
+      .testimonials__carousel {
+        display: flex;
+        gap: 1.5rem;
+        overflow: hidden;
+        position: relative;
+      }
+      .testimonial-card {
+        min-width: 100%;
+        background: var(--color-white);
+        border-radius: var(--radius-xl);
+        padding: 2rem;
+        box-shadow: var(--shadow-sm);
+        text-align: center;
+        transition: transform 0.4s ease;
+      }
+      .testimonial-card__img {
+        width: 200px;
+        height: 200px;
+        border-radius: var(--radius-lg);
+        object-fit: cover;
+        margin: 0 auto 1rem;
+      }
+      .testimonial-card__name {
+        font-family: var(--font-display);
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin: 0 0 0.75rem;
+      }
+      .testimonial-card__text {
+        font-family: var(--font-sans);
+        font-size: 0.9rem;
+        color: var(--color-text-muted);
+        line-height: 1.7;
+        max-width: 500px;
+        margin: 0 auto;
+      }
+      .testimonials__nav {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+      .carousel-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: var(--radius-full);
+        border: 1px solid var(--color-border);
+        background: var(--color-white);
+        font-size: 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+      }
+      .carousel-btn:hover {
+        background: var(--color-sage-wash);
+        border-color: var(--color-sage-light);
+      }
+      .carousel-dots {
+        display: flex;
+        gap: 0.4rem;
+      }
+      .carousel-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: var(--radius-full);
+        background: var(--color-border);
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .carousel-dot.active {
+        background: var(--color-gold);
+        width: 20px;
+      }
+
+      /* --- Registration --- */
+      .registro {
+        background: var(--color-carbon);
+        color: var(--color-cream);
+      }
+      .registro .section-label { color: var(--color-gold); }
+      .registro .section-title { color: var(--color-cream); }
+      .registro .section-subtitle { color: rgba(251,249,245,0.6); }
+      .registro__inner { max-width: 480px; }
+      .registro__form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .form-group label {
+        display: block;
+        font-family: var(--font-outfit);
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: rgba(251,249,245,0.7);
+        margin-bottom: 0.35rem;
+      }
+      .form-group input {
+        width: 100%;
+        padding: 0.85rem 1rem;
+        border: 1px solid rgba(251,249,245,0.15);
+        border-radius: var(--radius-md);
+        background: rgba(251,249,245,0.06);
+        color: var(--color-cream);
+        font-family: var(--font-sans);
+        font-size: 1rem;
+        transition: border-color 0.2s;
+        box-sizing: border-box;
+      }
+      .form-group input::placeholder { color: rgba(251,249,245,0.3); }
+      .form-group input:focus {
+        outline: none;
+        border-color: var(--color-gold);
+      }
+      .registro__btn {
+        width: 100%;
+        padding: 1rem;
+        background: var(--color-gold);
+        color: var(--color-carbon);
+        font-family: var(--font-outfit);
+        font-weight: 700;
+        font-size: 1rem;
+        letter-spacing: 0.08em;
+        border: none;
+        border-radius: var(--radius-full);
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+      .registro__btn:hover {
+        background: var(--color-gold-light);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(201,169,110,0.3);
+      }
+      .registro__btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+      .registro__privacy {
+        text-align: center;
+        font-size: 0.75rem;
+        color: rgba(251,249,245,0.4);
+        font-family: var(--font-sans);
+      }
+      .registro__success {
+        text-align: center;
+        padding: 2rem 0;
+      }
+      .registro__success h3 {
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        color: var(--color-cream);
+        margin: 1rem 0 0.5rem;
+      }
+      .registro__success p {
+        color: rgba(251,249,245,0.7);
+        font-family: var(--font-sans);
+      }
+      .check-anim {
+        width: 56px;
+        height: 56px;
+        border-radius: var(--radius-full);
+        border: 2px solid var(--color-gold);
+        color: var(--color-gold);
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        animation: scaleIn 0.4s ease-out;
+      }
+
+      /* --- CTA Secondary --- */
+      .cta-secondary {
+        display: inline-block;
+        background: var(--color-sage);
+        color: var(--color-white);
+        font-family: var(--font-outfit);
+        font-weight: 700;
+        font-size: 0.9rem;
+        letter-spacing: 0.06em;
+        padding: 0.85rem 2rem;
+        border-radius: var(--radius-full);
+        text-decoration: none;
+        transition: all 0.3s;
+      }
+      .cta-secondary:hover {
+        background: var(--color-sage-dark);
+        transform: translateY(-2px);
+      }
+
+      /* --- WhatsApp --- */
+      .wa-section {
+        background: var(--color-blush-wash);
+        padding: 3rem 1.5rem;
+      }
+      .wa-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: var(--color-whatsapp);
+        color: var(--color-white);
+        font-family: var(--font-outfit);
+        font-weight: 700;
+        font-size: 0.95rem;
+        padding: 0.85rem 2rem;
+        border-radius: var(--radius-full);
+        text-decoration: none;
+        transition: all 0.3s;
+      }
+      .wa-btn:hover {
+        background: var(--color-whatsapp-hover);
+        transform: translateY(-2px);
+      }
+
+      /* --- Footer --- */
+      .mc-footer {
+        background: var(--color-carbon);
+        color: rgba(251,249,245,0.5);
+        text-align: center;
+        padding: 2rem 1.5rem;
+        font-family: var(--font-sans);
+        font-size: 0.8rem;
+        border-top: 1px solid rgba(251,249,245,0.08);
+      }
+      .mc-footer__brand {
+        font-family: var(--font-outfit);
+        font-size: 1rem;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        color: rgba(251,249,245,0.7);
+        margin-bottom: 0.5rem;
+      }
+      .mc-footer__links {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-bottom: 1rem;
+      }
+      .mc-footer__links a {
+        color: rgba(251,249,245,0.4);
+        text-decoration: none;
+        font-size: 0.75rem;
+      }
+      .mc-footer__links a:hover { color: rgba(251,249,245,0.7); }
+      .mc-footer__copy { margin-bottom: 0.25rem; }
+      .mc-footer__tagline { font-style: italic; color: rgba(251,249,245,0.3); }
+
+      /* --- Responsive --- */
+      @media (max-width: 768px) {
+        .hero__inner {
+          flex-direction: column;
+          text-align: center;
+        }
+        .hero__photo { max-width: 260px; }
+        .hero__subtitle { margin-left: auto; margin-right: auto; }
+        .hero__badges { justify-content: center; }
+        .pillars__grid { grid-template-columns: 1fr; }
+        .about-ana__inner {
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+        }
+        .about-ana__content .section-title { text-align: center !important; }
+      }
+
+      /* --- Animations --- */
+      @keyframes scaleIn {
+        from { transform: scale(0.5); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+      }
+    </style>
+
+    <!-- ═══ SCRIPTS ═══ -->
+    <script>
+      // --- Carousel ---
+      const cards = document.querySelectorAll('.testimonial-card');
+      const dotsContainer = document.getElementById('carousel-dots');
+      const prevBtn = document.getElementById('prev-btn');
+      const nextBtn = document.getElementById('next-btn');
+      let currentIndex = 0;
+
+      // Create dots
+      cards.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.className = `carousel-dot${i === 0 ? ' active' : ''}`;
+        dot.setAttribute('aria-label', `Ver testimonio ${i + 1}`);
+        dot.addEventListener('click', () => goTo(i));
+        dotsContainer?.appendChild(dot);
+      });
+
+      function goTo(index: number) {
+        currentIndex = index;
+        cards.forEach((card, i) => {
+          (card as HTMLElement).style.transform = `translateX(-${currentIndex * 100}%)`;
+        });
+        document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+          dot.classList.toggle('active', i === currentIndex);
+        });
+      }
+
+      prevBtn?.addEventListener('click', () => goTo((currentIndex - 1 + cards.length) % cards.length));
+      nextBtn?.addEventListener('click', () => goTo((currentIndex + 1) % cards.length));
+
+      // Touch swipe
+      let touchStartX = 0;
+      const carousel = document.getElementById('carousel');
+      carousel?.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
+      carousel?.addEventListener('touchend', (e) => {
+        const diff = touchStartX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 50) {
+          diff > 0 ? goTo((currentIndex + 1) % cards.length) : goTo((currentIndex - 1 + cards.length) % cards.length);
+        }
+      });
+
+      // --- Registration Form ---
+      const form = document.getElementById('mc-form') as HTMLFormElement;
+      const submitBtn = document.getElementById('mc-submit') as HTMLButtonElement;
+      const successDiv = document.getElementById('mc-success');
+
+      form?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        submitBtn.disabled = true;
+        submitBtn.querySelector('.btn-text')!.style.display = 'none';
+        submitBtn.querySelector('.btn-loading')!.style.display = 'inline';
+
+        const nombre = (document.getElementById('mc-nombre') as HTMLInputElement).value.trim();
+        const email = (document.getElementById('mc-email') as HTMLInputElement).value.trim();
+
+        try {
+          const res = await fetch('/api/masterclass-registro', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nombre, email }),
+          });
+
+          if (!res.ok) throw new Error('Error');
+
+          // Track
+          if (typeof (window as any).fbq !== 'undefined') {
+            (window as any).fbq('track', 'Lead', { content_name: 'Masterclass EFECTO LIVIANA' });
+          }
+          if (typeof (window as any).gtag !== 'undefined') {
+            (window as any).gtag('event', 'sign_up', { method: 'masterclass_efecto_liviana' });
+          }
+
+          // Show success
+          form.style.display = 'none';
+          successDiv!.style.display = 'block';
+
+          // Optional: redirect after delay
+          setTimeout(() => {
+            window.location.href = '/masterclass/gracias';
+          }, 2000);
+        } catch {
+          submitBtn.disabled = false;
+          submitBtn.querySelector('.btn-text')!.style.display = 'inline';
+          submitBtn.querySelector('.btn-loading')!.style.display = 'none';
+          alert('Hubo un error. Por favor intentá de nuevo.');
+        }
+      });
+
+      // --- CTA Click Tracking ---
+      document.querySelectorAll('a[href="#registro"]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          if (typeof (window as any).gtag !== 'undefined') {
+            (window as any).gtag('event', 'cta_click', { button_location: 'masterclass_cta' });
+          }
+        });
+      });
+
+      // --- Scroll depth tracking ---
+      let scrollTracked = false;
+      window.addEventListener('scroll', () => {
+        if (scrollTracked) return;
+        const pct = (window.scrollY + window.innerHeight) / document.documentElement.scrollHeight;
+        if (pct >= 0.5) {
+          scrollTracked = true;
+          if (typeof (window as any).fbq !== 'undefined') {
+            (window as any).fbq('track', 'ViewContent', { content_name: 'Masterclass EFECTO LIVIANA' });
+          }
+        }
+      }, { passive: true });
+    </script>
+  </body>
+</html>
