@@ -78,6 +78,57 @@ export const siteConfig = {
       hero: encodeURIComponent('Hola Ana, quiero info sobre la masterclass Las 3 Mentiras 🌿'),
     },
   },
+  // Consultorio con Ana — Acompañamiento Livianas
+  consultorio: {
+    nombre: 'Consultorio con Ana',
+    descripcion: 'Acompañamiento mensual para transformar tu relación con la comida',
+    whatsappMessages: {
+      hero: encodeURIComponent('Hola Ana, quiero saber más sobre el Consultorio con Ana 🌿'),
+      dudas: encodeURIComponent('Hola Ana, tengo dudas sobre el acompañamiento Livianas 🌿'),
+    },
+    nuevas: {
+      mensual: {
+        precio: 1500,
+        periodo: 'mes',
+        label: 'Probá un mes',
+        link: 'https://www.mercadopago.com.uy/subscriptions/checkout?preapproval_plan_id=536a0d909b23484b9ba54904eea2fad5',
+      },
+      trimestral: {
+        precio: 3500,
+        periodo: 'trimestre',
+        precioMensual: 1167,
+        ahorro: 1000,
+        label: 'Comprometete con vos',
+        link: 'https://www.mercadopago.com.uy/subscriptions/checkout?preapproval_plan_id=db7552a83893489b84da35fdba0677e4',
+      },
+    },
+    internas: {
+      mensual: {
+        precio: 900,
+        periodo: 'mes',
+        label: 'Renovar 1 mes',
+        link: 'https://www.mercadopago.com.uy/subscriptions/checkout?preapproval_plan_id=d9cf14ead620436fb82cc7d825824549',
+      },
+      trimestral: {
+        precio: 2500,
+        periodo: 'trimestre',
+        precioMensual: 833,
+        ahorro: 200,
+        label: 'Renovar 3 meses',
+        link: 'https://www.mercadopago.com.uy/subscriptions/checkout?preapproval_plan_id=fc6458f5d9614c1a98e63d4a7f7c2b02',
+      },
+    },
+    includes: [
+      { title: '2 sesiones de Q&A en vivo al mes', description: 'Preguntás lo que necesites, Ana te guía en directo por Zoom.' },
+      { title: 'Grupo privado de WhatsApp', description: 'Acompañamiento diario con Ana y las demás mujeres del grupo.' },
+      { title: 'Orientación integral', description: 'Nutrición equilibrada, manejo del peso y crecimiento personal. Sin calorías, sin restricciones.' },
+    ],
+    faq: [
+      { question: '¿Cómo son las sesiones?', answer: 'Son en vivo por Zoom, dos veces al mes. Tenés espacio para hacer preguntas personales y recibir orientación directa de Ana.' },
+      { question: '¿Puedo cancelar cuando quiera?', answer: 'Sí, sin permanencia mínima. Cancelás cuando quieras desde MercadoPago.' },
+      { question: '¿Para quién es esto?', answer: 'Para mujeres que quieren mejorar su relación con la comida con acompañamiento real y sostenido en el tiempo.' },
+    ],
+  },
 } as const;
 
 // Helper para generar links de WhatsApp
@@ -89,6 +140,12 @@ export function getWhatsAppLink(location: keyof typeof siteConfig.whatsappMessag
 // Helper para generar links de WhatsApp del Programa Livianas
 export function getProgramaWhatsAppLink(location: keyof typeof siteConfig.programaLivianas.whatsappMessages): string {
   const msg = siteConfig.programaLivianas.whatsappMessages[location];
+  return `https://wa.me/${siteConfig.whatsappNumber}?text=${msg}`;
+}
+
+// Helper para generar links de WhatsApp del Consultorio con Ana
+export function getConsultorioWhatsAppLink(location: keyof typeof siteConfig.consultorio.whatsappMessages): string {
+  const msg = siteConfig.consultorio.whatsappMessages[location];
   return `https://wa.me/${siteConfig.whatsappNumber}?text=${msg}`;
 }
 
