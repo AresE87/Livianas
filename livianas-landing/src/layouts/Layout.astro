@@ -73,8 +73,8 @@ const productSchema = {
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:title" content="LIVIANAS — 30 días de transformación real" />
-    <meta property="og:description" content="No es una dieta. Es la decisión de dejar de abandonarte. Grupos de 8 mujeres con acompañamiento real." />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -83,8 +83,8 @@ const productSchema = {
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="LIVIANAS — 30 días de transformación real" />
-    <meta name="twitter:description" content="No es una dieta. Es la decisión de dejar de abandonarte." />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
     <!-- Favicon -->
